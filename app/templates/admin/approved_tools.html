@@ -17,6 +17,58 @@
         </div>
     </div>
 
+    <!-- Add Tool Form -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center justify-between cursor-pointer" id="addToolToggle">
+            <h2 class="text-lg font-semibold text-gray-900">Add Tool Directly</h2>
+            <button type="button" class="text-gray-400 hover:text-gray-600">
+                <svg id="addToolChevron" class="h-5 w-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+        </div>
+        <div id="addToolBody" class="mt-4 hidden">
+            <p class="text-sm text-gray-500 mb-4">
+                Add a tool directly. The system will fetch information from the website and generate descriptions automatically.
+            </p>
+            <form id="addToolForm" method="POST" action="/admin/approved-tools/add" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Tool Name <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" id="name" required
+                               placeholder="e.g. ChatGPT"
+                               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="url" class="block text-sm font-medium text-gray-700">Website URL <span class="text-red-500">*</span></label>
+                        <input type="url" name="url" id="url" required
+                               placeholder="https://example.com"
+                               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="purpose" class="block text-sm font-medium text-gray-700">Function / Purpose <span class="text-red-500">*</span></label>
+                        <input type="text" name="purpose" id="purpose" required
+                               placeholder="e.g. AI writing assistant for journalists"
+                               class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="submit" id="addToolBtn"
+                            class="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Add &amp; Enrich Tool
+                    </button>
+                    <span id="addToolStatus" class="text-sm text-gray-500 hidden">
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        Adding tool and fetching data from the web...
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Search -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
         <form method="get" class="flex gap-4">
@@ -161,4 +213,21 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('addToolToggle').addEventListener('click', function() {
+    const body = document.getElementById('addToolBody');
+    const chevron = document.getElementById('addToolChevron');
+    body.classList.toggle('hidden');
+    chevron.style.transform = body.classList.contains('hidden') ? '' : 'rotate(180deg)';
+});
+document.getElementById('addToolForm').addEventListener('submit', function() {
+    const btn = document.getElementById('addToolBtn');
+    const status = document.getElementById('addToolStatus');
+    btn.disabled = true;
+    status.classList.remove('hidden');
+});
+</script>
 {% endblock %}

@@ -1284,6 +1284,55 @@ async def approved_tools_list(
     )
 
 
+@approved_router.post("/add")
+async def add_approved_tool_directly(
+    name: str = Form(...),
+    url: str = Form(...),
+    purpose: str = Form(""),
+    user: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    """Add a tool directly to approved tools with auto-enrichment from the web."""
+    from app.services.discovery.dedup import extract_domain
+    from app.services.discovery.pipeline import generate_slug
+    from app.services.discovery.enrichment import enrich_tool
+
+    # Get existing slugs
+    existing_slugs = {t.slug for t in db.query(DiscoveredTool.slug).all()}
+
+    tool = DiscoveredTool(
+        name=name,
+        slug=generate_slug(name, existing_slugs),
+        url=url,
+        url_domain=extract_domain(url),
+        description=purpose,
+        raw_description=purpose,
+        purpose=purpose,
+        categories=[],
+        source_type="manual",
+        source_url=url,
+        source_name="Admin Direct Add",
+        status="approved",
+        confidence_score=1.0,
+        reviewed_by=str(user.id),
+        reviewed_at=datetime.now(timezone.utc),
+    )
+
+    db.add(tool)
+    db.commit()
+    db.refresh(tool)
+
+    # Enrich with real data from the web
+    try:
+        enrich_tool(db, tool)
+        logger.info(f"Tool added and enriched: {tool.name}")
+    except Exception as e:
+        logger.error(f"Enrichment failed for {tool.name}: {e}")
+        # Tool is still saved with the basic info
+
+    return RedirectResponse(url=f"/admin/discovery/tools/{tool.id}", status_code=303)
+
+
 @approved_router.post("/{tool_id}/add-to-kit")
 async def add_to_kit(
     tool_id: str,
