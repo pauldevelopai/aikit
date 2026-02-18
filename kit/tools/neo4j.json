@@ -1,0 +1,37 @@
+{
+  "slug": "neo4j",
+  "name": "Neo4j",
+  "number": 12,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Graph database used to model and analyse complex networks such as financial flows or social relationships. platform-aleph- pro#:~:text=Created%20by%20OCCRP%20nearly%2010,collaborate%20on%20vast%20data%20investi gations investigative-data- platform#:~:text=OCCRP%20www,journalists%2C%20researchers%2C%20and%20the%20public Neo4j is the world's leading graph database management system 61. Unlike traditional relational databases (SQL) that store data in tables, Neo4j stores data as \"nodes\" and \"relationships.\" This makes it the ultimate tool for mapping complex networks, such as money laundering schemes, social media interactions, or cyber infrastructure.",
+  "purpose": "Network mapping and relationship analysis.",
+  "journalism_relevance": "Essential for investigations where connections matter more than individual facts (company ownership, political patronage, shell structures).",
+  "cdi_scores": {
+    "cost": 3,
+    "difficulty": 8,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Hypothesis testing. Use the graph to ask “who connects these two entities?” rather than reading documents sequentially."
+  },
+  "comments": "The community edition free, but hosting costs apply. And it can run fully locally.",
+  "url": "https://aleph.occrp.org",
+  "tags": [
+    "advanced",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "aleph-occrp"
+    ],
+    "use_cases": [
+      "network-analysis"
+    ]
+  }
+}

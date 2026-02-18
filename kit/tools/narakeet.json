@@ -1,0 +1,36 @@
+{
+  "slug": "narakeet",
+  "name": "Narakeet",
+  "number": 4,
+  "cluster_name": "Transcription & Translation",
+  "cluster_slug": "transcription-translation",
+  "cluster_number": 1,
+  "description": "Text-to-speech and slide-to-video tool for creating narrated audio and video content from documents. Narakeet is a specialized tool designed to convert text into spoken audio and to transform PowerPoint slides into narrated videos automatically. It streamlines the creation of voiceovers for educational content, YouTube videos, and internal training materials without the need for recording equipment. Narakeet supports 100 languages and offers 800 voices.",
+  "purpose": "Specialized TTS for Georgian and Armenian.",
+  "journalism_relevance": "One of the few tools with decent support for Georgian and Armenian accents/scripts, which major platforms often neglect.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 1,
+    "invasiveness": 3
+  },
+  "time_dividend": {
+    "time_saved": "Eliminates the need to record, re-record, and edit voiceovers by automatically generating narration directly from text or slides.",
+    "reinvestment": "Script quality and accuracy—use the saved time to tighten scripts, check pronunciations and names, and ensure the narration matches editorial tone and factual detail before publishing."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "openai-whisper",
+    "similar_tools": [
+      "descript",
+      "elevenlabs"
+    ],
+    "use_cases": [
+      "audio-voice"
+    ]
+  }
+}

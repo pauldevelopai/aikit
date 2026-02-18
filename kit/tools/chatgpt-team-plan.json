@@ -1,0 +1,37 @@
+{
+  "slug": "chatgpt-team-plan",
+  "name": "ChatGPT Team Plan",
+  "number": 17,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Collaborative version of ChatGPT offering shared workspaces and enhanced data controls. The ChatGPT Team plan is the professional tier of the world's most famous chatbot. It bridges the gap between the individual \"Plus\" user and the \"Enterprise\" tier, offering a collaborative workspace with data privacy guarantees. The Team plan is their answer to corporate security concerns. There have been useful studies on benchmarking the Performance of LLMs in processing of the Ukrainian language 72.",
+  "purpose": "Data Analysis and Excel formulas.",
+  "journalism_relevance": "Enables teams to collaboratively analyse datasets and documents, quickly cleaning spreadsheets and generating charts during reporting. Useful for internal analysis and planning, but not suitable as a primary source or for highly sensitive material.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 2,
+    "invasiveness": 8
+  },
+  "time_dividend": {
+    "time_saved": "Automates routine data tasks such as cleaning messy spreadsheets, generating basic charts, and writing formulas, reducing time spent wrestling with Excel mechanics.",
+    "reinvestment": "Use the saved time to interrogate what the data actually shows, identify gaps or anomalies, and check assumptions with the data’s creators or subject-matter experts."
+  },
+  "comments": "The team plan is safer, but it is still invasive. It is one of the safest cloud AI tools available, but in this toolkit, invasiveness is about exposure depth, not vendor trust.",
+  "url": "",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "claude",
+      "gemini",
+      "perplexity"
+    ],
+    "use_cases": [
+      "llm-writing"
+    ]
+  }
+}

@@ -1,0 +1,167 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Potential Duplicates{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/discovery" class="text-blue-600 hover:underline">Discovery</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">Potential Duplicates</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">Potential Duplicates</h1>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="bg-white rounded-lg shadow mb-6 p-4">
+            <div class="flex gap-4">
+                <a href="/admin/discovery/matches"
+                   class="px-4 py-2 {% if not resolved_filter or resolved_filter == 'false' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} rounded-md">
+                    Unresolved ({{ counts.unresolved }})
+                </a>
+                <a href="/admin/discovery/matches?resolved=true"
+                   class="px-4 py-2 {% if resolved_filter == 'true' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %} rounded-md">
+                    Resolved ({{ counts.resolved }})
+                </a>
+            </div>
+        </div>
+
+        <!-- Matches List -->
+        <div class="space-y-4">
+            {% for item in matches %}
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <span class="px-2 py-0.5 text-xs rounded bg-gray-100 text-gray-700 capitalize">{{ item.match.match_type.replace('_', ' ') }}</span>
+                        <span class="ml-2 text-sm text-gray-600">{{ (item.match.match_score * 100)|int }}% match confidence</span>
+                    </div>
+                    {% if item.match.is_duplicate is not none %}
+                    <span class="px-2 py-0.5 text-xs rounded {% if item.match.is_duplicate %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                        {% if item.match.is_duplicate %}Confirmed Duplicate{% else %}Not Duplicate{% endif %}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Side by Side Comparison -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Discovered Tool -->
+                    <div class="border border-blue-200 rounded-lg p-4 bg-blue-50">
+                        <div class="text-xs text-blue-600 font-medium mb-2">NEW DISCOVERY</div>
+                        {% if item.tool %}
+                        <h3 class="font-semibold text-gray-900">
+                            <a href="/admin/discovery/tools/{{ item.tool.id }}" class="hover:underline">{{ item.tool.name }}</a>
+                        </h3>
+                        <a href="{{ item.tool.url }}" target="_blank" class="text-sm text-blue-600 hover:underline block mt-1">
+                            {{ item.tool.url_domain }}
+                        </a>
+                        {% if item.tool.description %}
+                        <p class="text-sm text-gray-600 mt-2">{{ item.tool.description[:200] }}{% if item.tool.description|length > 200 %}...{% endif %}</p>
+                        {% endif %}
+                        <div class="text-xs text-gray-500 mt-2">
+                            Source: {{ item.tool.source_name }}
+                        </div>
+                        {% else %}
+                        <span class="text-gray-500">Tool not found</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Matched Tool -->
+                    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div class="text-xs text-gray-600 font-medium mb-2">POTENTIAL MATCH</div>
+                        {% if item.matched_tool %}
+                        <h3 class="font-semibold text-gray-900">
+                            <a href="/admin/discovery/tools/{{ item.matched_tool.id }}" class="hover:underline">{{ item.matched_tool.name }}</a>
+                        </h3>
+                        <a href="{{ item.matched_tool.url }}" target="_blank" class="text-sm text-blue-600 hover:underline block mt-1">
+                            {{ item.matched_tool.url_domain }}
+                        </a>
+                        {% if item.matched_tool.description %}
+                        <p class="text-sm text-gray-600 mt-2">{{ item.matched_tool.description[:200] }}{% if item.matched_tool.description|length > 200 %}...{% endif %}</p>
+                        {% endif %}
+                        <div class="text-xs text-gray-500 mt-2">
+                            Status: {{ item.matched_tool.status }}
+                        </div>
+                        {% elif item.match.matched_kit_slug %}
+                        <h3 class="font-semibold text-gray-900">{{ item.match.matched_kit_slug }}</h3>
+                        <div class="text-xs text-gray-500 mt-2">
+                            From curated kit tools
+                        </div>
+                        {% else %}
+                        <span class="text-gray-500">Match details not available</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Match Details -->
+                {% if item.match.match_details %}
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <div class="text-xs text-gray-500">
+                        <strong>Match Details:</strong>
+                        {% for key, value in item.match.match_details.items() %}
+                        {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Actions -->
+                {% if item.match.is_duplicate is none %}
+                <div class="mt-4 pt-4 border-t border-gray-200 flex gap-4">
+                    <form action="/admin/discovery/matches/{{ item.match.id }}/resolve" method="POST" class="inline">
+                        <input type="hidden" name="is_duplicate" value="true">
+                        <textarea name="notes" placeholder="Optional notes..." class="border border-gray-300 rounded-md px-3 py-2 text-sm mr-2" rows="1" style="width: 200px;"></textarea>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            Same Tool (Duplicate)
+                        </button>
+                    </form>
+                    <form action="/admin/discovery/matches/{{ item.match.id }}/resolve" method="POST" class="inline">
+                        <input type="hidden" name="is_duplicate" value="false">
+                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                            Different Tools
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <div class="text-sm text-gray-600">
+                        Resolved: {{ item.match.resolved_at.strftime('%Y-%m-%d %H:%M') if item.match.resolved_at else 'N/A' }}
+                        {% if item.match.resolution_notes %}
+                        <br>Notes: {{ item.match.resolution_notes }}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+                {% if resolved_filter == 'true' %}
+                No resolved matches yet.
+                {% else %}
+                No potential duplicates to review. All clear!
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+        <div class="mt-6 flex justify-between items-center">
+            <div class="text-sm text-gray-600">
+                Page {{ page }} of {{ total_pages }}
+            </div>
+            <div class="flex gap-2">
+                {% if page > 1 %}
+                <a href="?page={{ page - 1 }}{% if resolved_filter %}&resolved={{ resolved_filter }}{% endif %}"
+                   class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Previous</a>
+                {% endif %}
+                {% if page < total_pages %}
+                <a href="?page={{ page + 1 }}{% if resolved_filter %}&resolved={{ resolved_filter }}{% endif %}"
+                   class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Next</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{
+  "slug": "replit",
+  "name": "Replit",
+  "number": 40,
+  "cluster_name": "Building Your Own Tools",
+  "cluster_slug": "building-your-own-tools",
+  "cluster_number": 6,
+  "description": "Browser-based coding platform for rapid prototyping and deployment of small applications. Replit is a collaborative, browser-based integrated development environment (IDE). It allows users to write, run, and deploy code instantly from any device without setup. Founded by Amjad Masad, Replit aims to democratize coding. It is particularly popular for rapid prototyping and education.",
+  "purpose": "Zero-setup web app builder.",
+  "journalism_relevance": "Perfect for quick, public-facing projects. Example: A Moldovan newsroom wants to build a simple \"Inflation Calculator\" for their readers. Replit's \"AI Agent\" can build and host this in 10 minutes.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 2,
+    "invasiveness": 6
+  },
+  "time_dividend": {
+    "time_saved": "You don’t have to worry about publishing the tool online. Replit handles all of that automatically. No servers, no technical setup, no launch delays.",
+    "reinvestment": "Use the time you saved to test the tool with real users, improve the questions it answers, and make sure it genuinely helps people understand the story, instead of wrestling with technical problems."
+  },
+  "comments": "Core plan needed for the best AI Agent features. And it is cloud- hosted, so code and data live on the Replit servers.",
+  "url": "",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "cursor",
+      "custom-gpts",
+      "google-colab"
+    ],
+    "use_cases": [
+      "coding-building"
+    ]
+  }
+}

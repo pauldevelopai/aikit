@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Foundations - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Foundations</h1>
+        <p class="mt-2 text-gray-600 max-w-2xl">
+            The principles, frameworks and reference material that underpin responsible AI use in journalism.
+            Read these before diving into the tools.
+        </p>
+    </div>
+
+    <!-- Core Sections -->
+    <div class="mb-10">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Core Sections</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for section in sections %}
+            <a href="/foundations/{{ section.slug }}" class="block bg-white rounded-lg shadow hover:shadow-md transition p-6 border-l-4
+                {% if section.slug == 'introduction' %}border-blue-500
+                {% elif section.slug == 'three-core-pillars' %}border-indigo-500
+                {% elif section.slug == 'how-to-use' %}border-green-500
+                {% elif section.slug == 'cdi-scores' %}border-yellow-500
+                {% elif section.slug == 'ai-audit-rubric' %}border-orange-500
+                {% elif section.slug == 'ethical-guidelines' %}border-red-500
+                {% elif section.slug == 'glossary' %}border-purple-500
+                {% elif section.slug == 'top-10-use-cases' %}border-teal-500
+                {% else %}border-gray-400
+                {% endif %}">
+                <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ section.title }}</h3>
+                <p class="text-sm text-gray-500">
+                    {% if section.slug == 'introduction' %}
+                        Why {{ product_name }} exists and how AI is reshaping journalism education.
+                    {% elif section.slug == 'three-core-pillars' %}
+                        Sovereignty, Time Reinvestment, and Balance &mdash; the guiding principles for all AI decisions.
+                    {% elif section.slug == 'how-to-use' %}
+                        How to navigate and teach with {{ product_name }} in a modular, problem-based way.
+                    {% elif section.slug == 'cdi-scores' %}
+                        Understanding the Cost, Difficulty, and Invasiveness scoring system used for every tool.
+                    {% elif section.slug == 'ai-audit-rubric' %}
+                        A structured checklist for evaluating any AI tool before using it in journalism.
+                    {% elif section.slug == 'ethical-guidelines' %}
+                        Non-negotiable red lines for editorial control, integrity and data security.
+                    {% elif section.slug == 'glossary' %}
+                        Key terms explained &mdash; from LLMs and RAG to OSINT and end-to-end encryption.
+                    {% elif section.slug == 'top-10-use-cases' %}
+                        The ten most impactful ways AI is being used in newsrooms worldwide.
+                    {% else %}
+                        {{ section.content[:120] }}{% if section.content|length > 120 %}...{% endif %}
+                    {% endif %}
+                </p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Addenda -->
+    {% if addenda %}
+    <div class="mb-10">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Addenda &amp; Resources</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for section in addenda %}
+            <a href="/foundations/{{ section.slug }}" class="block bg-white rounded-lg shadow hover:shadow-md transition p-5 border-l-4 border-gray-300">
+                <h3 class="text-base font-semibold text-gray-900 mb-1">{{ section.title }}</h3>
+                <p class="text-sm text-gray-500">
+                    {{ section.content[:100] }}{% if section.content|length > 100 %}...{% endif %}
+                </p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Links -->
+    <div class="bg-blue-50 rounded-lg border border-blue-200 p-6">
+        <h3 class="text-sm font-semibold text-blue-900 mb-3">Ready to explore the tools?</h3>
+        <div class="flex flex-wrap gap-3">
+            <a href="/tools/finder" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition">
+                Find the right tool &rarr;
+            </a>
+            <a href="/tools" class="inline-flex items-center px-4 py-2 bg-white text-blue-700 text-sm font-medium rounded-md border border-blue-300 hover:bg-blue-50 transition">
+                Browse all 46 tools
+            </a>
+            <a href="/clusters" class="inline-flex items-center px-4 py-2 bg-white text-blue-700 text-sm font-medium rounded-md border border-blue-300 hover:bg-blue-50 transition">
+                View by cluster
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

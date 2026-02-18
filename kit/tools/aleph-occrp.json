@@ -1,0 +1,43 @@
+{
+  "slug": "aleph-occrp",
+  "name": "Aleph (OCCRP)",
+  "number": 11,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Aleph (OCCRP) Investigative database for searching public records, leaks, and corporate ownership data worldwide. Aleph is a massive, open-access 58 data platform created by the Organized Crime and Corruption Reporting Project (OCCRP). It acts as a \"global archive of research material for investigative reporting,\" indexing public records, leaks, and databases to help trace assets and corporate ownership worldwide. The OCCRP is a non-profit media organization dedicated to exposing crime. Unlike commercial compliance databases, Aleph is free for journalists and activists 59, democratizing access to financial intelligence.",
+  "purpose": "Follow-the-money database.",
+  "journalism_relevance": "The \"Google\" for corruption. Connects entities across borders.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 4,
+    "invasiveness": 1
+  },
+  "time_dividend": {
+    "time_saved": "Aleph answers basic investigative questions, “Has this person or company appeared in other leaks or records?” in seconds, replacing days of manual cross-checking across registries and prior investigations.",
+    "reinvestment": "Use the time saved for primary verification: retrieving certified documents, conducting interviews, and validating findings for legal or public scrutiny. Aleph surfaces leads, but credibility still comes from traditional reporting."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "free",
+    "privacy-friendly",
+    "sovereign-alternative"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [
+      "notebooklm",
+      "google-pinpoint"
+    ],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "google-pinpoint",
+      "neo4j",
+      "notebooklm"
+    ],
+    "use_cases": [
+      "document-research",
+      "network-analysis"
+    ]
+  }
+}

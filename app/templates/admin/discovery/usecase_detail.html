@@ -1,0 +1,209 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ usecase.title }} - Use Cases{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/discovery" class="text-blue-600 hover:underline">Discovery</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <a href="/admin/discovery/use-cases" class="text-blue-600 hover:underline">Use Cases</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">{{ usecase.title[:40] }}{% if usecase.title|length > 40 %}...{% endif %}</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Main Info -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Use Case Header -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">{{ usecase.title }}</h1>
+                            {% if usecase.organization %}
+                            <p class="text-gray-600 mt-1">{{ usecase.organization }}{% if usecase.country %}, {{ usecase.country }}{% endif %}</p>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if usecase.status == 'pending_review' %}
+                            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">Pending Review</span>
+                            {% elif usecase.status == 'approved' %}
+                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 font-medium">Approved</span>
+                            {% elif usecase.status == 'rejected' %}
+                            <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 font-medium">Rejected</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if usecase.summary %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">Summary</h3>
+                        <p class="text-gray-600 mt-1">{{ usecase.summary }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Case Study Content -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Case Study Details</h2>
+
+                    {% if usecase.challenge %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Challenge</h3>
+                        <p class="text-gray-600 mt-1">{{ usecase.challenge }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.solution %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Solution</h3>
+                        <p class="text-gray-600 mt-1">{{ usecase.solution }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.outcome %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Outcome</h3>
+                        <p class="text-gray-600 mt-1">{{ usecase.outcome }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.lessons_learned %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Lessons Learned</h3>
+                        <p class="text-gray-600 mt-1">{{ usecase.lessons_learned }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.tools_used %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Tools Used</h3>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            {% for tool in usecase.tools_used %}
+                            <span class="px-2 py-1 bg-green-50 text-green-700 text-xs rounded">{{ tool }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.tools_mentioned %}
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-700">Tools Mentioned</h3>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            {% for tool in usecase.tools_mentioned %}
+                            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded">{{ tool }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Metadata -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Metadata</h2>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-500">Organization:</span>
+                            <span class="text-gray-900 ml-2">{{ usecase.organization or 'Unknown' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Organization Type:</span>
+                            <span class="text-gray-900 ml-2 capitalize">{{ usecase.organization_type or 'Unknown' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Country:</span>
+                            <span class="text-gray-900 ml-2">{{ usecase.country or 'Unknown' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Region:</span>
+                            <span class="text-gray-900 ml-2">{{ usecase.region or 'Unknown' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Source:</span>
+                            {% if usecase.source_url %}
+                            <a href="{{ usecase.source_url }}" target="_blank" class="text-blue-600 hover:underline ml-2">{{ usecase.source_name or 'View Source' }}</a>
+                            {% else %}
+                            <span class="text-gray-900 ml-2">{{ usecase.source_name or 'Unknown' }}</span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Source Date:</span>
+                            <span class="text-gray-900 ml-2">{{ usecase.source_date.strftime('%Y-%m-%d') if usecase.source_date else 'Unknown' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Discovered:</span>
+                            <span class="text-gray-900 ml-2">{{ usecase.discovered_at.strftime('%Y-%m-%d %H:%M') if usecase.discovered_at else '-' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Slug:</span>
+                            <span class="text-gray-900 ml-2 font-mono text-xs">{{ usecase.slug }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+
+                <!-- Review Actions -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Review Actions</h2>
+
+                    {% if usecase.status == 'pending_review' %}
+                    <div class="space-y-3">
+                        <form action="/admin/discovery/use-cases/{{ usecase.id }}/approve" method="POST">
+                            <textarea name="notes" placeholder="Optional notes..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mb-2" rows="2"></textarea>
+                            <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                Approve Use Case
+                            </button>
+                        </form>
+                        <form action="/admin/discovery/use-cases/{{ usecase.id }}/reject" method="POST">
+                            <textarea name="notes" placeholder="Reason for rejection..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mb-2" rows="2"></textarea>
+                            <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                Reject Use Case
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="text-sm text-gray-600">
+                        <p>Reviewed: {{ usecase.reviewed_at.strftime('%Y-%m-%d %H:%M') if usecase.reviewed_at else 'N/A' }}</p>
+                        {% if usecase.review_notes %}
+                        <p class="mt-2"><strong>Notes:</strong> {{ usecase.review_notes }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Allow changing status -->
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        {% if usecase.status == 'rejected' %}
+                        <form action="/admin/discovery/use-cases/{{ usecase.id }}/approve" method="POST">
+                            <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                Change to Approved
+                            </button>
+                        </form>
+                        {% elif usecase.status == 'approved' %}
+                        <form action="/admin/discovery/use-cases/{{ usecase.id }}/reject" method="POST">
+                            <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                Change to Rejected
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Public Page Link -->
+                {% if usecase.status == 'approved' %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Public Page</h2>
+                    <a href="/use-cases/{{ usecase.slug }}" target="_blank" class="block w-full px-4 py-2 bg-blue-600 text-white text-center rounded-md hover:bg-blue-700">
+                        View Public Page
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+{% endblock %}

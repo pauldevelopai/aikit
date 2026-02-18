@@ -1,0 +1,28 @@
+{
+  "number": 5,
+  "name": "Security Challenges",
+  "slug": "security-challenges",
+  "description": "Understanding the security risks of AI tools and how to protect data, sources, and journalists. Journalists often upload sensitive material into AI systems without fully understanding where that data goes. For example, a reporter might upload an interview transcript containing a whistleblower’s name into a cloud-based writing assistant, or a student newsroom might process sensitive documents through an online summarisation tool. Security-focused tools and practices help journalists encrypt files, remove metadata, and process information locally rather than on external servers. This cluster matters because even a strong investigation can be undermined if sources are exposed, communications are intercepted, or data is unintentionally shared with third parties.",
+  "teaching_guidance": "Avoid teaching security as a technical specialty. Frame it instead as a situational judgment that every journalist must exercise. Encourage students to think in terms of worst-case consequences rather than average use. Security decisions are shaped by who might be harmed if something goes wrong. Reinforce that convenience is not neutral. Choosing an easier tool can be an editorial risk, even when the reporting is strong.",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Compare the security of two tools",
+      "description": "Each student selects a function of AI tools and then chooses two examples. They then investigate the data security of these tools. Ask the questions: what data is entered, where it goes, who could access it, and what the worst-case consequences would be in a sensitive reporting scenario. Give a conclusion of which of your two tools is safer and why?"
+    },
+    {
+      "number": 2,
+      "title": "Safe vs unsafe workflow",
+      "description": "Students are given the same reporting task twice — once involving a public figure and once involving a vulnerable source. They must design two different AI workflows and explain which tools are safe in each case and why."
+    }
+  ],
+  "where_to_start": "Start with: Bitwarden + ProtonMail This pairing establishes a foundation: journalists cannot protect sources if they cannot protect their own accounts. Why these first: • Free or low-cost tools with a very low technical barrier • Immediately relevant to how journalists already work (email and accounts) • Easy to adopt without changing hardware or operating systems • Address the most common real-world security failures in newsrooms What they teach well: • That weak or reused passwords are a major source of compromise • How encrypted communication differs from ordinary email • The limits of encryption (what is protected vs what metadata remains exposed) • That basic digital hygiene is a professional responsibility, not an optional extra Introduce next: Tor Browser. Tor helps students understand that research itself can be risky, even before anything is published. Why this next: • Moderate increase in conceptual complexity, but still accessible • Introduces anonymity and surveillance awareness without technical setup • Directly relevant to investigative research and censored environments What it teaches well: • How browsing habits can expose investigations • The difference between secure content and observable behaviour • When anonymity is necessary and when it is excessive • How state or network-level monitoring affects journalism",
+  "tool_slugs": [
+    "veracrypt",
+    "dangerzone-security-challenges",
+    "protonmail",
+    "tor-browser",
+    "bitwarden"
+  ],
+  "tool_count": 5
+}

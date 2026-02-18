@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen flex items-center justify-center py-12 px-4">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="text-center text-3xl font-bold text-gray-900">Ingest Document</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    Upload a DOCX file to ingest into The AI Editorial Toolkit
+                </p>
+            </div>
+
+            <div id="error-message" class="hidden rounded-md bg-red-50 p-4">
+                <p class="text-sm text-red-800" id="error-text"></p>
+            </div>
+
+            <div id="success-message" class="hidden rounded-md bg-green-50 p-4">
+                <p class="text-sm text-green-800" id="success-text"></p>
+            </div>
+
+            <form id="ingest-form" class="mt-8 space-y-6" enctype="multipart/form-data">
+                <div class="space-y-4">
+                    <div>
+                        <label for="version_tag" class="block text-sm font-medium text-gray-700">
+                            Version Tag
+                        </label>
+                        <input type="text" name="version_tag" id="version_tag" required
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                               placeholder="e.g., v1.0.0">
+                    </div>
+
+                    <div>
+                        <label for="file" class="block text-sm font-medium text-gray-700">
+                            DOCX File
+                        </label>
+                        <input type="file" name="file" id="file" accept=".docx" required
+                               class="mt-1 block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-md file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-blue-50 file:text-blue-700
+                                      hover:file:bg-blue-100">
+                    </div>
+
+                    <div>
+                        <label for="admin_password" class="block text-sm font-medium text-gray-700">
+                            Admin Password
+                        </label>
+                        <input type="password" name="admin_password" id="admin_password" required
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" name="create_embeddings" id="create_embeddings" checked
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="create_embeddings" class="ml-2 block text-sm text-gray-900">
+                            Create embeddings (requires OpenAI API key)
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" id="submit-btn"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Ingest Document
+                    </button>
+                </div>
+
+                <div class="text-center">
+                    <a href="/admin/documents" class="text-sm text-blue-600 hover:text-blue-500">
+                        View all documents
+                    </a>
+                    <span class="text-gray-500 mx-2">|</span>
+                    <a href="/" class="text-sm text-gray-600 hover:text-gray-500">
+                        Back to home
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('ingest-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submit-btn');
+            const errorDiv = document.getElementById('error-message');
+            const successDiv = document.getElementById('success-message');
+            const errorText = document.getElementById('error-text');
+            const successText = document.getElementById('success-text');
+
+            // Hide messages
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Ingesting...';
+
+            const formData = new FormData(e.target);
+
+            try {
+                const response = await fetch('/admin/ingest', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successText.textContent = `Success! Ingested ${data.chunk_count} chunks. Document ID: ${data.document_id}`;
+                    successDiv.classList.remove('hidden');
+                    e.target.reset();
+                } else {
+                    errorText.textContent = data.detail || 'Ingestion failed';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorText.textContent = 'Network error. Please try again.';
+                errorDiv.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ingest Document';
+            }
+        });
+    </script>
+</body>
+</html>

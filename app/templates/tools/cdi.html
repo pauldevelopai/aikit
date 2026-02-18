@@ -1,0 +1,530 @@
+{% extends "base.html" %}
+
+{% block title %}CDI Explorer - {{ product_name }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    .range-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #e5e7eb; outline: none; }
+    .range-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #3b82f6; cursor: pointer; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .range-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #3b82f6; cursor: pointer; border: 2px solid white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .tool-dot { cursor: pointer; transition: all 0.2s; }
+    .tool-dot:hover { filter: brightness(1.2); stroke-width: 2; stroke: #1e3a5f; }
+    .tool-dot.dimmed { opacity: 0.15; }
+    .tool-dot.selected { stroke: #1e40af; stroke-width: 3; }
+    .tool-card.hidden { display: none; }
+    .tool-card.selected-card { ring: 2px; box-shadow: 0 0 0 2px #3b82f6; }
+    .radar-axis { stroke: #d1d5db; stroke-width: 1; }
+    .radar-ring { fill: none; stroke: #e5e7eb; stroke-width: 1; }
+    .radar-label { font-size: 11px; fill: #6b7280; }
+    .compare-tag { transition: all 0.15s; }
+    .compare-tag:hover { filter: brightness(0.95); }
+    #scatter-tooltip { pointer-events: none; transition: opacity 0.15s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Tailwind safelist: ensure dynamic CDI colour classes are discovered -->
+<div class="hidden">
+    <span class="bg-green-50 text-green-700 bg-yellow-50 text-yellow-700 bg-red-50 text-red-700 border-blue-500"></span>
+</div>
+
+<div class="px-4 sm:px-0">
+
+    <!-- Header -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">CDI Explorer</h1>
+        <p class="mt-2 text-gray-600 max-w-3xl">
+            Every tool is scored on <strong>Cost</strong>, <strong>Difficulty</strong> and <strong>Invasiveness</strong> (0-10 each).
+            Use the sliders to filter, click tools on the chart to compare, and explore the trade-offs visually.
+        </p>
+    </div>
+
+    <!-- Controls Row -->
+    <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Cost Slider -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm font-semibold text-gray-700">Max Cost</label>
+                    <span id="cost-val" class="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">10</span>
+                </div>
+                <input type="range" id="cost-slider" min="0" max="10" value="10" class="range-slider">
+                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                    <span>Free</span>
+                    <span>Expensive</span>
+                </div>
+            </div>
+            <!-- Difficulty Slider -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm font-semibold text-gray-700">Max Difficulty</label>
+                    <span id="diff-val" class="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">10</span>
+                </div>
+                <input type="range" id="diff-slider" min="0" max="10" value="10" class="range-slider">
+                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                    <span>Click &amp; go</span>
+                    <span>Expert</span>
+                </div>
+            </div>
+            <!-- Invasiveness Slider -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm font-semibold text-gray-700">Max Invasiveness</label>
+                    <span id="inv-val" class="text-sm font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">10</span>
+                </div>
+                <input type="range" id="inv-slider" min="0" max="10" value="10" class="range-slider">
+                <div class="flex justify-between text-xs text-gray-400 mt-1">
+                    <span>Local only</span>
+                    <span>Cloud-dependent</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+            <div class="text-sm text-gray-500">
+                Showing <strong id="visible-count">{{ tool_count }}</strong> of {{ tool_count }} tools
+            </div>
+            <button onclick="resetSliders()" class="text-sm text-blue-600 hover:text-blue-800">Reset filters</button>
+        </div>
+    </div>
+
+    <!-- Main Content: Chart + Comparison -->
+    <div class="lg:grid lg:grid-cols-3 lg:gap-6 mb-8">
+
+        <!-- Scatter Chart -->
+        <div class="lg:col-span-2 bg-white rounded-lg shadow p-6 mb-6 lg:mb-0">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-gray-900">Invasiveness vs Difficulty</h2>
+                <div class="flex items-center gap-3 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-green-500"></span> Low cost</span>
+                    <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-yellow-500"></span> Medium</span>
+                    <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-red-500"></span> High cost</span>
+                </div>
+            </div>
+            <div class="relative" style="padding-bottom: 75%;">
+                <svg id="scatter-chart" class="absolute inset-0 w-full h-full" viewBox="0 0 500 380" preserveAspectRatio="xMidYMid meet">
+                    <!-- Grid -->
+                    <defs>
+                        <pattern id="grid" width="44" height="33" patternUnits="userSpaceOnUse" x="50" y="10">
+                            <path d="M 44 0 L 0 0 0 33" fill="none" stroke="#f3f4f6" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect x="50" y="10" width="440" height="330" fill="url(#grid)" rx="2"/>
+                    <rect x="50" y="10" width="440" height="330" fill="none" stroke="#e5e7eb" rx="2"/>
+
+                    <!-- Axis labels -->
+                    <text x="270" y="372" text-anchor="middle" class="text-xs" fill="#6b7280" font-size="12">Invasiveness &rarr;</text>
+                    <text x="15" y="175" text-anchor="middle" class="text-xs" fill="#6b7280" font-size="12" transform="rotate(-90, 15, 175)">Difficulty &rarr;</text>
+
+                    <!-- Tick marks -->
+                    <g id="x-ticks"></g>
+                    <g id="y-ticks"></g>
+
+                    <!-- Quadrant labels -->
+                    <text x="160" y="290" text-anchor="middle" fill="#d1d5db" font-size="10" font-weight="500">EASY &amp; LOCAL</text>
+                    <text x="380" y="290" text-anchor="middle" fill="#d1d5db" font-size="10" font-weight="500">EASY &amp; CLOUD</text>
+                    <text x="160" y="50" text-anchor="middle" fill="#d1d5db" font-size="10" font-weight="500">HARD &amp; LOCAL</text>
+                    <text x="380" y="50" text-anchor="middle" fill="#d1d5db" font-size="10" font-weight="500">HARD &amp; CLOUD</text>
+
+                    <!-- Tool dots rendered by JS -->
+                    <g id="dots-group"></g>
+                </svg>
+                <!-- Tooltip -->
+                <div id="scatter-tooltip" class="absolute hidden bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg z-10" style="max-width:220px;"></div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2 text-center">Bubble color = cost. Click a dot to select for comparison.</p>
+
+            <!-- Cost Distribution Bar -->
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <h3 class="text-sm font-semibold text-gray-700 mb-3">Cost Distribution</h3>
+                <div class="flex items-center gap-2">
+                    <div class="flex-1">
+                        <div class="flex h-8 rounded-lg overflow-hidden">
+                            <div id="cost-low-bar" class="bg-green-500 transition-all duration-300" style="width: 33%"></div>
+                            <div id="cost-med-bar" class="bg-yellow-500 transition-all duration-300" style="width: 33%"></div>
+                            <div id="cost-high-bar" class="bg-red-500 transition-all duration-300" style="width: 34%"></div>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span id="cost-low-label">Free/Low (0-3)</span>
+                            <span id="cost-med-label">Medium (4-6)</span>
+                            <span id="cost-high-label">High (7-10)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-green-50 rounded p-2">
+                        <div id="cost-low-count" class="text-lg font-bold text-green-700">0</div>
+                        <div class="text-xs text-green-600">Free/Low Cost</div>
+                    </div>
+                    <div class="bg-yellow-50 rounded p-2">
+                        <div id="cost-med-count" class="text-lg font-bold text-yellow-700">0</div>
+                        <div class="text-xs text-yellow-600">Medium Cost</div>
+                    </div>
+                    <div class="bg-red-50 rounded p-2">
+                        <div id="cost-high-count" class="text-lg font-bold text-red-700">0</div>
+                        <div class="text-xs text-red-600">High Cost</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Panel -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-lg font-semibold text-gray-900 mb-3">Compare Tools</h2>
+            <p class="text-xs text-gray-500 mb-4">Click tools on the chart or cards below to compare up to 4 tools.</p>
+
+            <!-- Selected tools tags -->
+            <div id="compare-tags" class="flex flex-wrap gap-2 mb-4 min-h-[32px]">
+                <span class="text-xs text-gray-400 italic" id="no-compare-msg">No tools selected</span>
+            </div>
+
+            <!-- Radar Chart -->
+            <div class="flex justify-center mb-4">
+                <svg id="radar-chart" width="240" height="240" viewBox="0 0 240 240">
+                    <!-- Background rings -->
+                    <polygon points="120,20 200,70 200,170 120,220 40,170 40,70" class="radar-ring" opacity="0.3"/>
+                    <polygon points="120,45 185,82.5 185,157.5 120,195 55,157.5 55,82.5" class="radar-ring" opacity="0.3"/>
+                    <polygon points="120,70 170,95 170,145 120,170 70,145 70,95" class="radar-ring" opacity="0.3"/>
+                    <!-- Axes -->
+                    <line x1="120" y1="20" x2="120" y2="220" class="radar-axis"/>
+                    <line x1="40" y1="70" x2="200" y2="170" class="radar-axis"/>
+                    <line x1="40" y1="170" x2="200" y2="70" class="radar-axis"/>
+                    <!-- Labels -->
+                    <text x="120" y="14" text-anchor="middle" class="radar-label" font-weight="600">Cost</text>
+                    <text x="210" y="75" text-anchor="start" class="radar-label" font-weight="600">Difficulty</text>
+                    <text x="210" y="175" text-anchor="start" class="radar-label" font-weight="600">Invasiveness</text>
+                    <!-- Tool shapes rendered by JS -->
+                    <g id="radar-shapes"></g>
+                </svg>
+            </div>
+
+            <!-- Comparison Table -->
+            <div id="compare-table" class="hidden">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-1 text-gray-500">Metric</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compare-tbody"></tbody>
+                </table>
+            </div>
+
+            <!-- CDI Education -->
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <h3 class="text-sm font-semibold text-gray-700 mb-2">What is CDI?</h3>
+                <div class="space-y-2 text-xs text-gray-500">
+                    <p><strong class="text-gray-700">Cost (0-10):</strong> 0 = free, 10 = expensive. Is this realistic for a freelance journalist or small newsroom?</p>
+                    <p><strong class="text-gray-700">Difficulty (0-10):</strong> 0 = click and go, 10 = advanced technical skills required.</p>
+                    <p><strong class="text-gray-700">Invasiveness (0-10):</strong> 0 = runs locally, data stays on your device. 10 = data uploaded to cloud, may train external models.</p>
+                    <p class="italic mt-2">"The CDI score is not a verdict. It is a conversation starter."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tool Cards Grid -->
+    <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">All Tools by CDI Score</h2>
+        <div id="tool-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ── Data ──
+const TOOLS = {{ tools_json | safe }};
+const COLORS = { green: '#22c55e', yellow: '#eab308', red: '#ef4444' };
+const RADAR_COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b'];
+
+let selectedSlugs = [];
+const maxCompare = 4;
+
+// ── Chart geometry ──
+const PAD = { left: 50, top: 10, right: 10, bottom: 40 };
+const W = 500, H = 380;
+const plotW = W - PAD.left - PAD.right;
+const plotH = H - PAD.top - PAD.bottom;
+
+function scaleX(inv) { return PAD.left + (inv / 10) * plotW; }
+function scaleY(diff) { return PAD.top + plotH - (diff / 10) * plotH; }
+function costColor(cost) { return cost <= 3 ? COLORS.green : cost <= 6 ? COLORS.yellow : COLORS.red; }
+function costRadius(cost) { return 6 + cost * 1.2; }
+function cdiColor(val) { return val <= 3 ? 'green' : val <= 6 ? 'yellow' : 'red'; }
+
+// ── Init scatter ──
+function initScatter() {
+    const xTicks = document.getElementById('x-ticks');
+    const yTicks = document.getElementById('y-ticks');
+    for (let i = 0; i <= 10; i++) {
+        const x = scaleX(i);
+        const y = scaleY(i);
+        xTicks.innerHTML += `<text x="${x}" y="${H - 18}" text-anchor="middle" fill="#9ca3af" font-size="10">${i}</text>`;
+        yTicks.innerHTML += `<text x="${PAD.left - 8}" y="${y + 4}" text-anchor="end" fill="#9ca3af" font-size="10">${i}</text>`;
+    }
+    renderDots();
+}
+
+function renderDots() {
+    const maxCost = +document.getElementById('cost-slider').value;
+    const maxDiff = +document.getElementById('diff-slider').value;
+    const maxInv = +document.getElementById('inv-slider').value;
+
+    const group = document.getElementById('dots-group');
+    group.innerHTML = '';
+
+    let visible = 0;
+    // Sort so smaller dots render on top (by cost now)
+    const sorted = [...TOOLS].sort((a, b) => b.cost - a.cost);
+
+    sorted.forEach(t => {
+        const show = t.cost <= maxCost && t.difficulty <= maxDiff && t.invasiveness <= maxInv;
+        if (show) visible++;
+
+        const cx = scaleX(t.invasiveness);  // X-axis is now invasiveness
+        const cy = scaleY(t.difficulty);
+        const r = costRadius(t.cost);       // Size based on cost
+        const color = costColor(t.cost);    // Color based on cost
+        const sel = selectedSlugs.includes(t.slug);
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', r);
+        circle.setAttribute('fill', color);
+        circle.setAttribute('opacity', show ? '0.8' : '0.1');
+        circle.setAttribute('class', `tool-dot ${show ? '' : 'dimmed'} ${sel ? 'selected' : ''}`);
+        circle.setAttribute('data-slug', t.slug);
+        circle.addEventListener('click', () => toggleCompare(t.slug));
+        circle.addEventListener('mouseenter', (e) => showTooltip(e, t));
+        circle.addEventListener('mouseleave', hideTooltip);
+        group.appendChild(circle);
+    });
+
+    document.getElementById('visible-count').textContent = visible;
+    renderCards(maxCost, maxDiff, maxInv);
+    updateCostDistribution();
+}
+
+// ── Tooltip ──
+function showTooltip(e, t) {
+    const tip = document.getElementById('scatter-tooltip');
+    const total = t.cost + t.difficulty + t.invasiveness;
+    tip.innerHTML = `<strong>${t.name}</strong><br>C:${t.cost} D:${t.difficulty} I:${t.invasiveness} (total: ${total})<br><span style="opacity:0.7">${t.cluster_name}</span>`;
+    tip.classList.remove('hidden');
+    // Position near cursor
+    const rect = document.getElementById('scatter-chart').getBoundingClientRect();
+    const chartParent = document.getElementById('scatter-chart').parentElement;
+    const parentRect = chartParent.getBoundingClientRect();
+    const relX = e.clientX - parentRect.left;
+    const relY = e.clientY - parentRect.top;
+    tip.style.left = (relX + 12) + 'px';
+    tip.style.top = (relY - 10) + 'px';
+}
+function hideTooltip() {
+    document.getElementById('scatter-tooltip').classList.add('hidden');
+}
+
+// ── Cards ──
+function renderCards(maxCost, maxDiff, maxInv) {
+    const container = document.getElementById('tool-cards');
+    const sorted = [...TOOLS].sort((a, b) => a.total - b.total);
+    container.innerHTML = sorted.map(t => {
+        const show = t.cost <= maxCost && t.difficulty <= maxDiff && t.invasiveness <= maxInv;
+        const sel = selectedSlugs.includes(t.slug);
+        return `
+        <div class="tool-card ${show ? '' : 'hidden'} ${sel ? 'selected-card' : ''} bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-md transition border-2 ${sel ? 'border-blue-500' : 'border-transparent'}"
+             onclick="toggleCompare('${t.slug}')">
+            <div class="flex items-start justify-between mb-2">
+                <a href="/tools/${t.slug}" class="text-sm font-semibold text-gray-900 hover:text-blue-600" onclick="event.stopPropagation()">
+                    ${t.name}
+                </a>
+                <div class="flex gap-1 flex-shrink-0">
+                    <span class="inline-block w-7 h-7 rounded text-center leading-7 text-xs font-bold bg-${cdiColor(t.cost)}-50 text-${cdiColor(t.cost)}-700">${t.cost}</span>
+                    <span class="inline-block w-7 h-7 rounded text-center leading-7 text-xs font-bold bg-${cdiColor(t.difficulty)}-50 text-${cdiColor(t.difficulty)}-700">${t.difficulty}</span>
+                    <span class="inline-block w-7 h-7 rounded text-center leading-7 text-xs font-bold bg-${cdiColor(t.invasiveness)}-50 text-${cdiColor(t.invasiveness)}-700">${t.invasiveness}</span>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 mb-1">${t.cluster_name}</p>
+            ${t.purpose ? `<p class="text-xs text-gray-400 line-clamp-2">${t.purpose}</p>` : ''}
+            <div class="flex items-center justify-between mt-2 text-xs">
+                <span class="text-gray-400">Total: ${t.total}/30</span>
+                <span class="${sel ? 'text-blue-600 font-medium' : 'text-gray-400'}">
+                    ${sel ? 'Comparing' : 'Click to compare'}
+                </span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ── Compare ──
+function toggleCompare(slug) {
+    const idx = selectedSlugs.indexOf(slug);
+    if (idx >= 0) {
+        selectedSlugs.splice(idx, 1);
+    } else {
+        if (selectedSlugs.length >= maxCompare) selectedSlugs.shift();
+        selectedSlugs.push(slug);
+    }
+    renderDots();
+    renderComparison();
+}
+
+function renderComparison() {
+    const tagsEl = document.getElementById('compare-tags');
+    const noMsg = document.getElementById('no-compare-msg');
+    const table = document.getElementById('compare-table');
+
+    if (selectedSlugs.length === 0) {
+        tagsEl.innerHTML = '<span class="text-xs text-gray-400 italic" id="no-compare-msg">No tools selected</span>';
+        table.classList.add('hidden');
+        renderRadar([]);
+        return;
+    }
+
+    const selected = selectedSlugs.map(s => TOOLS.find(t => t.slug === s)).filter(Boolean);
+
+    // Tags
+    tagsEl.innerHTML = selected.map((t, i) => `
+        <span class="compare-tag inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium cursor-pointer"
+              style="background:${RADAR_COLORS[i]}20; color:${RADAR_COLORS[i]}; border: 1px solid ${RADAR_COLORS[i]}40"
+              onclick="toggleCompare('${t.slug}')">
+            ${t.name} &times;
+        </span>
+    `).join('');
+
+    // Table
+    table.classList.remove('hidden');
+    const thead = table.querySelector('thead tr');
+    thead.innerHTML = '<th class="text-left py-1 text-gray-500 font-normal">Metric</th>' +
+        selected.map((t, i) => `<th class="text-center py-1 font-medium" style="color:${RADAR_COLORS[i]}">${t.name}</th>`).join('');
+
+    const tbody = document.getElementById('compare-tbody');
+    const metrics = [
+        { key: 'cost', label: 'Cost', low: 'Free', high: 'Expensive' },
+        { key: 'difficulty', label: 'Difficulty', low: 'Easy', high: 'Expert' },
+        { key: 'invasiveness', label: 'Invasiveness', low: 'Local', high: 'Cloud' },
+        { key: 'total', label: 'Total', low: '', high: '' },
+    ];
+
+    tbody.innerHTML = metrics.map(m => `
+        <tr class="border-b border-gray-100">
+            <td class="py-2 text-gray-600">${m.label}</td>
+            ${selected.map(t => {
+                const val = m.key === 'total' ? t.total : t[m.key];
+                const max = m.key === 'total' ? 30 : 10;
+                const pct = (val / max) * 100;
+                return `<td class="py-2 text-center">
+                    <div class="font-bold">${val}${m.key === 'total' ? '/30' : ''}</div>
+                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1">
+                        <div class="h-1.5 rounded-full" style="width:${pct}%; background:${val/max <= 0.3 ? COLORS.green : val/max <= 0.6 ? COLORS.yellow : COLORS.red}"></div>
+                    </div>
+                </td>`;
+            }).join('')}
+        </tr>
+    `).join('');
+
+    renderRadar(selected);
+}
+
+// ── Radar ──
+function renderRadar(tools) {
+    const shapes = document.getElementById('radar-shapes');
+    shapes.innerHTML = '';
+    if (!tools.length) return;
+
+    const cx = 120, cy = 120, maxR = 100;
+    // 3 axes: Cost (top), Difficulty (bottom-right), Invasiveness (bottom-left)
+    const angles = [-90, 30, 150].map(a => a * Math.PI / 180);
+
+    tools.forEach((t, i) => {
+        const vals = [t.cost / 10, t.difficulty / 10, t.invasiveness / 10];
+        const points = vals.map((v, j) => {
+            const r = v * maxR;
+            return `${cx + r * Math.cos(angles[j])},${cy + r * Math.sin(angles[j])}`;
+        }).join(' ');
+
+        const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        polygon.setAttribute('points', points);
+        polygon.setAttribute('fill', RADAR_COLORS[i]);
+        polygon.setAttribute('fill-opacity', '0.15');
+        polygon.setAttribute('stroke', RADAR_COLORS[i]);
+        polygon.setAttribute('stroke-width', '2');
+        shapes.appendChild(polygon);
+
+        // Dots on vertices
+        vals.forEach((v, j) => {
+            const r = v * maxR;
+            const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot.setAttribute('cx', cx + r * Math.cos(angles[j]));
+            dot.setAttribute('cy', cy + r * Math.sin(angles[j]));
+            dot.setAttribute('r', '4');
+            dot.setAttribute('fill', RADAR_COLORS[i]);
+            shapes.appendChild(dot);
+        });
+    });
+}
+
+// ── Sliders ──
+function setupSliders() {
+    ['cost', 'diff', 'inv'].forEach(id => {
+        const slider = document.getElementById(id + '-slider');
+        const valEl = document.getElementById(id + '-val');
+        slider.addEventListener('input', () => {
+            valEl.textContent = slider.value;
+            renderDots();
+        });
+    });
+}
+
+function resetSliders() {
+    ['cost', 'diff', 'inv'].forEach(id => {
+        document.getElementById(id + '-slider').value = 10;
+        document.getElementById(id + '-val').textContent = '10';
+    });
+    selectedSlugs = [];
+    renderDots();
+    renderComparison();
+}
+
+// ── Cost Distribution ──
+function updateCostDistribution() {
+    const maxCost = +document.getElementById('cost-slider').value;
+    const maxDiff = +document.getElementById('diff-slider').value;
+    const maxInv = +document.getElementById('inv-slider').value;
+
+    let lowCount = 0, medCount = 0, highCount = 0;
+
+    TOOLS.forEach(t => {
+        const show = t.cost <= maxCost && t.difficulty <= maxDiff && t.invasiveness <= maxInv;
+        if (!show) return;
+
+        if (t.cost <= 3) lowCount++;
+        else if (t.cost <= 6) medCount++;
+        else highCount++;
+    });
+
+    const total = lowCount + medCount + highCount;
+    const lowPct = total > 0 ? (lowCount / total * 100) : 0;
+    const medPct = total > 0 ? (medCount / total * 100) : 0;
+    const highPct = total > 0 ? (highCount / total * 100) : 0;
+
+    document.getElementById('cost-low-bar').style.width = lowPct + '%';
+    document.getElementById('cost-med-bar').style.width = medPct + '%';
+    document.getElementById('cost-high-bar').style.width = highPct + '%';
+
+    document.getElementById('cost-low-count').textContent = lowCount;
+    document.getElementById('cost-med-count').textContent = medCount;
+    document.getElementById('cost-high-count').textContent = highCount;
+}
+
+// ── Boot ──
+document.addEventListener('DOMContentLoaded', () => {
+    initScatter();
+    setupSliders();
+    renderComparison();
+    updateCostDistribution();
+});
+</script>
+{% endblock %}

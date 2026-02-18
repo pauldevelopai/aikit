@@ -1,0 +1,37 @@
+{
+  "slug": "gemini",
+  "name": "Gemini",
+  "number": 20,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Google’s large language model integrated into Docs, Drive, and multimedia analysis tools. Gemini is Google’s multimodal large language model, deeply integrated into Google Docs, Drive, Gmail, and YouTube. Its primary strength lies in working directly with content already stored in the Google ecosystem, allowing journalists to summarise long documents 79, analyse emails, or extract timelines without exporting files. However, this tight integration also creates dependency on Google’s infrastructure, making it unsuitable for sensitive investigations or source material.",
+  "purpose": "To help users quickly analyse, summarise, and work with documents,",
+  "journalism_relevance": "Useful for background research, desk reporting, and making sense of large document collections, but should be avoided for confidential reporting due to data control and platform dependency.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 2,
+    "invasiveness": 7
+  },
+  "time_dividend": {
+    "time_saved": "Analyzing personal archives stored in Google Drive.",
+    "reinvestment": "Chronology. Building timelines of events based on the emails/docs found."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "chatgpt-team-plan",
+      "claude",
+      "perplexity"
+    ],
+    "use_cases": [
+      "llm-writing"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "slug": "changedetectionio",
+  "name": "Changedetection.io",
+  "number": 13,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Self-hosted, open-source website change monitoring tool offering privacy and unlimited checks. Changedetection.io lets you keep an eye on websites and get alerts 63 when something changes. For example, when a government page is quietly updated, a report is removed, or wording is altered after public criticism. Unlike commercial services, this tool runs under your own control instead of on someone else’s platform. That means no company can see which websites you are monitoring, and there are no limits on how many pages you track or how often you check them. Because it does not rely on a third-party service, there are no monthly fees and no risk that your monitoring activity is logged or shared. It is especially useful for journalists who need to watch sensitive or politically important websites without drawing attention. It gives you a way to monitor website changes quietly, privately, and for free, without handing that information to another company.",
+  "purpose": "Private, independent monitoring of website changes.",
+  "journalism_relevance": "Enables journalists to monitor sensitive government or corporate pages without revealing interest to third-party services.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 4,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Verification writing. Document what changed, when, and why it matters."
+  },
+  "comments": "",
+  "url": "https://github.com/neo4j/neo4j",
+  "tags": [
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "visualping"
+    ],
+    "use_cases": [
+      "web-monitoring"
+    ]
+  }
+}

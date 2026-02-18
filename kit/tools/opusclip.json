@@ -1,0 +1,38 @@
+{
+  "slug": "opusclip",
+  "name": "OpusClip",
+  "number": 28,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "AI tool that extracts short, shareable video clips from long-form content. OpusClip is a specialized generative AI tool that repurposes long-form video (podcasts, webinars) into viral-style short clips (Shorts, Reels, TikToks). It uses NLP to analyze the video transcript and identify \"hooks\" or viral moments. It automatically reframes horizontal video to vertical (9:16), keeping the speaker in focus (active speaker detection). OpusClip targets the \"creator economy\" need for volume. It automates the tedious task of finding highlights, allowing creators to scale content output without a dedicated editing team.",
+  "purpose": "Viral short creation.",
+  "journalism_relevance": "Automatically cuts long Zoom interviews into vertical TikToks with captions. Critical for reaching youth globally.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 1,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "90% of editing time for socials.",
+    "reinvestment": "More community management. Take the time to reply to the comments on TikTok."
+  },
+  "comments": "",
+  "url": "https://www.descript.com",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "buffer-ai-assistant",
+      "descript",
+      "runway"
+    ],
+    "use_cases": [
+      "video-production",
+      "social-media"
+    ]
+  }
+}

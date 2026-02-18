@@ -1,0 +1,34 @@
+{
+  "slug": "elevenlabs",
+  "name": "ElevenLabs",
+  "number": 26,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "AI voice synthesis and dubbing platform for realistic text-to-speech and multilingual audio. ElevenLabs is the market leader in AI voice synthesis. It creates hyper-realistic text-to- speech (TTS) and offers voice cloning capabilities that are virtually indistinguishable from human speech. The platform offers \"Voice Design\" to create custom voices and \"Voice Cloning\" to replicate a specific person's voice from a short sample. Its \"Dubbing Studio\" automatically translates video audio into other languages while preserving the original speaker's voice characteristics and syncing the lips (in some modes). ElevenLabs has set the benchmark for quality but also sparked ethical debates regarding deepfakes. Their \"Voice Isolator\" and safety measures attempt to mitigate misuse, but the tool remains the primary engine for both high-end content creation and unauthorized voice cloning. The languages offered depends on the model of ElevenLabs that you are using 86. For Multilingual v2 you have 29 languages. These include Arabic, Bulgarian, Chinese (Mandarin), Croatian, Czech, Danish, Dutch, English, Filipino, Finnish, French, German, Greek, Hindi, Indonesian, Italian, Japanese, Korean, Malay, Polish, Portuguese, Romanian, Russian, Slovak, Spanish, Swedish, Tamil, Turkish and Ukrainian. For Flash v2.5 you get 32 languages (with Hungarian, Norwegian and Vietnamese added). For Eleven v3 you get a full 74 languages. Adding Afrikaans, Armenian, Assamese, Azerbaijani, Belarusian, Bengali, Bosnian, Catalan, Cebuano, Chichewa, Estonian, Galician, Georgian, Gujarati, Hausa, Hebrew, Icelandic, Irish, Javanese, Kannada, Kazakh, Kirghiz (Kyrgyz), Latvian, Lingala, Lithuanian, Luxembourgish, Malayalam, Marathi, Nepali, Pashto, Persian, Punjabi, Sindhi, Somali, Swahili, Telugu, Thai, Urdu and Welsh.",
+  "purpose": "Text-to-Speech (TTS) for accessibility and audio reporting.",
+  "journalism_relevance": "Excellent for creating audio versions of articles for the visually impaired or for \"radio\" broadcasts in regions with low literacy.",
+  "cdi_scores": {
+    "cost": 6,
+    "difficulty": 3,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "Eliminates the need for a recording studio and voice actor.",
+    "reinvestment": "Audio requires a different writing style than print. Use the time to rewrite the article for the ear (shorter sentences, active verbs). And also your specific voice and way of speaking."
+  },
+  "comments": "",
+  "url": "https://elevenlabs.io",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "descript",
+      "narakeet"
+    ],
+    "use_cases": [
+      "audio-voice"
+    ]
+  }
+}

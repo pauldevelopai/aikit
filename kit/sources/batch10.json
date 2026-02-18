@@ -1,0 +1,55 @@
+{
+  "batch": 10,
+  "theme": "Claim Verification & LLM Surveys",
+  "entry_count": 4,
+  "entries": [
+    {
+      "batch": 10,
+      "entry_id": "batch10-1",
+      "title": "Claim Verification in the Age of Large Language Models: A Survey",
+      "url": "https://www.arxiv.org/pdf/2408.14317",
+      "source": "",
+      "date": "",
+      "excerpt": "The paper surveys LLM-based claim verification frameworks and breaks the pipeline into key components—retrieval, prompting, fine-tuning—and emphasizes that approaches like\nRetrieval-Augmented Generation (RAG) are used to bring in more up-to-date evidence during verification.\nWhat to cite from this page/paper: Key lines: Abstract notes surge of LLM-based approaches and RAG; and states the three main components: claim detection, evidence retrieval, veracity prediction.\nAudit note: Source evidence: turn3view0 (PDF) lines 6–22 and 64–67; plus lines 85–86.",
+      "why_it_matters": "",
+      "ai_extract": "The paper surveys LLM-based claim verification frameworks and breaks the pipeline into key components—retrieval, prompting, fine-tuning—and emphasizes that approaches like\nRetrieval-Augmented Generation (RAG) are used to bring in more up-to-date evidence during verification.\nWhat to cite from this page/paper: Key lines: Abstract notes surge of LLM-based approaches and RAG; and states the three main components: claim detection, evidence retrieval, veracity prediction.\nAudit note: Source evidence: turn3view0 (PDF) lines 6–22 and 64–67; plus lines 85–86.",
+      "theme": "Claim Verification & LLM Surveys"
+    },
+    {
+      "batch": 10,
+      "entry_id": "batch10-2",
+      "title": "Claim Detection for Automated Fact-checking: Survey (arXiv",
+      "url": "https://arxiv.org/abs/2401.11969",
+      "source": "",
+      "date": "",
+      "excerpt": "This survey focuses specifically on claim detection (the first stage of an automated fact-checking pipeline), highlighting that fact-checking is commonly a sequence: detect check-worthy claims, then verify them; it also frames multilingual/multimodal spread as requiring more generalized solutions.\nWhat to cite from this page/paper: Key lines: Abstract describes the two-stage sequence (claim detection then verification) and focus on multilingual data/methods.\nAudit note: Source evidence: turn5view0 lines 39–42.",
+      "why_it_matters": "",
+      "ai_extract": "This survey focuses specifically on claim detection (the first stage of an automated fact-checking pipeline), highlighting that fact-checking is commonly a sequence: detect check-worthy claims, then verify them; it also frames multilingual/multimodal spread as requiring more generalized solutions.\nWhat to cite from this page/paper: Key lines: Abstract describes the two-stage sequence (claim detection then verification) and focus on multilingual data/methods.\nAudit note: Source evidence: turn5view0 lines 39–42.",
+      "theme": "Claim Verification & LLM Surveys"
+    },
+    {
+      "batch": 10,
+      "entry_id": "batch10-3",
+      "title": "Meedan Check (product overview)",
+      "url": "https://meedan.org/check",
+      "source": "",
+      "date": "",
+      "excerpt": "Meedan describes Check as supporting community ‘tiplines’ on major messaging platforms. This is directly relevant if your grounded-citation layer needs a pathway from audience-submitted content to a verification workflow.\nWhat to cite from this page/paper: Key lines: ‘Runs on WhatsApp, Messenger, Telegram, LINE, and Viber’\nand partners ‘set up tiplines’ to collect content via messaging apps.\nAudit note: Source evidence: turn4view2 lines 69–72.",
+      "why_it_matters": "",
+      "ai_extract": "Meedan describes Check as supporting community ‘tiplines’ on major messaging platforms. This is directly relevant if your grounded-citation layer needs a pathway from audience-submitted content to a verification workflow.\nWhat to cite from this page/paper: Key lines: ‘Runs on WhatsApp, Messenger, Telegram, LINE, and Viber’\nand partners ‘set up tiplines’ to collect content via messaging apps.\nAudit note: Source evidence: turn4view2 lines 69–72.",
+      "theme": "Claim Verification & LLM Surveys"
+    },
+    {
+      "batch": 10,
+      "entry_id": "batch10-4",
+      "title": "Verificado 2018 (Online Journalism Awards entry)",
+      "url": "https://awards.journalists.org/entries/verificado-2018",
+      "source": "",
+      "date": "",
+      "excerpt": "The OJA entry describes Verificado 2018 as a collaborative election reporting initiative (with 90+ partners) built to debunk misinformation around Mexico’s 2018 elections, explicitly citing social networks including Facebook, Twitter and WhatsApp, and outlining coalition structure and reach.\nWhat to cite from this page/paper: Key lines: ‘collaborative election reporting initiative… over 90 partners…\ndebunk viral misinformation… Facebook, Twitter and WhatsApp…’\nAudit note: Source evidence: turn3view4 lines 90–95.",
+      "why_it_matters": "",
+      "ai_extract": "The OJA entry describes Verificado 2018 as a collaborative election reporting initiative (with 90+ partners) built to debunk misinformation around Mexico’s 2018 elections, explicitly citing social networks including Facebook, Twitter and WhatsApp, and outlining coalition structure and reach.\nWhat to cite from this page/paper: Key lines: ‘collaborative election reporting initiative… over 90 partners…\ndebunk viral misinformation… Facebook, Twitter and WhatsApp…’\nAudit note: Source evidence: turn3view4 lines 90–95.",
+      "theme": "Claim Verification & LLM Surveys"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "number": 3,
+  "name": "Writing & Analysis",
+  "slug": "writing-analysis",
+  "description": "Using AI to support drafting, summarising, and working with documents and data. Journalists increasingly work with material that is too large for any one person to read closely. When a government releases a 400-page policy document late at night, reporters use AI to generate an initial summary so they can identify key sections to investigate further. In court reporting, journalists use AI to scan judgments for precedents or contradictions. In data journalism, AI-assisted tools help clean spreadsheets full of errors or inconsistencies before analysis begins. These tools matter because they help journalists cope with scale without abandoning scrutiny, allowing them to focus their limited time on verification, interviews, and editorial judgment rather than mechanical processing.",
+  "teaching_guidance": "Make authorship and accountability explicit. Students should never submit AI-assisted writing without being able to explain how the output was shaped, checked, and edited. Watch for overconfidence. Fluent AI output often masks shallow or incorrect analysis, so require students to justify key claims with source references. Use this cluster to distinguish between understanding and producing text. The learning goal is comprehension, not speed.",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Question the document",
+      "description": "Students upload a complex document (policy, budget, judgment) and ask an AI system ten structured questions about it. They submit the answers alongside a critique of which questions produced useful insight and which produced misleading or shallow responses."
+    },
+    {
+      "number": 2,
+      "title": "Test the AI Detectors",
+      "description": "This exercise is designed to test the AI detection tools and realize their shortcomings. 1) Generate a piece of AI text in CHATGPT (or another LLM) 2) Get a piece of text written definitely by a human. 3) Run both through the AI detection tool, GPTZERO and see the results. 4) Try and humanize the AI text either with a tool called The Humaniser or by changing it manually (by adding errors and words to make the AI text seem more “human”). Relevant links: https://gptzero.me/ https://chatgpt.com/g/g-2azCVmXdy-ai-humanizer"
+    }
+  ],
+  "where_to_start": "Start with: Perplexity + ChatGPT Team (or equivalent controlled LLM access) Why these first • Extremely low technical barrier • Immediate usefulness for overwhelmed students • Familiar interfaces reduce fear and friction • Suitable for short classroom exercises What they teach well • How to quickly orient oneself in a complex topic. Always require students to click citations (Perplexity) or trace claims back to the original document. This is where editorial discipline is taught. • The difference between background understanding and original reporting • How AI-generated summaries must be interrogated, not trusted Introduce next: Claude (Opus or Sonnet) + Wordtune Why these next • Claude excels at long documents and nuanced tone • Wordtune is intuitive and especially valuable for non-native English speakers • Both tools reinforce the idea of the journalist as editor, not generator What they teach well • How framing, tone, and emphasis change meaning • How to work with AI as a drafting assistant, not an author • How “good writing” can still contain factual errors",
+  "tool_slugs": [
+    "claude",
+    "chatgpt-team-plan",
+    "perplexity",
+    "wordtune",
+    "gemini",
+    "openrefine",
+    "tabula",
+    "pandas",
+    "languagetool",
+    "ollama"
+  ],
+  "tool_count": 10
+}

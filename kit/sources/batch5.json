@@ -1,0 +1,103 @@
+{
+  "batch": 5,
+  "theme": "AI Literacy & Model Limitations",
+  "entry_count": 8,
+  "entries": [
+    {
+      "batch": 5,
+      "entry_id": "batch5-1",
+      "title": "On the Dangers of Stochastic Parrots: Can Language Models Be Too",
+      "url": "https://dl.acm.org/doi/10.1145/3442188.3445922",
+      "source": "FAccT Conference (Bender et al.)",
+      "date": "2021",
+      "excerpt": "“We refer to these systems as stochastic parrots.”",
+      "why_it_matters": "Foundational paper explaining why large language models reproduce patterns without understanding, including risks of bias, misinformation, and environmental cost.",
+      "ai_extract": "Bender et al. argue that large language models generate fluent text by modeling statistical patterns in training data rather than grounded understanding, which can amplify bias, misinformation, and harmful stereotypes at scale.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-2",
+      "title": "GPTn4 Technical Report",
+      "url": "https://cdn.openai.com/papers/gpt-4.pdf",
+      "source": "OpenAI",
+      "date": "2023",
+      "excerpt": "“GPTn4 exhibits humannlevel performance on various professional benchmarks.”",
+      "why_it_matters": "Primary technical documentation describing capabilities and limitations of GPTn4, including hallucinations and reliability challenges.",
+      "ai_extract": "The GPTn4 report documents improvements in reasoning and safety but notes persistent limitations including hallucinated facts, overconfidence, and sensitivity to prompt phrasing.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-3",
+      "title": "Why Language Models Hallucinate (OpenAI Blog)",
+      "url": "https://openai.com/research/why-language-models-hallucinate",
+      "source": "OpenAI",
+      "date": "2023",
+      "excerpt": "“Hallucinations occur when a model generates incorrect information that sounds plausible.”",
+      "why_it_matters": "Explains causes of hallucinations in generative AI systems and why they are difficult to eliminate completely.",
+      "ai_extract": "OpenAI explains hallucinations arise from the probabilistic nature of language modeling, where the system predicts likely tokens rather than verifying facts, leading to confident but incorrect outputs.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-4",
+      "title": "The Myth of Artificial Intelligence",
+      "url": "https://www.nature.com/articles/d41586-021-02907-3",
+      "source": "Nature",
+      "date": "2021",
+      "excerpt": "“Today’s AI systems are not intelligent in the human sense.”",
+      "why_it_matters": "Editorial arguing that AI lacks true understanding and should be framed as advanced statistical tools rather than intelligent agents.",
+      "ai_extract": "The article argues that current AI systems operate through pattern recognition and statistical correlation rather than reasoning or comprehension, and warns against anthropomorphic framing.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-5",
+      "title": "Attention Is All You Need",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "source": "NeurIPS (Vaswani et al.)",
+      "date": "2017",
+      "excerpt": "“We propose a new simple network architecture, the Transformer…”",
+      "why_it_matters": "Foundational transformer paper explaining architecture behind modern LLMs, grounding technical explanations of how models process language.",
+      "ai_extract": "Vaswani et al. introduce the Transformer architecture, which relies entirely on attention mechanisms to model relationships between tokens in a sequence without recurrent networks.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-6",
+      "title": "Model Cards for Model Reporting",
+      "url": "https://arxiv.org/abs/1810.03993",
+      "source": "Google Research",
+      "date": "2019",
+      "excerpt": "“Model cards are short documents accompanying trained machine learning models…”",
+      "why_it_matters": "Introduces the concept of model cards to document limitations, intended uses, and ethical considerations of AI systems.",
+      "ai_extract": "Mitchell et al. propose model cards as standardized documentation describing performance, intended uses, limitations, and ethical considerations to improve transparency and accountability.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-7",
+      "title": "On the Opportunities and Risks of Foundation Models",
+      "url": "https://arxiv.org/abs/2108.07258",
+      "source": "Stanford Center for Research on Foundation Models",
+      "date": "2021",
+      "excerpt": "“Foundation models are trained on broad data at scale…”",
+      "why_it_matters": "Comprehensive report analyzing societal risks and benefits of large foundation models.",
+      "ai_extract": "The Stanford report outlines both opportunities and systemic risks of foundation models, including bias propagation, environmental impact, misuse potential, and concentration of power.",
+      "theme": "AI Literacy & Model Limitations"
+    },
+    {
+      "batch": 5,
+      "entry_id": "batch5-8",
+      "title": "AI Index Report",
+      "url": "https://aiindex.stanford.edu/report",
+      "source": "Stanford HAI",
+      "date": "2024",
+      "excerpt": "“AI systems are becoming more capable but also more complex.”",
+      "why_it_matters": "Annual benchmark report tracking global AI progress, performance trends, and emerging risks.",
+      "ai_extract": "The AI Index aggregates data on AI research, adoption, and performance benchmarks, highlighting rapid capability growth alongside rising concerns around safety, misuse, and governance.",
+      "theme": "AI Literacy & Model Limitations"
+    }
+  ]
+}

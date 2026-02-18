@@ -1,0 +1,27 @@
+{
+  "number": 6,
+  "name": "Building Your Own Tools",
+  "slug": "building-your-own-tools",
+  "description": "Using AI-assisted coding to build simple newsroom tools without relying on vendors. Some newsrooms now build small, purpose-specific tools rather than waiting for commercial products. Journalists have used AI-assisted coding to build scrapers that monitor government tenders, calculators that show how policy changes affect household budgets, or internal databases that track ongoing investigations. A student newsroom might build a simple tool to collect and visualise housing complaints from public records. These tools matter because they allow journalism to respond directly to editorial needs, reduce dependence on external platforms, and help journalists understand — and control — the infrastructure behind their reporting. The most profound shift in the AI era is the democratization of software development. Journalists and editors, previously dependent on scarce engineering resources or third-party vendors, can now build their own tools using low-code platforms and AI coding assistants. This shift from \"buying\" to \"building\" allows newsrooms to create bespoke micro-tools that solve specific, local problems. The huge drawback of vibe-coding is that the cost seems manageable, but it can run away from you as you can easily max out your monthly quota (but sending more prompts) and so run up a high bill. The paradox is that even though vibe-coding is cheaper than employing a developer, plenty of the costs you incur can be from trying to fix mistakes that the model you are prompting did by mistake. Vibe-coding is a process of proposing an idea and maybe a solution and then hurrying after the model as it does it amazing work and then dozens of mistakes that you need to identify and fix. It can feel like you are running eternally in circles. Before we dive into the tools, let’s outline examples of successful tools that were coded and created in-house to give you a sense of the potential.",
+  "teaching_guidance": "Make it clear that coding skill is not the learning outcome. Problem definition, editorial purpose, and ethical reasoning matter more than working code. Resist tool worship. Students should be encouraged to critique their own tools as rigorously as they would critique a source. Use this cluster to teach independence. The goal is to help students see that journalism infrastructure can be shaped, not just consumed. This cluster should not be taught as “learning to code.” That framing scares students. Instead, teach this as editorial problem-solving with software, where AI acts as a translator between journalistic intent and code. The learning objective is agency, not technical mastery. Students should leave understanding: • When it makes sense to build a small tool instead of using a platform • How AI-assisted coding lowers the barrier to experimentation • Why owning your tooling matters for independence, safety, and sustainability • How to critically inspect AI-generated code, not blindly trust it",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Build a minimum prototype",
+      "description": "Using AI-assisted coding, students build a very basic prototype (e.g. form, scraper, calculator). Assessment focuses on whether the tool does what it claims, not on technical elegance."
+    },
+    {
+      "number": 2,
+      "title": "Ethics and failure analysis",
+      "description": "Students analyse their own prototype (or a classmate’s) and write a short report on how it could fail journalistically — including data errors, bias, misuse, or harm — and how those risks could be mitigated."
+    }
+  ],
+  "where_to_start": "Start with: Replit (AI Agent) Why these first • Very low technical barrier; no installation required • Browser-based environment feels safe and reversible for beginners • Fast feedback loop — students see a working tool within minutes • Encourages experimentation without needing to understand infrastructure • Ideal for short workshops and mixed-ability classrooms What it teaches well • How to translate an editorial problem into a software request • That tools can be small, specific, and purpose-built • The difference between describing a problem and solving it • How user inputs, logic, and outputs connect • That journalists can prototype public-interest tools without vendors Introduce next: Google Colab Why this next • Builds on familiarity with data and spreadsheets • Low cost and widely used in journalism education • Excellent for showing how AI assists with analysis, not just writing • Encourages reproducibility and transparency when used correctly What it teaches well • How AI can help structure messy data into stories • The relationship between datasets, code, and visual output • Why analysis choices shape editorial conclusions • The importance of checking AI-generated logic and visuals • That “seeing the data” is an editorial act",
+  "tool_slugs": [
+    "custom-gpts",
+    "cursor",
+    "replit",
+    "google-colab"
+  ],
+  "tool_count": 4
+}

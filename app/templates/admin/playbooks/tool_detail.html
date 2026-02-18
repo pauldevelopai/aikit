@@ -1,0 +1,288 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Use Case for {{ tool.name }}{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/discovery" class="text-blue-600 hover:underline">Discovery</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <a href="/admin/discovery/tools/{{ tool.id }}" class="text-blue-600 hover:underline">{{ tool.name }}</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">Use Case</span>
+        </div>
+
+        <!-- Tool Info Header -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ tool.name }}</h1>
+                    <a href="{{ tool.url }}" target="_blank" class="text-blue-600 hover:underline text-sm">
+                        {{ tool.url }}
+                    </a>
+                    {% if tool.description %}
+                    <p class="text-gray-600 mt-2 max-w-2xl">{{ tool.description }}</p>
+                    {% endif %}
+                </div>
+                <div class="flex gap-2">
+                    {% if playbook %}
+                    <a href="/admin/playbooks/{{ playbook.id }}" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        View Use Case
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if not playbook %}
+        <!-- No Use Case Yet -->
+        <div class="bg-white rounded-lg shadow p-8 text-center">
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">No Use Case Generated Yet</h2>
+            <p class="text-gray-600 mb-6 max-w-lg mx-auto">
+                Generate a use case guide by scraping this tool's website and extracting implementation guidance.
+                The use case will be grounded in real content from the tool's documentation, help pages, and blog posts.
+            </p>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-lg mx-auto text-left">
+                <h3 class="font-medium text-blue-900 mb-2">What will be extracted:</h3>
+                <ul class="text-sm text-blue-800 space-y-1">
+                    <li>Best newsroom use cases</li>
+                    <li>Step-by-step implementation guide</li>
+                    <li>Common mistakes and risks</li>
+                    <li>Privacy and source protection notes</li>
+                    <li>What workflows this tool replaces or improves</li>
+                </ul>
+            </div>
+
+            <button onclick="generateUse Case()" id="generateBtn" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium">
+                Generate Use Case
+            </button>
+
+            <div id="generateStatus" class="mt-4 hidden">
+                <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Scraping sources and generating use case...
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Use Case Exists -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Use Case Status -->
+                <div class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-gray-600">Status:</span>
+                        {% if playbook.status == 'draft' %}
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Draft</span>
+                        {% elif playbook.status == 'generating' %}
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Generating</span>
+                        {% elif playbook.status == 'published' %}
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Published</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="/admin/playbooks/{{ playbook.id }}/edit" class="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50">Edit</a>
+                        <button onclick="regenerateUse Case()" class="px-3 py-1 text-sm border border-orange-300 text-orange-700 rounded hover:bg-orange-50">Regenerate</button>
+                    </div>
+                </div>
+
+                <!-- Content Sections -->
+                {% if playbook.best_use_cases %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                        Best Newsroom Use Cases
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-gray-700">
+                        {{ playbook.best_use_cases | safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if playbook.implementation_steps %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        Implementation Steps
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-gray-700">
+                        {{ playbook.implementation_steps | safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if playbook.common_mistakes %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                        Common Mistakes & Risks
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-gray-700">
+                        {{ playbook.common_mistakes | safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if playbook.privacy_notes %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                        Privacy & Source Protection
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-gray-700">
+                        {{ playbook.privacy_notes | safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if playbook.replaces_improves %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                        What This Replaces or Improves
+                    </h3>
+                    <div class="prose prose-sm max-w-none text-gray-700">
+                        {{ playbook.replaces_improves | safe }}
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not playbook.best_use_cases and not playbook.implementation_steps %}
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+                    <p class="text-yellow-800">
+                        No content was extracted from the scraped sources. Try regenerating or manually adding content.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar - Sources -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Sources ({{ sources|length }})</h3>
+
+                    {% if sources %}
+                    <ul class="space-y-3">
+                        {% for source in sources %}
+                        <li class="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+                            <a href="{{ source.url }}" target="_blank" class="text-blue-600 hover:underline text-sm font-medium">
+                                {{ source.title or source.url[:50] }}
+                            </a>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">{{ source.source_type }}</span>
+                                {% if source.is_primary %}
+                                <span class="text-xs px-2 py-0.5 bg-blue-100 text-blue-700 rounded">primary</span>
+                                {% endif %}
+                                {% if source.scrape_status == 'success' %}
+                                <span class="text-xs text-green-600">scraped</span>
+                                {% else %}
+                                <span class="text-xs text-red-600">{{ source.scrape_status }}</span>
+                                {% endif %}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-gray-500 text-sm">No sources scraped yet.</p>
+                    {% endif %}
+
+                    <!-- Add Sources Form -->
+                    <form action="/admin/playbooks/{{ playbook.id }}/add-sources" method="POST" class="mt-4 pt-4 border-t border-gray-200">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Add More Sources</label>
+                        <textarea name="urls" rows="3" placeholder="Enter URLs (one per line)"
+                                  class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"></textarea>
+                        <select name="source_type" class="w-full mt-2 border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            <option value="official_docs">Official Docs</option>
+                            <option value="blog_post">Blog Post</option>
+                            <option value="case_study">Case Study</option>
+                            <option value="tutorial">Tutorial</option>
+                            <option value="help_page">Help Page</option>
+                        </select>
+                        <button type="submit" class="mt-2 w-full px-3 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 text-sm">
+                            Add Sources
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Metadata -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Metadata</h3>
+                    <dl class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <dt class="text-gray-500">Generated</dt>
+                            <dd class="text-gray-900">{{ playbook.generated_at.strftime('%Y-%m-%d %H:%M') if playbook.generated_at else '-' }}</dd>
+                        </div>
+                        <div class="flex justify-between">
+                            <dt class="text-gray-500">Model</dt>
+                            <dd class="text-gray-900">{{ playbook.generation_model or '-' }}</dd>
+                        </div>
+                        <div class="flex justify-between">
+                            <dt class="text-gray-500">Sources Used</dt>
+                            <dd class="text-gray-900">{{ playbook.source_count }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    <script>
+        async function generateUse Case() {
+            const btn = document.getElementById('generateBtn');
+            const status = document.getElementById('generateStatus');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            status.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/admin/playbooks/generate/{{ tool.id }}', {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = '/admin/playbooks/' + data.playbook_id;
+                } else {
+                    const error = await response.json();
+                    alert('Error: ' + (error.detail || 'Failed to generate use case'));
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    status.classList.add('hidden');
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+                btn.disabled = false;
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                status.classList.add('hidden');
+            }
+        }
+
+        async function regenerateUse Case() {
+            if (!confirm('This will regenerate the use case from scraped sources. Existing content will be replaced. Continue?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/playbooks/generate/{{ tool.id }}?regenerate=true', {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    const error = await response.json();
+                    alert('Error: ' + (error.detail || 'Failed to regenerate use case'));
+                }
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+    </script>
+{% endblock %}

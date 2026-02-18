@@ -1,0 +1,37 @@
+{
+  "slug": "notebooklm",
+  "name": "NotebookLM",
+  "number": 6,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "AI-powered research and synthesis tool grounded in user-provided source documents. NotebookLM is a research assistant designed to work only from materials you upload, such as PDFs, transcripts, reports, notes, or web articles. Unlike general chatbots, it does not answer from the open internet by default; it reasons strictly within the provided sources and cites them directly. This makes it particularly useful for sense-making, summarisation, and comparison across large document collections. NotebookLM excels at helping users interrogate complex material: asking questions across documents, generating summaries, extracting themes, and explaining contradictions while pointing back to the original text. It is not a writing or publishing tool; it is a thinking and reading companion. As part of Google’s ecosystem, it prioritises ease of use and rapid onboarding, but uploaded materials are processed on Google servers.",
+  "purpose": "Source-grounded research, synthesis, and sense-making.",
+  "journalism_relevance": "Ideal for journalists working through long reports, court judgments, policy documents, or interview transcripts who need to understand what the material says before deciding what to report.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 1,
+    "invasiveness": 6
+  },
+  "time_dividend": {
+    "time_saved": "Reduces hours of skimming and re-reading by quickly surfacing summaries, key passages, and relevant sections across multiple documents.",
+    "reinvestment": "Interpretation and framing—use the saved time to read critical passages closely, compare competing claims, and decide what is genuinely newsworthy rather than relying on surface-level summaries."
+  },
+  "comments": "",
+  "url": "https://notebooklm.google",
+  "tags": [
+    "beginner-friendly",
+    "free"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "aleph-occrp",
+    "similar_tools": [
+      "aleph-occrp",
+      "google-pinpoint"
+    ],
+    "use_cases": [
+      "document-research"
+    ]
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "batch": 1,
+  "theme": "Toolkit Footnotes & Core References",
+  "entry_count": 10,
+  "entries": [
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn2",
+      "title": "Journalists are using generative AI tools without company oversight,",
+      "url": "https://digiday.com/media/journalists-are-using-generative-ai-tools-without-company-over",
+      "source": "",
+      "date": "",
+      "excerpt": "Digiday reports on a Trint survey of 29 global newsrooms: it found\n42.3% of journalists surveyed are using generative AI tools at work that are not licensed by their company, and that concerns like inaccurate outputs, reputational risk, and data privacy were ranked as major issues.",
+      "why_it_matters": "",
+      "ai_extract": "ured around journalistic problems. Each tool cluster begins with a real newsroom challenge , for example, handling multilingual interviews, verifying social media content, or analysing messy government data. Tools are introduced only as responses to these problems, not as ends in themselves. 2 -are-using -generative -ai-tools -without -company -oversight -study - finds/ For teaching purposes, it is important to demystify AI early. Artificial Intelligence is not a single system and it does not “think 3.” It is a collection of techniqu",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn3",
+      "title": "AI Is Not Intelligent (ResearchGate publication page)",
+      "url": "https://www.researchgate.net/publication/388410056_AI_Is_Not_Intelligent",
+      "source": "",
+      "date": "",
+      "excerpt": "This paper argues that without self-awareness, AI systems create uncertainty around responsibility and moral judgment, and discusses distinctions between human intelligence and AI mechanisms affecting human choices and independence.",
+      "why_it_matters": "",
+      "ai_extract": "his allows students to understand what convenience buys them (and what it costs them) and reduces dependenc y on a small number of global platforms. In regions where resources are limited or security risks are high, this comparative approach is essential. The core pillars of this toolkit: 3 AI Is Not Intelligent (research article). Statistical models excel at pattern recognition but lack essential human intelligence traits , 27 Jan 2025. 4 Created for this toolkit 5 Created for this toolkit 6",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn5",
+      "title": "We Need to Talk About How We Talk About 'AI' (TechPolicy.Press)",
+      "url": "https://www.techpolicy.press/we-need-to-talk-about-how-we-talk-about-ai",
+      "source": "",
+      "date": "",
+      "excerpt": "The author argues that sellers of 'AI' use human-like language (e.g.,\n'reasoning', 'hallucinating', 'intelligence') and that media often adopts this framing, shaping public debate and understanding of these systems.",
+      "why_it_matters": "",
+      "ai_extract": "The author argues that sellers of 'AI' use human-like language (e.g.,\n'reasoning', 'hallucinating', 'intelligence') and that media often adopts this framing, shaping public debate and understanding of these systems.",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn7",
+      "title": "Artificial Intelligence Works With Patterns, Not Meaning — and That",
+      "url": "https://medium.com/core-ai/artificial-intelligence-works-with-patterns-not-meaning-and-tha",
+      "source": "",
+      "date": "",
+      "excerpt": "The piece claims AI does not 'understand' in a human sense and frames modern language models as systems that primarily predict the next token based on patterns, which can create an illusion of understanding.",
+      "why_it_matters": "",
+      "ai_extract": "l at pattern recognition but lack essential human intelligence traits ,\n27 Jan 2025. 4 Created for this toolkit 5 Created for this toolkit 6 -need -to-talk-about -how-we-talk-about\n-ai/ 7 Artificial Intelligence Works With Patterns, Not Meaning . Medium (2025). - ai/artificial -intelligence\n-works -with-patterns -not-meaning -and-that-changes -everything -e736da3250c9 l 1) Sovereignty 8.\nWhenever possible, use tools that keep data on the jou",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn8",
+      "title": "The State of Sovereign AI: Exploring the Role of Open Source Projects",
+      "url": "https://www.linuxfoundation.org/hubfs/Research%20Reports/lfr_sovereign_ai25_082525a.pdf",
+      "source": "",
+      "date": "",
+      "excerpt": "Executive summary highlights: data control and national security are top drivers of sovereign AI interest; open source software is cited as the primary approach; transparency/auditability and flexibility/customization are highlighted as key benefits; global collaboration is widely viewed as essential.",
+      "why_it_matters": "",
+      "ai_extract": "te for their environment. Rather than ranking tools as “good” or\n“bad,” the CDI score highlights barriers to entry. It asks three questions every newsroom should consider before adopting an AI tool: Can we afford it? Can we use it? And what does it cost us in terms of privacy and c ontrol ? 8 The State of Sovereign AI August 2025 9 AI, Data Governance and Privacy: Synergies and Areas of International Co -operation. June 20, 2024",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn9",
+      "title": "AI, Data Governance and Privacy: Synergies and Areas of International",
+      "url": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2024/06/ai-data-governan",
+      "source": "",
+      "date": "",
+      "excerpt": "OECD paper exploring the intersection of AI and privacy, especially amid the rise of generative AI, and how policy communities can coordinate to address risks; includes findings and recommendations on AI, data governance and privacy co-operation.",
+      "why_it_matters": "",
+      "ai_extract": "questions every newsroom should consider before adopting an AI\ntool: Can we afford it? Can we use it? And what does it cost us in terms of privacy and c ontrol ? 8 The\nState of Sovereign AI August 2025 9 AI, Data Governance and Privacy: Synergies and Areas of\nInternational Co -operation. June 20, 2024 -data-governance -and- privacy_2ac13a42/2476b1a4 -en.pdf\nEach tool in this toolkit is rated on the following",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn10",
+      "title": "Recommendation on the Ethics of Artificial Intelligence (UNESCO)",
+      "url": "https://www.unesco.org/en/artificial-intelligence/recommendation-ethics",
+      "source": "",
+      "date": "",
+      "excerpt": "UNESCO emphasizes mechanisms such as oversight, impact assessment, audit and due diligence; it also highlights transparency and explainability as context-dependent requirements that may interact with other principles like privacy and safety.",
+      "why_it_matters": "",
+      "ai_extract": "on? Difficulty (0 –10) 0 means “click and go.” 10 means advanced technical or coding skills are required. This indicates how much technical knowledge is needed to use the tool effectively. Invasiveness (0 –10) 0 means the tool runs locally or offline and keeps data on your own device. 10 means your data is uploaded, stored, or used to train external models. This reflects the privacy and security trade -offs involved in using the tool. An example of h ow to read the CDI score : A\ncloud -based transcription service might have a CDI score of 3 –1–6: Cost: 3 — affordable f",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn11",
+      "title": "Article 14: Human Oversight (EU Artificial Intelligence Act, unofficial",
+      "url": "https://artificialintelligenceact.eu/article/14",
+      "source": "",
+      "date": "",
+      "excerpt": "Article 14 states that human oversight should aim to prevent or minimise risks to health, safety, or fundamental rights when a high-risk AI system is used, including under reasonably foreseeable misuse.",
+      "why_it_matters": "",
+      "ai_extract": "ical reality of news events. In conflict zones a photograph is evidence of a war crime. Using AI to generate \"realistic\" images of protests, soldiers, or destruction\n—even for \"illustration\" —corrodes the public's 10 -intelligence/recommendation -ethics 11 -act-service\n-desk.ec.europa.eu/en/ai -act/article -14 12 -intelligence/ ability to believe real photos. l Prohibited Uses\n(Red Lines): n Generating images of specific people (politicians, activists) doing things they neve",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn12",
+      "title": "Standards around generative AI (The Associated Press)",
+      "url": "https://www.ap.org/the-definitive-source/behind-the-news/standards-around-generative-ai",
+      "source": "",
+      "date": "",
+      "excerpt": "AP says accuracy, fairness and speed guide its news report; it notes\nAI can serve these values, while stating the central role of the AP journalist will not change and that AP\ndoes not see AI as a replacement for journalists.",
+      "why_it_matters": "",
+      "ai_extract": "nce of a war crime. Using AI to generate \"realistic\" images of protests, soldiers, or destruction —even for \"illustration\" —corrodes the public's 10\n-intelligence/recommendation -ethics 11 -act-service -desk.ec.europa.eu/en/ai -act/article -14 12\n-intelligence/ ability to believe real photos. l Prohibited Uses (Red Lines): n Generating images of specific people (politicians, activists) doing things they never did. n Generating \"photos\" of events\n(protests, bombings, meetings",
+      "theme": "Toolkit Footnotes & Core References"
+    },
+    {
+      "batch": 1,
+      "entry_id": "batch1-fn13",
+      "title": "Digital safety (Committee to Protect Journalists)",
+      "url": "https://cpj.org/2018/09/digital-safety",
+      "source": "",
+      "date": "",
+      "excerpt": "CPJ outlines digital attack risks (hacking, phishing, surveillance) and recommends steps including securing accounts, using 2FA, enabling device encryption, keeping software updated, and choosing safer communication tools and practices.",
+      "why_it_matters": "",
+      "ai_extract": "iers/victims and unreleased corruption evidence. The AI Audit Rubric\nInstructors are advised to encourage students to run every tool through this grid before use. Criterion\nQuestion s you need to ask Score 1 – 5 1. Data Sovereignty . This is 1) Where does my 0 - No sovereignty (worst 13 -safety/ the idea that determines who controls data, where it is processed, which laws apply to it and who can access it at every stage of its use . data go when I use this tool? 2) Is my data stored, logged, or reused after the task i",
+      "theme": "Toolkit Footnotes & Core References"
+    }
+  ]
+}

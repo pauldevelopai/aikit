@@ -1,0 +1,36 @@
+{
+  "slug": "google-pinpoint",
+  "name": "Google Pinpoint",
+  "number": 7,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Document analysis tool for journalists that makes large collections of PDFs, images, and audio searchable. Google Pinpoint is a research tool specifically engineered for investigative journalists and academics dealing with massive document dumps. It uses Google's OCR (Optical Character Recognition) 42 and speech-to-text technologies to make thousands of PDFs, images, handwritten notes, and audio files searchable. Pinpoint’s strength lies in its ability to handle \"unstructured\" data. It can transcribe audio files ocuments and automatically index them alongside PDF text. A key feature is entity extraction 43. It automatically identifies and highlights people, organizations, and locations across the entire dataset, revealing connections that a human reader might miss. As part of the \"Google News Initiative 44\" Pinpoint is free for journalists, reflecting Google's strategy to integrate itself into the news gathering ecosystem 45. While powerful, this provenance is a double-edged sword. Using Pinpoint means uploading potentially sensitive investigative material to Google's servers. While Google promises privacy \"by default,\" the threat model of an investigation targeting Google partners or government entities might preclude its use.",
+  "purpose": "Investigative document analysis (OCR & Entity Extraction).",
+  "journalism_relevance": "Can process thousands of PDFs (handwritten archives, leaked contracts) in mixed languages.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 3,
+    "invasiveness": 6
+  },
+  "time_dividend": {
+    "time_saved": "Instantly makes large volumes of documents, images, and audio searchable, eliminating the need for manual reading just to find relevant names, dates, or terms.",
+    "reinvestment": "Use the saved time to select the right documents to be processed."
+  },
+  "comments": "",
+  "url": "https://journaliststudio.google.com/pinpoint",
+  "tags": [
+    "free"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "aleph-occrp",
+    "similar_tools": [
+      "aleph-occrp",
+      "notebooklm"
+    ],
+    "use_cases": [
+      "document-research"
+    ]
+  }
+}

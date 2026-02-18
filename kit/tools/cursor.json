@@ -1,0 +1,37 @@
+{
+  "slug": "cursor",
+  "name": "Cursor",
+  "number": 39,
+  "cluster_name": "Building Your Own Tools",
+  "cluster_slug": "building-your-own-tools",
+  "cluster_number": 6,
+  "description": "AI-first code editor that allows users to build software using natural language prompts. Cursor is a desktop application that lets you build and modify digital tools by talking to the computer in natural language. Instead of writing complex code line by line, you describe what you want the tool to do, and Cursor generates or edits the technical parts for you. Cursor “reads” all the files in your project, so when you ask it to make a change, it understands the full context — not just one screen or document. This makes it possible to build or adjust tools gradually, even if you don’t fully understand how they work under the hood. Cursor can work with different AI systems (such as ChatGPT or Claude) and can also be set up to run entirely on your own computer, which is important for sensitive journalism.",
+  "purpose": "A professional-grade tool for building custom newsroom software",
+  "journalism_relevance": "Cursor makes it possible for journalists to build or adapt their own investigative tools instead of waiting for a developer.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 4,
+    "invasiveness": 2
+  },
+  "time_dividend": {
+    "time_saved": "Weeks of waiting for a developer to build a simple tool.",
+    "reinvestment": "Understanding and maintaining your tools. Instead of treating software as a black box, you can ask Cursor to explain what the tool does and update it when a website, dataset, or source changes, keeping your reporting infrastructure alive and under your control."
+  },
+  "comments": "Free tier available and the Pro plan is a monthly subscription. It requires installing a code editor. And there is a \"Privacy Mode\" where no code is stored on their servers, crucial for sensitive investigations.",
+  "url": "https://cursor.sh",
+  "tags": [
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "custom-gpts",
+      "google-colab",
+      "replit"
+    ],
+    "use_cases": [
+      "coding-building"
+    ]
+  }
+}

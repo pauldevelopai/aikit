@@ -1,0 +1,36 @@
+{
+  "slug": "apify",
+  "name": "Apify",
+  "number": 43,
+  "cluster_name": "AI Agents & Automated Workflows",
+  "cluster_slug": "ai-agents-automated-workflows",
+  "cluster_number": 7,
+  "description": "",
+  "purpose": "",
+  "journalism_relevance": "Highly suitable for monitoring court rolls, procurement portals, company disclosures, government notices, platform policy pages, and other sources that change unpredictably. Particularly valuable for investigations that depend on catching updates early.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 3,
+    "invasiveness": 3
+  },
+  "time_dividend": {
+    "time_saved": "Automates continuous checking of high-value websites and surfaces changes immediately.",
+    "reinvestment": "Responding faster to emerging documents and changes, rather than discovering them late."
+  },
+  "comments": "Easier to deploy than agent frameworks and does not require deep engineering skills. Ethical and legal boundaries around scraping must be clearly understood. Best used with human review queues rather than automatic publication.",
+  "url": "https://chatgpt.com/atlas/",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "autogen",
+      "chatgpt-atlas",
+      "n8n",
+      "zapier-ai"
+    ],
+    "use_cases": [
+      "automation"
+    ]
+  }
+}

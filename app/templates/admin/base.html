@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin{% endblock %} - {{ admin_product_name|default('Admin') }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '{{ brand_primary_color|default("#3B82F6") }}',
+                            secondary: '{{ brand_secondary_color|default("#1E40AF") }}',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+    {# ============================================================================= #}
+    {# PRODUCT SWITCHING BANNER - Hidden for now, enable with show_product_switching #}
+    {# To restore: set show_product_switching=true in template context or remove the if block #}
+    {# ============================================================================= #}
+    {% if show_product_switching|default(false) %}
+    <!-- Admin Context Banner - ALWAYS VISIBLE -->
+    <div class="sticky top-0 z-50 {{ admin_context_class|default('bg-blue-600') }} text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-12">
+                <!-- Context Indicator -->
+                <div class="flex items-center space-x-3">
+                    <span class="font-bold text-sm uppercase tracking-wide">ADMIN:</span>
+                    <span class="font-semibold text-lg">{{ admin_context_label|default('No Context') }}</span>
+                </div>
+
+                <!-- Context Switcher -->
+                <div class="flex items-center space-x-4">
+                    <div class="relative" x-data="{ open: false }">
+                        <button
+                            onclick="toggleContextMenu()"
+                            class="flex items-center space-x-2 px-3 py-1.5 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-md text-sm font-medium transition"
+                        >
+                            <span>Switch Context</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div
+                            id="context-menu"
+                            class="hidden absolute right-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50"
+                        >
+                            <div class="px-4 py-2 border-b border-gray-100">
+                                <span class="text-xs font-semibold text-gray-500 uppercase">Select Product & Edition</span>
+                            </div>
+
+                            {% for item in admin_products|default([]) %}
+                            <div class="px-2 py-1">
+                                <div class="px-2 py-1 text-sm font-semibold text-gray-900 flex items-center justify-between">
+                                    <span>{{ item.product.name }}</span>
+                                    {% if not item.product.is_active %}
+                                    <span class="text-xs text-gray-400">(placeholder)</span>
+                                    {% endif %}
+                                </div>
+
+                                {% if item.editions %}
+                                <div class="ml-4 space-y-1">
+                                    {% for edition in item.editions %}
+                                    <a
+                                        href="/admin/context/switch?product={{ item.product.id }}&edition={{ edition.version }}"
+                                        class="block px-3 py-1.5 text-sm rounded-md
+                                            {% if admin_product_id == item.product.id and admin_edition_version == edition.version %}
+                                            bg-blue-50 text-blue-700 font-medium
+                                            {% else %}
+                                            text-gray-700 hover:bg-gray-100
+                                            {% endif %}"
+                                    >
+                                        <div class="flex items-center justify-between">
+                                            <span>{{ edition.display_name }}</span>
+                                            {% if edition.is_active %}
+                                            <span class="w-2 h-2 rounded-full bg-green-500" title="Active"></span>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="ml-4 px-3 py-1.5 text-sm text-gray-400 italic">
+                                    No editions defined
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+
+                            <div class="border-t border-gray-100 mt-2 pt-2 px-4">
+                                <a href="/admin/master" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                                    View All Products &rarr;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Back to App -->
+                    <a href="/" class="text-sm text-white text-opacity-80 hover:text-opacity-100">
+                        &larr; Back to App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Global Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="/" class="text-lg font-bold text-blue-600">{{ brand_logo_text|default('AI Toolkit') }}</a>
+                        {% if admin_edition_version %}
+                        <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-600 rounded">{{ admin_edition_version|upper }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="/" class="text-sm text-gray-500 hover:text-gray-700 mr-4">&larr; App</a>
+                    {% if user %}
+                    <span class="text-sm text-gray-700 mr-3">{{ user.display_name or user.email }}</span>
+                    <form action="/auth/logout" method="POST" class="inline">
+                        <button type="submit" class="text-sm text-gray-600 hover:text-gray-900">Logout</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Navigation - All tabs always visible for consistency -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-1 py-2 overflow-x-auto">
+                {# Master View tab - Hidden for now, enable with show_product_switching #}
+                {% if show_product_switching|default(false) %}
+                <a href="/admin/master"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'master' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Master View
+                </a>
+                {% endif %}
+                <a href="/admin"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'dashboard' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Dashboard
+                </a>
+                <a href="/admin/users"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'users' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Users
+                </a>
+                <a href="/admin/documents"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'documents' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Documents
+                </a>
+                <a href="/admin/analytics"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'analytics' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Analytics
+                </a>
+                <a href="/admin/feedback"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'feedback' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Feedback
+                </a>
+                <a href="/admin/reviews"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'reviews' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Reviews
+                </a>
+                <a href="/admin/discovery"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'discovery' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Discovery
+                </a>
+                <a href="/admin/approved-tools"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'approved_tools' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Approved Tools
+                </a>
+                <a href="/admin/playbooks"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'playbooks' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Use Cases
+                </a>
+                <a href="/admin/sources"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'sources' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Sources
+                </a>
+                <a href="/admin/tool-suggestions"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'tool_suggestions' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Tool Suggestions
+                </a>
+                <a href="/admin/training"
+                   class="px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap
+                          {% if active_admin_page == 'training' %}bg-blue-600 text-white{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                    Training
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">
+                Admin Panel - {{ admin_context_label|default('System') }}
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleContextMenu() {
+            var menu = document.getElementById('context-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            var menu = document.getElementById('context-menu');
+            var button = e.target.closest('button');
+            if (!e.target.closest('#context-menu') && !button) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

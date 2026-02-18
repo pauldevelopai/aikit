@@ -1,0 +1,39 @@
+{
+  "slug": "ollama",
+  "name": "Ollama",
+  "number": 25,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Local LLM runtime for running open-weight language models on personal hardware. Ollama is a lightweight runtime that makes it easy to download, manage, and run AI open- weight large language models locally on a personal computer. With a single terminal command, users can run models such as Llama 3, Mistral, Gemma, or DeepSeek entirely offline, without sending prompts or data to external servers. Ollama abstracts away much of the complexity of model hosting (weights, inference servers, model switching), making local AI experimentation accessible to non-specialists.",
+  "purpose": "To run open-weight large language models directly on a personal",
+  "journalism_relevance": "Allows journalists, researchers, and technologists to use full language models on their own hardware, avoiding data transmission to external servers and enabling experimentation, testing, and learning under complete local control.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 6,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Removes dependence on cloud access by allowing an LLM to run directly on a personal computer, enabling instant local prompts, testing, and iteration without uploads or network latency.",
+    "reinvestment": "Use the saved time to learn how models behave, compare outputs across models, and prototype workflows before deciding what (if anything) belongs in the cloud."
+  },
+  "comments": "Models are open-weight and downloadable at no charge. It requires comfort with terminal commands and an understanding of local system resources, like RAM and storage. The bonus is that models execute entirely on the user’s machine. So, prompts and data do not leave the device unless explicitly configured otherwise.",
+  "url": "https://ollama.com",
+  "tags": [
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "dangerzone",
+      "openai-whisper",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "local-ai"
+    ]
+  }
+}

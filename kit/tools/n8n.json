@@ -1,0 +1,40 @@
+{
+  "slug": "n8n",
+  "name": "n8n",
+  "number": 45,
+  "cluster_name": "AI Agents & Automated Workflows",
+  "cluster_slug": "ai-agents-automated-workflows",
+  "cluster_number": 7,
+  "description": "",
+  "purpose": "",
+  "journalism_relevance": "",
+  "cdi_scores": {
+    "cost": 1,
+    "difficulty": 7,
+    "invasiveness": 1
+  },
+  "time_dividend": {
+    "time_saved": "Eliminates manual monitoring and repetitive checks.",
+    "reinvestment": "Pattern recognition and editorial decision-making."
+  },
+  "comments": "",
+  "url": "https://n8n.io",
+  "tags": [
+    "advanced",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "apify",
+      "autogen",
+      "chatgpt-atlas",
+      "zapier-ai"
+    ],
+    "use_cases": [
+      "automation"
+    ]
+  }
+}

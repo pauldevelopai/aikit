@@ -1,0 +1,149 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Use Case: {{ tool.name if tool else 'Unknown' }}{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/playbooks" class="text-blue-600 hover:underline">Use Cases</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <a href="/admin/playbooks/{{ playbook.id }}" class="text-blue-600 hover:underline">{{ tool.name if tool else 'Use Case' }}</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">Edit</span>
+        </div>
+
+        <!-- Header -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Edit Use Case</h1>
+                    {% if tool %}
+                    <p class="text-gray-600 mt-1">{{ tool.name }}</p>
+                    {% endif %}
+                </div>
+                <a href="/admin/playbooks/{{ playbook.id }}" class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50">Cancel</a>
+            </div>
+        </div>
+
+        <!-- Edit Form -->
+        <form action="/admin/playbooks/{{ playbook.id }}/update" method="POST" class="space-y-6">
+            <!-- Best Use Cases -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Best Newsroom Use Cases
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    Describe the most effective ways newsrooms can use this tool. Be specific and practical.
+                </p>
+                <textarea name="best_use_cases" rows="6"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- Automating transcription of interviews&#10;- Summarizing press releases&#10;- Generating first drafts of routine stories">{{ playbook.best_use_cases or '' }}</textarea>
+            </div>
+
+            <!-- Implementation Steps -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Step-by-Step Implementation
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    Provide clear steps for how a newsroom would implement this tool.
+                </p>
+                <textarea name="implementation_steps" rows="8"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="1. Sign up for an account at...&#10;2. Configure API keys...&#10;3. Set up integration with your CMS...">{{ playbook.implementation_steps or '' }}</textarea>
+            </div>
+
+            <!-- Common Mistakes -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Common Mistakes & Risks
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    What should newsrooms avoid? What are the risks of using this tool incorrectly?
+                </p>
+                <textarea name="common_mistakes" rows="6"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- Not verifying AI-generated content before publishing&#10;- Sharing sensitive data without encryption&#10;- Over-relying on automated outputs">{{ playbook.common_mistakes or '' }}</textarea>
+            </div>
+
+            <!-- Privacy Notes -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Privacy & Source Protection
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    Important privacy considerations, especially for protecting sources and sensitive information.
+                </p>
+                <textarea name="privacy_notes" rows="6"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- Data is processed on external servers&#10;- Avoid uploading confidential documents&#10;- Check data retention policies">{{ playbook.privacy_notes or '' }}</textarea>
+            </div>
+
+            <!-- Replaces/Improves -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    What This Replaces or Improves
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    What existing workflows or tools does this replace or enhance?
+                </p>
+                <textarea name="replaces_improves" rows="4"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- Replaces manual transcription services&#10;- Improves on basic spell-checkers&#10;- Faster than traditional research methods">{{ playbook.replaces_improves or '' }}</textarea>
+            </div>
+
+            <!-- Pricing Summary -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Pricing Summary
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    Relevant pricing information for newsroom budgets.
+                </p>
+                <textarea name="pricing_summary" rows="4"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- Free tier: 1000 requests/month&#10;- Pro: $29/month&#10;- Enterprise: Custom pricing">{{ playbook.pricing_summary or '' }}</textarea>
+            </div>
+
+            <!-- Integration Notes -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <label class="block text-lg font-semibold text-gray-900 mb-2">
+                    Integration Notes
+                </label>
+                <p class="text-sm text-gray-500 mb-3">
+                    How does this integrate with common newsroom tools and workflows?
+                </p>
+                <textarea name="integration_notes" rows="4"
+                          class="w-full border border-gray-300 rounded-md px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="- WordPress plugin available&#10;- API for custom integrations&#10;- Slack notifications supported">{{ playbook.integration_notes or '' }}</textarea>
+            </div>
+
+            <!-- Submit -->
+            <div class="flex justify-end gap-4">
+                <a href="/admin/playbooks/{{ playbook.id }}" class="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50">
+                    Cancel
+                </a>
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+
+        <!-- Sources Reference -->
+        {% if sources %}
+        <div class="mt-8 bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Reference: Scraped Sources</h3>
+            <p class="text-sm text-gray-500 mb-4">Use these sources to verify and ground your edits:</p>
+            <ul class="space-y-2">
+                {% for source in sources %}
+                <li class="flex items-center gap-2">
+                    <span class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">{{ source.source_type }}</span>
+                    <a href="{{ source.url }}" target="_blank" class="text-blue-600 hover:underline text-sm">
+                        {{ source.title or source.url[:60] }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+{% endblock %}

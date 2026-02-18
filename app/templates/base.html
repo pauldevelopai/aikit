@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ product_name|default('Application') }}{% endblock %}</title>
+
+    <!-- SEO & sharing meta -->
+    <meta name="description" content="{% block meta_description %}{{ product_description|default('') }}{% endblock %}">
+    <meta name="theme-color" content="{{ brand_primary_color|default('#2563eb') }}">
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, iMessage, Slack, etc.) -->
+    <meta property="og:site_name" content="{{ product_name|default('Application') }}">
+    <meta property="og:title" content="{% block og_title %}{{ product_name|default('Application') }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ product_description|default('') }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_GB">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ product_name|default('Application') }}">
+    <meta name="twitter:description" content="{{ product_description|default('') }}">
+
+    <!-- Favicon (inline SVG data URI) -->
+    {% set favicon_color = brand_primary_color|default('#2563eb')|replace('#', '%23') %}
+    {% set favicon_text = brand_logo_text|default('AI')|truncate(2, true, '') %}
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='{{ favicon_color }}'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-family='system-ui,sans-serif' font-weight='bold'>{{ favicon_text }}</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='{{ favicon_color }}'/><text x='50' y='72' font-size='60' text-anchor='middle' fill='white' font-family='system-ui,sans-serif' font-weight='bold'>{{ favicon_text }}</text></svg>">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configure Tailwind with product colors
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: '{{ brand_primary_color|default("#3B82F6") }}',
+                            secondary: '{{ brand_secondary_color|default("#1E40AF") }}',
+                            accent: '{{ brand_accent_color|default("#10B981") }}',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <style>
+        .htmx-indicator { display: none; }
+        .htmx-request .htmx-indicator { display: block; }
+
+        /* Increase base font size for better readability */
+        html {
+            font-size: 18px; /* Up from default 16px - makes all rem-based sizes larger */
+        }
+
+        /* Ensure minimum readable sizes for small text classes */
+        .text-xs {
+            font-size: 0.85rem !important; /* ~15px instead of ~12px */
+            line-height: 1.4 !important;
+        }
+        .text-sm {
+            font-size: 0.95rem !important; /* ~17px instead of ~14px */
+            line-height: 1.5 !important;
+        }
+
+        /* Brand color utilities using CSS custom properties */
+        :root {
+            --brand-primary: {{ brand_primary_color|default('#3B82F6') }};
+            --brand-secondary: {{ brand_secondary_color|default('#1E40AF') }};
+            --brand-accent: {{ brand_accent_color|default('#10B981') }};
+        }
+        .bg-brand-primary { background-color: var(--brand-primary); }
+        .bg-brand-secondary { background-color: var(--brand-secondary); }
+        .bg-brand-accent { background-color: var(--brand-accent); }
+        .text-brand-primary { color: var(--brand-primary); }
+        .text-brand-secondary { color: var(--brand-secondary); }
+        .text-brand-accent { color: var(--brand-accent); }
+        .border-brand-primary { border-color: var(--brand-primary); }
+        .hover\:bg-brand-secondary:hover { background-color: var(--brand-secondary); }
+        .hover\:text-brand-primary:hover { color: var(--brand-primary); }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="/" class="text-lg font-bold text-brand-primary whitespace-nowrap">
+                            {{ brand_logo_text|default('Application') }}
+                        </a>
+                        {% if edition_label %}
+                        <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-600 rounded">{{ edition_label }}</span>
+                        {% endif %}
+                    </div>
+                    <!-- Desktop nav -->
+                    <div class="hidden lg:ml-4 lg:flex lg:space-x-4">
+                        {% for nav in nav_items|default([]) %}
+                        <a href="{{ nav.route }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-900 hover:text-brand-primary">
+                            {{ nav.label }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <!-- Desktop user menu -->
+                    <div class="hidden lg:flex lg:items-center lg:ml-4 flex-shrink-0">
+                        {% if user %}
+                            <span class="text-sm text-gray-700 mr-3 truncate max-w-[150px]" title="{{ user.display_name or user.email }}">{{ user.display_name or user.email }}</span>
+                            <a href="/profile" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Profile</a>
+                            {% if user.is_admin and feature_admin|default(true) %}
+                                <a href="/admin" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Admin</a>
+                            {% endif %}
+                            <form action="/auth/logout" method="POST" style="display: inline;">
+                                <button type="submit" class="text-sm font-medium text-white bg-brand-primary hover:bg-brand-secondary px-3 py-2 rounded-md whitespace-nowrap">Logout</button>
+                            </form>
+                        {% else %}
+                            <a href="/login" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Login</a>
+                            <a href="/register" class="text-sm font-medium text-white bg-brand-primary hover:bg-brand-secondary px-3 py-2 rounded-md whitespace-nowrap">Register</a>
+                        {% endif %}
+                    </div>
+                    <!-- Mobile hamburger button -->
+                    <div class="lg:hidden flex items-center">
+                        <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200">
+            <div class="pt-2 pb-3 space-y-1">
+                {% for nav in nav_items|default([]) %}
+                <a href="{{ nav.route }}" class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">{{ nav.label }}</a>
+                {% endfor %}
+            </div>
+            <div class="pt-3 pb-3 border-t border-gray-200 px-4">
+                {% if user %}
+                    <div class="text-sm text-gray-700 mb-2">{{ user.display_name or user.email }}</div>
+                    <div class="space-y-1">
+                        <a href="/profile" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Profile</a>
+                        {% if user.is_admin and feature_admin|default(true) %}
+                        <a href="/admin" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Admin</a>
+                        {% endif %}
+                        <form action="/auth/logout" method="POST">
+                            <button type="submit" class="block py-1 text-sm font-medium text-brand-primary hover:text-brand-secondary">Logout</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="flex space-x-3">
+                        <a href="/login" class="text-sm font-medium text-gray-900 hover:text-brand-primary">Login</a>
+                        <a href="/register" class="text-sm font-medium text-brand-primary hover:text-brand-secondary">Register</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-sm text-gray-500">
+                {{ product_name|default('Application') }} &copy; 2025
+                {% if edition_label %}
+                <span class="text-gray-400 ml-1">({{ edition_name|default(edition_label) }})</span>
+                {% endif %}
+            </p>
+        </div>
+    </footer>
+
+    <!-- Feedback Widget (bottom-center) - only for logged in users -->
+    {% if user %}
+    <div id="feedback-widget" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9998;">
+        <!-- Feedback Panel -->
+        <div id="feedback-panel" class="hidden" style="width:320px;max-width:calc(100vw - 48px);">
+            <div class="bg-white rounded-lg shadow-2xl border border-gray-200">
+                <!-- Header -->
+                <div class="bg-brand-accent text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+                    <span class="font-semibold text-sm">Send Feedback</span>
+                    <button onclick="toggleFeedbackPanel()" class="text-white hover:text-green-200 text-lg leading-none">&times;</button>
+                </div>
+
+                <!-- Form -->
+                <form id="feedback-form" class="p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select name="category" required class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-brand-accent focus:border-brand-accent">
+                            <option value="">Select a category...</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="question">Question</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                        <textarea name="message" required rows="4" minlength="10" maxlength="2000" placeholder="Tell us what's on your mind..." class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-brand-accent focus:border-brand-accent resize-none"></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Min 10 characters</p>
+                    </div>
+                    <input type="hidden" name="page_url" id="feedback-page-url">
+                    <div id="feedback-message" class="hidden text-sm"></div>
+                    <button type="submit" id="feedback-submit" class="w-full bg-brand-accent text-white px-4 py-2 rounded-md hover:opacity-90 text-sm font-medium">
+                        Submit Feedback
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Floating Button with Text -->
+        <button
+            id="feedback-fab"
+            onclick="toggleFeedbackPanel()"
+            class="bg-brand-accent hover:opacity-90 text-white rounded-full px-4 py-2 flex items-center space-x-2 shadow-lg transition-transform"
+            title="Send Feedback"
+        >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+            </svg>
+            <span class="text-sm font-medium">Send Feedback</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Floating Chatbot Widget - only if RAG feature is enabled -->
+    {% if feature_rag|default(true) %}
+    <div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:9999;">
+        <!-- Chat Panel -->
+        <div id="chat-panel" class="hidden" style="width:400px;max-width:calc(100vw - 48px);height:520px;max-height:calc(100vh - 100px);">
+            <div class="bg-white rounded-lg shadow-2xl border border-gray-200 flex flex-col" style="height:100%;">
+                <!-- Header -->
+                <div class="bg-brand-primary text-white px-4 py-3 rounded-t-lg flex justify-between items-center flex-shrink-0">
+                    <span class="font-semibold text-sm">Ask {{ brand_logo_text|default('Assistant') }}</span>
+                    <button onclick="toggleChatPanel()" class="text-white hover:text-blue-200 text-lg leading-none">&times;</button>
+                </div>
+
+                {% if user %}
+                <!-- Messages area -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3" style="min-height:0;">
+                    <div class="flex justify-start">
+                        <div class="bg-gray-100 text-gray-800 rounded-lg px-3 py-2 max-w-[85%] text-sm">
+                            Hi{{ ' ' + user.display_name if user.display_name else '' }}! Ask me anything about {{ product_name|default('the platform') }}.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input area -->
+                <div class="border-t border-gray-200 p-3 flex-shrink-0">
+                    <form id="chat-widget-form" onsubmit="sendChatMessage(event)" class="flex space-x-2">
+                        <input
+                            type="text"
+                            id="chat-widget-input"
+                            name="query"
+                            placeholder="Type your question..."
+                            required
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-brand-primary focus:border-brand-primary"
+                        >
+                        <button
+                            type="submit"
+                            id="chat-widget-send"
+                            class="bg-brand-primary text-white px-4 py-2 rounded-md hover:bg-brand-secondary text-sm font-medium"
+                        >
+                            Send
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <!-- Not logged in -->
+                <div class="flex-1 flex items-center justify-center p-6">
+                    <div class="text-center">
+                        <p class="text-gray-600 text-sm mb-3">Login to ask questions about {{ product_name|default('the platform') }}.</p>
+                        <a href="/login" class="bg-brand-primary text-white px-4 py-2 rounded-md hover:bg-brand-secondary text-sm font-medium">Login</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Floating Button -->
+        <button
+            id="chat-fab"
+            onclick="toggleChatPanel()"
+            class="bg-brand-primary hover:bg-brand-secondary text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform"
+            title="Ask {{ brand_logo_text|default('Assistant') }}"
+        >
+            <svg id="chat-fab-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+            </svg>
+        </button>
+    </div>
+    {% endif %}
+
+    <script>
+    // Product name for use in JS
+    var productName = {{ (product_name|default('Application'))|tojson }};
+
+    function toggleChatPanel() {
+        var panel = document.getElementById('chat-panel');
+        var fab = document.getElementById('chat-fab');
+        if (!panel || !fab) return;
+        panel.classList.toggle('hidden');
+        if (!panel.classList.contains('hidden')) {
+            fab.style.display = 'none';
+            var input = document.getElementById('chat-widget-input');
+            if (input) input.focus();
+        } else {
+            fab.style.display = 'flex';
+        }
+    }
+
+    function sendChatMessage(e) {
+        e.preventDefault();
+        var input = document.getElementById('chat-widget-input');
+        var messages = document.getElementById('chat-messages');
+        var sendBtn = document.getElementById('chat-widget-send');
+        var query = input.value.trim();
+        if (!query) return;
+
+        // Add user message bubble
+        var userBubble = document.createElement('div');
+        userBubble.className = 'flex justify-end';
+        userBubble.innerHTML = '<div class="bg-brand-primary text-white rounded-lg px-3 py-2 max-w-[85%] text-sm">' + escapeHtml(query) + '</div>';
+        messages.appendChild(userBubble);
+
+        // Add loading indicator
+        var loadingDiv = document.createElement('div');
+        loadingDiv.className = 'flex justify-start';
+        loadingDiv.id = 'chat-loading';
+        loadingDiv.innerHTML = '<div class="bg-gray-100 text-gray-500 rounded-lg px-3 py-2 text-sm animate-pulse">Searching ' + productName + '...</div>';
+        messages.appendChild(loadingDiv);
+
+        messages.scrollTop = messages.scrollHeight;
+        input.value = '';
+        sendBtn.disabled = true;
+        sendBtn.classList.add('opacity-50');
+
+        // POST to widget endpoint
+        var formData = new FormData();
+        formData.append('query', query);
+
+        fetch('/toolkit/ask-widget', {
+            method: 'POST',
+            body: formData
+        })
+        .then(function(resp) { return resp.text(); })
+        .then(function(html) {
+            var loading = document.getElementById('chat-loading');
+            if (loading) loading.remove();
+
+            var botBubble = document.createElement('div');
+            botBubble.className = 'flex justify-start';
+            botBubble.innerHTML = '<div class="bg-gray-100 text-gray-800 rounded-lg px-3 py-2 max-w-[85%] text-sm">' + html + '</div>';
+            messages.appendChild(botBubble);
+            messages.scrollTop = messages.scrollHeight;
+        })
+        .catch(function(err) {
+            var loading = document.getElementById('chat-loading');
+            if (loading) loading.remove();
+
+            var errBubble = document.createElement('div');
+            errBubble.className = 'flex justify-start';
+            errBubble.innerHTML = '<div class="bg-red-50 text-red-700 rounded-lg px-3 py-2 max-w-[85%] text-sm">Something went wrong. Please try again.</div>';
+            messages.appendChild(errBubble);
+            messages.scrollTop = messages.scrollHeight;
+        })
+        .finally(function() {
+            sendBtn.disabled = false;
+            sendBtn.classList.remove('opacity-50');
+        });
+    }
+
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(text));
+        return div.innerHTML;
+    }
+
+    // Feedback widget functions
+    function toggleFeedbackPanel() {
+        var panel = document.getElementById('feedback-panel');
+        var fab = document.getElementById('feedback-fab');
+        if (!panel || !fab) return;
+
+        panel.classList.toggle('hidden');
+        if (!panel.classList.contains('hidden')) {
+            fab.style.display = 'none';
+            // Set current page URL
+            var pageUrlInput = document.getElementById('feedback-page-url');
+            if (pageUrlInput) pageUrlInput.value = window.location.href;
+        } else {
+            fab.style.display = 'flex';
+        }
+    }
+
+    // Feedback form submission
+    (function() {
+        var feedbackForm = document.getElementById('feedback-form');
+        if (!feedbackForm) return;
+
+        feedbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var submitBtn = document.getElementById('feedback-submit');
+            var msgDiv = document.getElementById('feedback-message');
+            var formData = new FormData(feedbackForm);
+
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50');
+            submitBtn.textContent = 'Submitting...';
+            msgDiv.classList.add('hidden');
+
+            fetch('/feedback/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(function(resp) { return resp.json(); })
+            .then(function(data) {
+                if (data.success) {
+                    msgDiv.textContent = data.message;
+                    msgDiv.className = 'text-sm text-green-600 bg-green-50 p-2 rounded';
+                    msgDiv.classList.remove('hidden');
+                    feedbackForm.reset();
+                    // Close panel after 2 seconds
+                    setTimeout(function() {
+                        toggleFeedbackPanel();
+                        msgDiv.classList.add('hidden');
+                    }, 2000);
+                } else {
+                    msgDiv.textContent = data.error || 'Something went wrong';
+                    msgDiv.className = 'text-sm text-red-600 bg-red-50 p-2 rounded';
+                    msgDiv.classList.remove('hidden');
+                }
+            })
+            .catch(function(err) {
+                msgDiv.textContent = 'Something went wrong. Please try again.';
+                msgDiv.className = 'text-sm text-red-600 bg-red-50 p-2 rounded';
+                msgDiv.classList.remove('hidden');
+            })
+            .finally(function() {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50');
+                submitBtn.textContent = 'Submit Feedback';
+            });
+        });
+    })();
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

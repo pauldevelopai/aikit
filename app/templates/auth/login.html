@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Sign in
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Or
+                <a href="/register" class="font-medium text-blue-600 hover:text-blue-500">
+                    create a new account
+                </a>
+            </p>
+        </div>
+
+        <form class="mt-8 space-y-6" action="/auth/login" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="next" value="{{ next or '' }}">
+
+            {% if error %}
+            <div class="rounded-md bg-red-50 p-4">
+                <div class="text-sm text-red-700">
+                    {{ error }}
+                </div>
+            </div>
+            {% endif %}
+
+            {# ============================================================================= #}
+            {# PRODUCT SELECTION - Hidden for now, enable with show_product_switching #}
+            {# To restore: set show_product_switching=true in template context or remove the if block #}
+            {# ============================================================================= #}
+            {% if show_product_switching|default(false) and available_products %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Application</label>
+                <div class="grid grid-cols-1 gap-3">
+                    {% for item in available_products %}
+                    <div class="relative flex items-center p-4 bg-white border border-gray-200 rounded-lg
+                                {% if available_products|length == 1 %}border-blue-500 ring-2 ring-blue-200{% endif %}">
+                        <input type="hidden" name="product" value="{{ item.product.id }}">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-semibold text-gray-900">{{ item.product.name }}</span>
+                                {% if item.editions|length > 1 %}
+                                <select name="edition_{{ item.product.id }}"
+                                        class="text-xs border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    {% for edition in item.editions %}
+                                    <option value="{{ edition.version }}"
+                                            {% if edition.is_active %}selected{% endif %}>
+                                        {{ edition.display_name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                {% else %}
+                                {% for edition in item.editions %}
+                                <input type="hidden" name="edition_{{ item.product.id }}" value="{{ edition.version }}">
+                                <span class="text-xs text-gray-500">{{ edition.display_name }}</span>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">{{ item.product.description|truncate(100) }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="username" class="sr-only">Username or Email</label>
+                    <input
+                        id="username"
+                        name="username"
+                        type="text"
+                        required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Username or Email"
+                    >
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="Password"
+                    >
+                </div>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

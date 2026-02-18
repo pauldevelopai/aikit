@@ -1,0 +1,50 @@
+{
+  "slug": "openai-whisper",
+  "name": "OpenAI Whisper",
+  "number": 5,
+  "cluster_name": "Transcription & Translation",
+  "cluster_slug": "transcription-translation",
+  "cluster_number": 1,
+  "description": "Open-source automatic speech transcription model that can be run locally for security. Developed by OpenAI and released as open-source 36 Whisper represents a rare moment where a frontier AI lab released a state-of-the-art model weights-and-all. While OpenAI is a corporate entity, the open sourcing of Whisper empowers the sovereign individual. . Trained on 680,000 hours of multilingual, multitask supervised data, Whisper excels at robustness against accents, background noise, and technical jargon. Because it runs via Python or command-line interface (CLI) locally,37 there are no file size limits or upload caps— only the limitations of the user's hardware.",
+  "purpose": "The gold standard for secure, high-accuracy transcription.",
+  "journalism_relevance": "Whisper is currently the only model that handles code- switching 38 (mixing different languages in one sentence) effectively. It supports v3/discussions/207#:~:text=Code%20Switching%20using%20Whisper,tuning Georgian and Armenian with reasonable accuracy, though dialects remain challenging.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 8,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Eliminates the need to record, re-record, and edit voiceovers by automatically generating narration directly from text or slides.",
+    "reinvestment": "Use the saved time to review the original audio more carefully, note hesitations or emphasis, verify quotes, and focus on editorial judgment rather than mechanical transcription."
+  },
+  "comments": "The app is free. It requires command Line and terminal knowledge. And there is a zero chance of data leakage, it runs entirely offline.",
+  "url": "https://www.narakeet.com",
+  "tags": [
+    "advanced",
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly",
+    "sovereign-alternative"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [
+      "turboscribe",
+      "happyscribe",
+      "deepl-pro",
+      "narakeet"
+    ],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "dangerzone",
+      "happyscribe",
+      "ollama",
+      "turboscribe",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "transcription",
+      "local-ai"
+    ]
+  }
+}

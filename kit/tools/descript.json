@@ -1,0 +1,37 @@
+{
+  "slug": "descript",
+  "name": "Descript",
+  "number": 27,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "Audio and video editor that allows users to edit media by editing text transcripts. Descript reimagines video and audio editing by treating it like a word processor. Instead of cutting waveforms on a timeline, users edit the transcript text, and the AV is cut automatically. Descript pioneered the text-based editing paradigm. It lowers the barrier to entry for podcast and video production significantly, democratizing high-quality editing. Incredible speed for dialogue editing. Text-based workflow is intuitive. However, it can be buggy/resource-heavy on large projects, and the \"text-first\" approach is less precise for frame-perfect visual cuts than Premiere Pro. ● The tool’s purpose: To make audio and video editing faster and more accessible by allowing journalists to edit recordings through text rather than complex timelines. ● Relevance to journalism: Ideal for podcasts, interviews, and explainer videos, Descript enables reporters and editors to produce polished audio and video without specialist editing skills, while retaining editorial control over what is cut and kept.",
+  "purpose": "",
+  "journalism_relevance": "Ideal for podcasts, interviews, and explainer videos, Descript enables reporters and editors to produce polished audio and video without specialist editing skills, while retaining editorial control over what is cut and kept.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 3,
+    "invasiveness": 4
+  },
+  "time_dividend": {
+    "time_saved": "Rough cuts take minutes instead of hours.",
+    "reinvestment": "Improving the sound design and add ambient noise and music to make the story immersive."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "elevenlabs",
+      "narakeet",
+      "opusclip",
+      "runway"
+    ],
+    "use_cases": [
+      "video-production",
+      "audio-voice"
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "batch": 2,
+  "theme": "Central European & Case Study Evidence",
+  "entry_count": 4,
+  "entries": [
+    {
+      "batch": 2,
+      "entry_id": "batch2-1",
+      "title": "How Artificial Intelligence Is Changing Media and Journalism in Central",
+      "url": "https://www.thomsonfoundation.org/media/269005/tf_ai_in_v4_newsrooms.pdf",
+      "source": "",
+      "date": "",
+      "excerpt": "“The key finding of this research is that journalists are discovering the substantial benefits of AI for efficiency and data management. By automating technical and repetitive tasks, AI allows journalists to focus on more important topics… However, the adoption of AI in the region is progressing slowly, with newsrooms cautiously embracing AI tools… [and there are] widespread concerns … regarding ethical challenges…”",
+      "why_it_matters": "Grounds the toolkit’s claims that newsroom AI adoption is real but cautious, and that ethics/oversight are persistent concerns.",
+      "ai_extract": "“The key finding of this research is that journalists are discovering the substantial benefits of AI for efficiency and data management. By automating technical and repetitive tasks, AI allows journalists to focus on more important topics… However, the adoption of AI in the region is progressing slowly, with newsrooms cautiously embracing AI tools… [and there are] widespread concerns … regarding ethical challenges…”",
+      "theme": "Central European & Case Study Evidence"
+    },
+    {
+      "batch": 2,
+      "entry_id": "batch2-2",
+      "title": "Gubbi Labs: Using AI to improve story production workflows",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/gubbi-labs",
+      "source": "",
+      "date": "",
+      "excerpt": "Gubbi Labs describes building an AI workflow tool that includes a “newsworthiness index” to narrow thousands of research papers to a smaller set, cutting selection time dramatically; they also emphasize\n“human-in-the-loop” review and editor control over outputs.",
+      "why_it_matters": "Supports the toolkit’s examples of AI-assisted research triage + draft generation, while highlighting human oversight as a design choice.",
+      "ai_extract": "Gubbi Labs describes building an AI workflow tool that includes a “newsworthiness index” to narrow thousands of research papers to a smaller set, cutting selection time dramatically; they also emphasize\n“human-in-the-loop” review and editor control over outputs.",
+      "theme": "Central European & Case Study Evidence"
+    },
+    {
+      "batch": 2,
+      "entry_id": "batch2-3",
+      "title": "Nest Center: Building Mongolia's First AI-Powered Fact-Checking",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/nest-center",
+      "source": "",
+      "date": "",
+      "excerpt": "Nest Center describes an AI-assisted fact-checking tool integrated into Pluma.media that draws on a database of “4,400 fact-checks”… Content is flagged for review at a “20% probability of being false,” and at “60%”\nreaders see an immediate warning while fact-checkers investigate.",
+      "why_it_matters": "Grounds the toolkit’s fact-checking / disinformation tooling examples with concrete thresholds and a real implementation detail.",
+      "ai_extract": "Nest Center describes an AI-assisted fact-checking tool integrated into Pluma.media that draws on a database of “4,400 fact-checks”… Content is flagged for review at a “20% probability of being false,” and at “60%”\nreaders see an immediate warning while fact-checkers investigate.",
+      "theme": "Central European & Case Study Evidence"
+    },
+    {
+      "batch": 2,
+      "entry_id": "batch2-4",
+      "title": "From debunking disinformation to turning datasets into stories, AI is",
+      "url": "https://ijnet.org/en/story/debunking-disinformation-turning-datasets-stories-ai-changing-newsrooms-nigeria",
+      "source": "",
+      "date": "",
+      "excerpt": "IJNet reports that Dataphyte launched an open-source AI tool “Nubia” to analyze large datasets and turn them into stories; the stories are described as a “first draft” that “human editors need to fine-tune,” emphasizing human oversight and editorial responsibility.",
+      "why_it_matters": "Supports the toolkit’s Nigeria newsroom examples (data-to-story systems)\nand reinforces the “AI drafts, humans decide” pattern.\nNotes\nExtracts are intentionally short (for reuse and copyright compliance) and chosen to match the toolkit’s cited claims. Use the links to verify context and capture additional passages as needed.",
+      "ai_extract": "IJNet reports that Dataphyte launched an open-source AI tool “Nubia” to analyze large datasets and turn them into stories; the stories are described as a “first draft” that “human editors need to fine-tune,” emphasizing human oversight and editorial responsibility.",
+      "theme": "Central European & Case Study Evidence"
+    }
+  ]
+}

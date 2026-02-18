@@ -1,0 +1,38 @@
+{
+  "slug": "tabula",
+  "name": "Tabula",
+  "number": 22,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Tool for extracting tables from PDF documents into CSV or Excel formats. Tabula is a specialized tool designed to solve one specific, painful problem: extracting data tables from PDF files into CSV or Excel formats. It is widely used by investigative journalists to liberate data locked in government reports. Tabula runs locally in a web browser. Users upload a PDF, draw a box around the table, and Tabula attempts to parse the layout and extract the text into cells.",
+  "purpose": "Liberating data from PDFs.",
+  "journalism_relevance": "Governments love to publish budgets as scanned PDFs to hide data. These tools turn them back into Excel.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 4,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "No manual re-typing of budget tables.",
+    "reinvestment": "Verify the government's totals. They often make \"mistakes\" in the PDF summaries."
+  },
+  "comments": "",
+  "url": "https://tabula.technology",
+  "tags": [
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "openrefine",
+      "pandas"
+    ],
+    "use_cases": [
+      "data-analysis"
+    ]
+  }
+}

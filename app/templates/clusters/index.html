@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Tool Clusters - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Tool Clusters</h1>
+        <p class="mt-2 text-gray-600">
+            {{ clusters|length }} clusters grouping {{ clusters | sum(attribute='tool_count') }} AI tools by function.
+        </p>
+    </div>
+
+    <!-- Cluster Cards -->
+    <div class="space-y-6">
+        {% for cluster in clusters %}
+        <div class="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <a href="/clusters/{{ cluster.slug }}"
+                           class="text-xl font-semibold text-gray-900 hover:text-blue-600">
+                            Cluster {{ cluster.number }}: {{ cluster.name }}
+                        </a>
+                        <p class="text-sm text-gray-500 mt-1">{{ cluster.tool_count }} tools</p>
+                    </div>
+                    <!-- Average CDI -->
+                    <div class="flex gap-3 text-center text-xs">
+                        <div class="px-3 py-1 rounded bg-gray-50">
+                            <div class="text-gray-400 uppercase">Avg Cost</div>
+                            <div class="text-lg font-bold text-gray-700">{{ cluster.avg_cost }}</div>
+                        </div>
+                        <div class="px-3 py-1 rounded bg-gray-50">
+                            <div class="text-gray-400 uppercase">Avg Diff</div>
+                            <div class="text-lg font-bold text-gray-700">{{ cluster.avg_difficulty }}</div>
+                        </div>
+                        <div class="px-3 py-1 rounded bg-gray-50">
+                            <div class="text-gray-400 uppercase">Avg Inv</div>
+                            <div class="text-lg font-bold text-gray-700">{{ cluster.avg_invasiveness }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if cluster.description %}
+                <p class="text-sm text-gray-600 mb-4">
+                    {{ cluster.description[:300] }}{% if cluster.description|length > 300 %}...{% endif %}
+                </p>
+                {% endif %}
+
+                <!-- Tool Pills -->
+                <div class="flex flex-wrap gap-2">
+                    {% for tool in cluster.tools %}
+                    <a href="/tools/{{ tool.slug }}"
+                       class="inline-flex items-center px-3 py-1 rounded-full text-sm border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-colors">
+                        <span class="text-gray-700">{{ tool.name }}</span>
+                        <span class="ml-2 text-xs text-gray-400">{{ tool.cdi_scores.cost }}-{{ tool.cdi_scores.difficulty }}-{{ tool.cdi_scores.invasiveness }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- View Details Link -->
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <a href="/clusters/{{ cluster.slug }}"
+                       class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                        View cluster details &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

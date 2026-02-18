@@ -1,0 +1,37 @@
+{
+  "slug": "custom-gpts",
+  "name": "Custom GPTs",
+  "number": 38,
+  "cluster_name": "Building Your Own Tools",
+  "cluster_slug": "building-your-own-tools",
+  "cluster_number": 6,
+  "description": "",
+  "purpose": "",
+  "journalism_relevance": "Useful for editors and investigative teams who need consistent analytical support over time, such as archive interrogation, policy comparison, style consistency checks, or structured document analysis.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 2,
+    "invasiveness": 6
+  },
+  "time_dividend": {
+    "time_saved": "Removes the need to repeatedly re-prompt, re-explain context, or restate editorial constraints.",
+    "reinvestment": "Focused verification, interpretation, and editorial decision-making rather than repetitive setup work."
+  },
+  "comments": "Runs entirely within the OpenAI platform. Must be paired with strict internal rules governing what documents, notes, or unpublished material may be uploaded.",
+  "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "cursor",
+      "google-colab",
+      "replit"
+    ],
+    "use_cases": [
+      "coding-building"
+    ]
+  }
+}

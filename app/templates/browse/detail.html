@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.heading }} - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-gray-500">
+        <a href="/browse" class="hover:text-blue-600">Browse</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-900">{{ section.heading }}</span>
+    </nav>
+
+    <!-- Section Header -->
+    <div class="bg-white rounded-lg shadow p-8 mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ section.heading }}</h1>
+
+        <!-- Metadata with links -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            {% if section.tool_name %}
+            <a href="/tools/{{ section.tool_slug }}" class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-purple-100 text-purple-800 hover:bg-purple-200">
+                {{ section.tool_name }} &rarr;
+            </a>
+            {% endif %}
+            {% if section.cluster %}
+            <a href="/clusters/{{ section.cluster_slug }}" class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 hover:bg-blue-200">
+                {{ section.cluster }} &rarr;
+            </a>
+            {% endif %}
+            {% for tag in section.tags %}
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-700">
+                #{{ tag }}
+            </span>
+            {% endfor %}
+        </div>
+
+        <!-- Stats -->
+        <div class="text-sm text-gray-500 border-t pt-4">
+            {{ section.chunk_count }} chunk(s) in this section
+        </div>
+    </div>
+
+    <!-- Tool Quick Link -->
+    {% if section.tool_slug %}
+    <div class="mb-6 bg-purple-50 rounded-lg border border-purple-200 p-4 flex items-center justify-between">
+        <div>
+            <span class="text-sm font-medium text-purple-900">This content is about {{ section.tool_name }}</span>
+            <span class="text-sm text-purple-600 ml-2">View the full tool page for CDI scores, cross-references and more.</span>
+        </div>
+        <a href="/tools/{{ section.tool_slug }}" class="px-4 py-2 bg-purple-600 text-white text-sm font-medium rounded-md hover:bg-purple-700 transition">
+            View Tool Page
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Ask About This Button -->
+    {% if user %}
+    <div class="mb-6 bg-blue-50 rounded-lg p-6 border-2 border-blue-200 text-center">
+        <h3 class="text-lg font-semibold text-gray-900 mb-3">Have questions about this section?</h3>
+        <p class="text-sm text-gray-600 mb-4">Ask the chatbot anything about "{{ section.heading }}" or related topics.</p>
+        <button onclick="toggleChatPanel()"
+                class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 font-medium">
+            Ask the Toolkit
+        </button>
+    </div>
+    {% else %}
+    <div class="mb-6 bg-gray-50 rounded-lg p-6 border-2 border-gray-200 text-center">
+        <p class="text-gray-600">
+            <a href="/login" class="text-blue-600 hover:text-blue-800 font-medium">Login</a>
+            to ask questions about this section
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- Full Content -->
+    <div class="bg-white rounded-lg shadow p-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2">Full Content</h2>
+
+        <div class="prose prose-sm max-w-none">
+            <div class="whitespace-pre-wrap text-gray-700 leading-relaxed">{{ section.full_text }}</div>
+        </div>
+
+        <!-- Chunks Breakdown (collapsible) -->
+        {% if section.chunk_count > 1 %}
+        <details class="mt-8 border-t pt-4">
+            <summary class="cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
+                View {{ section.chunk_count }} chunks individually
+            </summary>
+
+            <div class="mt-4 space-y-4">
+                {% for chunk in section.chunks %}
+                <div class="border-l-4 border-blue-500 pl-4 py-2">
+                    <div class="text-xs text-gray-500 mb-2">Chunk {{ chunk.index + 1 }}</div>
+                    <div class="text-sm text-gray-700 whitespace-pre-wrap">{{ chunk.text }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </details>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

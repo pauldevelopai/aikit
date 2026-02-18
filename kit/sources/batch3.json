@@ -1,0 +1,103 @@
+{
+  "batch": 3,
+  "theme": "Newsroom Chatbots, Transcription & Translation Tools",
+  "entry_count": 8,
+  "entries": [
+    {
+      "batch": 3,
+      "entry_id": "batch3-1",
+      "title": "Local newsrooms are building AI chatbots fast and cheap",
+      "url": "https://www.niemanlab.org/2025/08/local-newsrooms-are-building-ai-chatbots-fast-and-cheap",
+      "source": "Nieman Journalism Lab",
+      "date": "Aug 25, 2025",
+      "excerpt": "“Using Zapier, the cost to build and run each chatbot came out to about $40 per month.”",
+      "why_it_matters": "Describes a rapid, low-cost approach to building newsroom chatbots with no-code tooling and light customization—useful precedent for small newsroom pilots and cost modeling.",
+      "ai_extract": "CISLM ran pilots where small newsrooms launched custom chatbots in weeks using\nZapier; reported operating cost was about $40/month per bot, with each newsroom tailoring the bot to its own customer service and archive-navigation needs.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-2",
+      "title": "How Newsrooms Are Using AI Chatbots to Leverage Their Own",
+      "url": "https://gijn.org/stories/newsrooms-using-ai-chatbots-leverage-reporting",
+      "source": "Global Investigative Journalism Network (GIJN)",
+      "date": "Aug 7, 2025",
+      "excerpt": "“It can churn out a thoughtful, accurate summary answer, with footnotes and links to\nFT stories that informed its response.”",
+      "why_it_matters": "Shows the “grounded chatbot” pattern: answers constrained to a publisher’s own archive with visible footnotes/links—exactly the interaction model you want for a grounded citation layer.",
+      "ai_extract": "GIJN profiles newsroom chatbots designed to answer questions using only trusted internal reporting archives and vetted databases, producing summaries alongside footnotes and links back to the original stories.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-3",
+      "title": "JournalismAI Innovation Challenge Report 2024",
+      "url": "https://www.journalismai.info/research/2024-innovation-challenge-report",
+      "source": "JournalismAI (Polis, LSE)",
+      "date": "Report page; date not shown on snippet",
+      "excerpt": "“This report captures the collective experiences of 35 news organisations across 22\ncountries…”",
+      "why_it_matters": "A program-level evidence base for how newsrooms designed and implemented AI tools; good for grounded “case study” citations and implementation lessons.",
+      "ai_extract": "The report compiles case studies and practical lessons from 35 news organisations across 22 countries participating in the first JournalismAI Innovation Challenge, documenting design/testing/implementation of AI tools in workflows.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-4",
+      "title": "Sowt — JournalismAI Innovation Challenge 2024",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/sowt",
+      "source": "JournalismAI (Polis, LSE)",
+      "date": "Project page; date not shown on snippet",
+      "excerpt": "“This grantmaking programme enabled 35 news organisations… to experiment and implement solutions… using AI technologies.”",
+      "why_it_matters": "Pointer page for a specific Innovation Challenge grantee; useful as an authoritative directory node that links out to the 2024 report and other grantees.",
+      "ai_extract": "Sowt’s grantee page sits within JournalismAI’s Innovation Challenge directory and links to the 2024 report and other grantees—useful for grounded navigation to primary program documentation.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-5",
+      "title": "TurboScribe: Transcribe Audio and Video to Text",
+      "url": "https://turboscribe.ai",
+      "source": "TurboScribe",
+      "date": "Product page; date not shown on snippet",
+      "excerpt": "“TurboScribe converts audio and video files to text in 98+ languages…”",
+      "why_it_matters": "A concrete example of an “AI transcription” vendor claim set (languages, pricing, privacy)—useful for a tool card with verifiable vendor statements.",
+      "ai_extract": "TurboScribe describes itself as an AI transcription service offering transcription for audio/video in 98+ languages and lists pricing tiers; the site also claims encryption and user-controlled deletion in its security/privacy FAQ.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-6",
+      "title": "HappyScribe: AI Notetaker, Transcription, Subtitles & Translation",
+      "url": "https://www.happyscribe.com",
+      "source": "HappyScribe",
+      "date": "Product page; date not shown on snippet",
+      "excerpt": "“AI-Notetaker, transcription & subtitles available… in 120+ languages…”",
+      "why_it_matters": "Another transcription vendor with a distinct positioning (AI + human review); good for a grounded comparison entry with verifiable language coverage claims.",
+      "ai_extract": "HappyScribe advertises AI and human-assisted services for transcription/subtitles/translation and claims coverage across 120+ languages, positioning human review as an add-on for production-ready quality.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-7",
+      "title": "DeepL Pro — Data security",
+      "url": "https://www.deepl.com/en/pro-data-security",
+      "source": "DeepL",
+      "date": "Product/security page; date not shown on snippet",
+      "excerpt": "“Texts are never stored or used for model training without your consent.”",
+      "why_it_matters": "Useful for “privacy & data handling” grounded claims when recommending translation/writing tools in sensitive newsroom contexts.",
+      "ai_extract": "DeepL’s security page describes GDPR alignment, SOC 2 Type II, and states that texts are not stored or used for model training without user consent, alongside options like BYOK and audit logs.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    },
+    {
+      "batch": 3,
+      "entry_id": "batch3-8",
+      "title": "Introducing Whisper",
+      "url": "https://openai.com/index/whisper",
+      "source": "OpenAI",
+      "date": "Sep 21, 2022",
+      "excerpt": "“Whisper is… trained on 680,000 hours… enabling transcription… and translation…\ninto English.”",
+      "why_it_matters": "Primary source for what Whisper is and what it can do; ideal grounding reference for any\nWhisper-based workflow.",
+      "ai_extract": "OpenAI introduces Whisper as an automatic speech recognition system trained on 680k hours of multilingual/multitask data, describing robustness benefits and capabilities including multilingual transcription and translation to English.",
+      "theme": "Newsroom Chatbots, Transcription & Translation Tools"
+    }
+  ]
+}

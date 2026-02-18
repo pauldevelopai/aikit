@@ -1,0 +1,129 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Discovery Runs{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/discovery" class="text-blue-600 hover:underline">Discovery</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">Runs</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-900">Discovery Runs</h1>
+            <span class="text-sm text-gray-600">{{ total }} runs total</span>
+        </div>
+
+        <!-- Runs Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Started</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Found</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">New</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Skipped</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Triggered By</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for run in runs %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ run.started_at.strftime('%Y-%m-%d %H:%M:%S') if run.started_at else '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ run.completed_at.strftime('%H:%M:%S') if run.completed_at else '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {% if run.started_at and run.completed_at %}
+                                {% set duration = (run.completed_at - run.started_at).total_seconds() %}
+                                {% if duration < 60 %}
+                                {{ duration|int }}s
+                                {% else %}
+                                {{ (duration / 60)|int }}m {{ (duration % 60)|int }}s
+                                {% endif %}
+                                {% elif run.status == 'running' %}
+                                <span class="text-blue-600">In progress...</span>
+                                {% else %}
+                                -
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if run.status == 'completed' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">completed</span>
+                                {% elif run.status == 'running' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">running</span>
+                                {% elif run.status == 'failed' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" title="{{ run.error_message or '' }}">failed</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ run.source_type or 'all sources' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                {{ run.tools_found }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">
+                                +{{ run.tools_new }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                                {{ run.tools_updated }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ run.tools_skipped }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {% if run.triggered_by == 'cron' %}
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded text-xs">cron</span>
+                                {% elif run.triggered_by == 'manual' %}
+                                <span class="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs">manual</span>
+                                {% else %}
+                                {{ run.triggered_by or '-' }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if run.status == 'failed' and run.error_message %}
+                        <tr class="bg-red-50">
+                            <td colspan="10" class="px-6 py-2 text-sm text-red-600">
+                                <strong>Error:</strong> {{ run.error_message }}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% else %}
+                        <tr>
+                            <td colspan="10" class="px-6 py-8 text-center text-gray-500">
+                                No discovery runs yet. Click "Run Discovery" on the dashboard to start.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if total_pages > 1 %}
+            <div class="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    Page {{ page }} of {{ total_pages }}
+                </div>
+                <div class="flex gap-2">
+                    {% if page > 1 %}
+                    <a href="?page={{ page - 1 }}" class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Previous</a>
+                    {% endif %}
+                    {% if page < total_pages %}
+                    <a href="?page={{ page + 1 }}" class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+{% endblock %}

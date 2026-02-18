@@ -1,0 +1,37 @@
+{
+  "slug": "turboscribe",
+  "name": "TurboScribe",
+  "number": 1,
+  "cluster_name": "Transcription & Translation",
+  "cluster_slug": "transcription-translation",
+  "cluster_number": 1,
+  "description": "Cloud-based transcription tool built on Whisper that allows bulk uploads and fast, multilingual transcription. The core engine of TurboScribe is built upon OpenAI's Whisper technology, widely regarded as the industry standard for open-source speech-to-text accuracy. However, TurboScribe wraps this raw model in a user-friendly, GPU-accelerated infrastructure. This allows for features such as automatic speaker recognition, built-in translation to over 134 languages 25, and the ability to upload 50 files simultaneously for bulk processing. TurboScribe was created by Leif, an independent developer who focused on making the power of the Whisper model accessible and less technical. The tool is not interested in harvesting your data, however, it does run in the cloud (rather than securely on your machine) so you do need to have trust in their encryption standards and retention policies.",
+  "purpose": "Handling massive archives for low-budget newsrooms.",
+  "journalism_relevance": "This tool is vital for investigating corruption where journalists are dumped with hundreds of hours of municipal hearing recordings. It supports 98 languages including Romanian and Georgian.",
+  "cdi_scores": {
+    "cost": 3,
+    "difficulty": 1,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "Weeks of listening time.",
+    "reinvestment": "Use the saved time to cross-reference names across multiple transcripts to find recurring actors in local government corruption."
+  },
+  "comments": "Low flat fee, vital for freelance students. You can simply drag and drop files into the tool for them to be processed. There is cloud processing, so that means it is acceptable for public data, but not ideal for confidential sources.",
+  "url": "https://turboscribe.ai",
+  "tags": [
+    "beginner-friendly",
+    "open-source"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "openai-whisper",
+    "similar_tools": [
+      "happyscribe",
+      "openai-whisper"
+    ],
+    "use_cases": [
+      "transcription"
+    ]
+  }
+}

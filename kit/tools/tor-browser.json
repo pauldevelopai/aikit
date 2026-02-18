@@ -1,0 +1,39 @@
+{
+  "slug": "tor-browser",
+  "name": "Tor Browser",
+  "number": 36,
+  "cluster_name": "Security Challenges",
+  "cluster_slug": "security-challenges",
+  "cluster_number": 5,
+  "description": "Privacy-focused browser that anonymizes internet traffic via the Tor network. Tor Browser is a modified Firefox browser that routes your internet traffic through the Tor network, which is a decentralized system of volunteer-run servers. It encrypts and bounces your communications through multiple nodes, making it very difficult for anyone to trace your browsing or messaging back to you. This allows journalists to anonymize their web activity and access sites that may be censored or blocked on local networks. For journalists, Tor is invaluable for protecting the confidentiality of online research and communications. It enables reaching information on the “open” or dark web anonymously – for example, accessing whistleblower platforms or publishing outlets via their .onion (Tor-only) sites. It helps keep browsing habits and source communications hidden from government surveillance or ISP tracking, which is crucial in investigative reporting and in authoritarian regimes.",
+  "purpose": "Anonymous research and censorship-resistant web access.",
+  "journalism_relevance": "Protects journalists from network surveillance when researching sensitive topics, accessing blocked websites, or visiting whistleblower platforms.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 4,
+    "invasiveness": 2
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Investigative depth. Journalists can research freely without self-censorship."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "free",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "bitwarden",
+      "dangerzone-security-challenges",
+      "protonmail",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "security-privacy"
+    ]
+  }
+}

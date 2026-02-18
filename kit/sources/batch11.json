@@ -1,0 +1,79 @@
+{
+  "batch": 11,
+  "theme": "Datasets & Benchmarks for Fact Checking",
+  "entry_count": 6,
+  "entries": [
+    {
+      "batch": 11,
+      "entry_id": "batch11-1",
+      "title": "FEVER: a Large-scale Dataset for Fact Extraction and VERification",
+      "url": "https://arxiv.org/abs/1803.05355",
+      "source": "",
+      "date": "",
+      "excerpt": "FEVER is a large-scale dataset for fact extraction and verification.",
+      "why_it_matters": "Foundational benchmark used to evaluate automated factnchecking and evidence retrieval systems.",
+      "ai_extract": "The FEVER paper introduces a dataset of claims generated from Wikipedia and labeled as supported, refuted, or not enough information, along with evidence sentences, enabling evaluation of retrieval and verification stages in automated fact-checking.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    },
+    {
+      "batch": 11,
+      "entry_id": "batch11-2",
+      "title": "AVeriTeC: A Dataset for Real-world Claim Verification",
+      "url": "https://arxiv.org/abs/2305.13117",
+      "source": "",
+      "date": "",
+      "excerpt": "AVeriTeC focuses on real-world claims requiring evidence from diverse sources.",
+      "why_it_matters": "Moves beyond Wikipedia-only benchmarks toward web-scale, multi-source verification tasks.",
+      "ai_extract": "AVeriTeC provides a benchmark for claim verification using real-world claims and evidence drawn from multiple web sources, emphasizing complex reasoning and realistic retrieval challenges for fact-checking systems.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    },
+    {
+      "batch": 11,
+      "entry_id": "batch11-3",
+      "title": "LIAR: A Benchmark Dataset for Fake News Detection",
+      "url": "https://arxiv.org/abs/1705.00648",
+      "source": "",
+      "date": "",
+      "excerpt": "The LIAR dataset contains short statements labeled for truthfulness.",
+      "why_it_matters": "Widely used dataset for training and evaluating political factnchecking and misinformation classification models.",
+      "ai_extract": "The LIAR dataset includes thousands of labeled political statements with truthfulness ratings from PolitiFact, enabling research into automated detection of deceptive or misleading claims.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    },
+    {
+      "batch": 11,
+      "entry_id": "batch11-4",
+      "title": "MultiFC: A Real-World Multi-Domain Dataset for Evidence-Based Fact",
+      "url": "https://aclanthology.org/2020.lrec-1.770",
+      "source": "",
+      "date": "",
+      "excerpt": "MultiFC covers multiple fact-checking domains and evidence types.",
+      "why_it_matters": "Supports evaluation of cross-domain factnchecking and evidence retrieval beyond a single topic area.",
+      "ai_extract": "MultiFC introduces a dataset of fact-checking instances from diverse domains, with claims, evidence, and verdicts, designed to evaluate systems that retrieve and reason across heterogeneous sources.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    },
+    {
+      "batch": 11,
+      "entry_id": "batch11-5",
+      "title": "SciFact: A Dataset for Scientific Claim Verification",
+      "url": "https://arxiv.org/abs/2004.14974",
+      "source": "",
+      "date": "",
+      "excerpt": "SciFact supports verification of scientific claims using research abstracts.",
+      "why_it_matters": "Important for health/science journalism contexts where evidence comes from academic literature.",
+      "ai_extract": "SciFact provides scientific claims paired with supporting or refuting evidence from biomedical research abstracts, enabling development of systems that verify claims in scientific reporting.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    },
+    {
+      "batch": 11,
+      "entry_id": "batch11-6",
+      "title": "CheckThat! Lab: CLEF Fact-Checking Evaluation",
+      "url": "https://sites.google.com/view/clef2024-checkthat",
+      "source": "",
+      "date": "",
+      "excerpt": "CheckThat! focuses on automatic identification and verification of claims.",
+      "why_it_matters": "Annual shared task benchmarking claim detection and verification systems internationally.",
+      "ai_extract": "The CLEF CheckThat! Lab organizes shared tasks on identifying check-worthy claims, retrieving evidence, and verifying factuality, providing standardized evaluation settings for fact-checking technologies.",
+      "theme": "Datasets & Benchmarks for Fact Checking"
+    }
+  ]
+}

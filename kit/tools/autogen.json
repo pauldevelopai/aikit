@@ -1,0 +1,40 @@
+{
+  "slug": "autogen",
+  "name": "AutoGen",
+  "number": 44,
+  "cluster_name": "AI Agents & Automated Workflows",
+  "cluster_slug": "ai-agents-automated-workflows",
+  "cluster_number": 7,
+  "description": "",
+  "purpose": "",
+  "journalism_relevance": "",
+  "cdi_scores": {
+    "cost": 1,
+    "difficulty": 7,
+    "invasiveness": 2
+  },
+  "time_dividend": {
+    "time_saved": "Runs multiple AI roles in parallel to surface contradictions, missing evidence, and follow-up questions in the first pass.",
+    "reinvestment": "Early human review of conflicts, gaps, and follow-up leads flagged by collaborating agents."
+  },
+  "comments": "",
+  "url": "https://github.com/microsoft/autogen",
+  "tags": [
+    "advanced",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "apify",
+      "chatgpt-atlas",
+      "n8n",
+      "zapier-ai"
+    ],
+    "use_cases": [
+      "automation"
+    ]
+  }
+}

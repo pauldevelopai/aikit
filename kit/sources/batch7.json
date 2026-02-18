@@ -1,0 +1,91 @@
+{
+  "batch": 7,
+  "theme": "Business, Revenue & Sustainability",
+  "entry_count": 7,
+  "entries": [
+    {
+      "batch": 7,
+      "entry_id": "batch7-1",
+      "title": "How AI Is Helping Newsrooms With Subscriptions and Retention",
+      "url": "https://www.digitalnewsreport.org/publications/2023/ai-subscriptions-retention-news",
+      "source": "Reuters Institute for the Study of Journalism",
+      "date": "2023",
+      "excerpt": "“AI is increasingly used to predict subscriber churn and personalize content.”",
+      "why_it_matters": "Explores how news organizations use machine learning for paywall optimization, retention modeling, and audience segmentation.",
+      "ai_extract": "The Reuters Institute reports that publishers are deploying AI-driven models to predict churn, tailor subscription offers, and personalize homepage content, while balancing editorial values and privacy concerns.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-2",
+      "title": "WAN-IFRA Report on AI in Newsroom Revenue Models",
+      "url": "https://wan-ifra.org/2024/05/ai-revenue-newsrooms",
+      "source": "WAN-IFRA",
+      "date": "2024",
+      "excerpt": "“AI is supporting sustainable business models in media.”",
+      "why_it_matters": "Industry survey showing how publishers apply AI in advertising optimization, subscription growth, and audience analytics.",
+      "ai_extract": "WAN-IFRA documents cases where AI tools analyze reader behavior, optimize pricing strategies, and improve ad targeting, helping publishers increase revenue while maintaining reader trust.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-3",
+      "title": "The Financial Times AI Strategy for Subscriber Growth",
+      "url": "https://aboutus.ft.com/press_release/ft-ai-strategy-subscriber-growth",
+      "source": "Financial Times",
+      "date": "2023",
+      "excerpt": "“Machine learning helps us understand reader engagement at scale.”",
+      "why_it_matters": "Case study of FT using AI for recommendation systems and engagement tracking to support subscription strategy.",
+      "ai_extract": "The FT describes using machine learning to analyze engagement patterns, inform editorial decisions, and refine its subscription funnel, integrating AI insights with newsroom judgment.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-4",
+      "title": "Nieman Lab: AI and the Future of News Revenue",
+      "url": "https://www.niemanlab.org/2024/01/ai-and-the-future-of-news-revenue",
+      "source": "Nieman Journalism Lab",
+      "date": "2024",
+      "excerpt": "“AI tools are becoming central to media sustainability strategies.”",
+      "why_it_matters": "Overview of experiments in AI-driven audience analytics and business automation across media outlets.",
+      "ai_extract": "Nieman Lab highlights how publishers experiment with AI for marketing automation, subscription targeting, and audience insights, while cautioning against overreliance without transparency.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-5",
+      "title": "INMA Generative AI Initiative for News Publishers",
+      "url": "https://www.inma.org/blogs/ai-initiative/post.cfm/inma-launches-generative-ai-initiative",
+      "source": "International News Media Association (INMA)",
+      "date": "2024",
+      "excerpt": "“Generative AI offers efficiency gains across editorial and business operations.”",
+      "why_it_matters": "INMA initiative outlining how generative AI supports newsroom productivity, advertising workflows, and product innovation.",
+      "ai_extract": "INMA describes how publishers are testing generative AI to streamline content production, customer service, marketing copy, and product development while evaluating ethical implications.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-6",
+      "title": "AI and the Business of Journalism",
+      "url": "https://www.cjr.org/tow_center/ai-business-journalism.php",
+      "source": "Tow Center for Digital Journalism",
+      "date": "2023",
+      "excerpt": "“AI can reshape newsroom economics.”",
+      "why_it_matters": "Research article examining economic impacts of AI on newsroom labor, workflows, and revenue structures.",
+      "ai_extract": "The Tow Center discusses how AI may change newsroom labor distribution, reduce production costs, and enable new products, while raising concerns about job displacement and quality control.",
+      "theme": "Business, Revenue & Sustainability"
+    },
+    {
+      "batch": 7,
+      "entry_id": "batch7-7",
+      "title": "Google News Initiative: AI for Revenue Growth",
+      "url": "https://newsinitiative.withgoogle.com/resources/trainings/ai-revenue-growth",
+      "source": "Google News Initiative",
+      "date": "2024",
+      "excerpt": "“AI-driven analytics help publishers make data-informed business decisions.”",
+      "why_it_matters": "Training resources showing how publishers use analytics and machine learning for revenue strategy.",
+      "ai_extract": "Google’s training materials outline how predictive analytics, segmentation models, and automation tools can inform subscription and advertising strategies in news organizations.",
+      "theme": "Business, Revenue & Sustainability"
+    }
+  ]
+}

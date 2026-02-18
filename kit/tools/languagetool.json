@@ -1,0 +1,39 @@
+{
+  "slug": "languagetool",
+  "name": "LanguageTool",
+  "number": 24,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Grammar and style checker that can be run locally or self-hosted for privacy. LanguageTool is the sovereign alternative to Grammarly. It is an open-source proofreading software that checks for grammar, style, and spelling errors in over 20 languages. Crucially, it can be hosted on a local server, ensuring no text leaves the organization.",
+  "purpose": "Privacy-safe language correction.",
+  "journalism_relevance": "Allows proofreading without exposing drafts to third-party cloud services.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 2,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Editors can focus on story logic, sourcing, and narrative strength rather than mechanical corrections, improving overall journalistic quality."
+  },
+  "comments": "",
+  "url": "https://pandas.pydata.org",
+  "tags": [
+    "beginner-friendly",
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "wordtune"
+    ],
+    "use_cases": [
+      "text-editing"
+    ]
+  }
+}

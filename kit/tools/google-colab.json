@@ -1,0 +1,38 @@
+{
+  "slug": "google-colab",
+  "name": "Google Colab",
+  "number": 41,
+  "cluster_name": "Building Your Own Tools",
+  "cluster_slug": "building-your-own-tools",
+  "cluster_number": 6,
+  "description": "Cloud-hosted Jupyter Notebook environment for running Python and data analysis code. Google Colab is a hosted Jupyter Notebook service that provides free access to computing resources, including GPUs (Graphics Processing Units) and TPUs (Tensor Processing Units). Colab allows researchers to write and execute Python code in the browser. Colab has lowered the barrier to entry for AI research globally. It is the \"playground\" where much of the open-source AI revolution is tested and shared. No setup. Standard for sharing reproducible research. However, runtime disconnects when you close the browser (so you can’t use this for long production jobs) and it has privacy issues (code runs on Google servers).",
+  "purpose": "Data Science & Visualization \"Vibes.\"",
+  "journalism_relevance": "Journalists can upload a messy government dataset and use the built-in \"Gemini Code Assist\" to write the Python code to visualize it (e.g., \"Make a heatmap of this corruption data\").",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 3,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "\"I don't know how to make a map in Python\" is solved in seconds.",
+    "reinvestment": "Data Verification. The AI might hallucinate the map coordinates. Check the outliers manually."
+  },
+  "comments": "",
+  "url": "https://replit.com",
+  "tags": [
+    "free",
+    "open-source"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "cursor",
+      "custom-gpts",
+      "replit"
+    ],
+    "use_cases": [
+      "coding-building"
+    ]
+  }
+}

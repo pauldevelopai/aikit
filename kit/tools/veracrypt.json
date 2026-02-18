@@ -1,0 +1,45 @@
+{
+  "slug": "veracrypt",
+  "name": "VeraCrypt",
+  "number": 33,
+  "cluster_name": "Security Challenges",
+  "cluster_slug": "security-challenges",
+  "cluster_number": 5,
+  "description": "Open-source disk encryption software for protecting files and entire drives. VeraCrypt is the gold standard for open-source disk encryption. It allows users to create encrypted file containers or encrypt entire hard drives/partitions, rendering data inaccessible without the key. Maintained by IDRIX (France), VeraCrypt is audited and trusted by the security community. In an era of border checks and device seizures, it is the primary defense for data at rest.",
+  "purpose": "To protect files and entire devices by encrypting them so that data cannot",
+  "journalism_relevance": "Essential for safeguarding sensitive reporting materials, source identities, and investigations if a laptop, hard drive, or USB stick is lost, stolen, or seized.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 6,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Prevents time-consuming crisis response after device loss or seizure, such as damage control, source notification, or legal risk mitigation.",
+    "reinvestment": "Journalists can work on sensitive stories without constantly worrying about physical device security or worst-case scenarios."
+  },
+  "comments": "",
+  "url": "https://www.veracrypt.fr",
+  "tags": [
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "bitwarden",
+      "dangerzone",
+      "dangerzone-security-challenges",
+      "ollama",
+      "openai-whisper",
+      "protonmail",
+      "tor-browser"
+    ],
+    "use_cases": [
+      "local-ai",
+      "security-privacy"
+    ]
+  }
+}

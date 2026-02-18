@@ -1,0 +1,79 @@
+{
+  "batch": 9,
+  "theme": "Practice-Led Case Studies & Africa-Focused Evidence",
+  "entry_count": 6,
+  "entries": [
+    {
+      "batch": 9,
+      "entry_id": "batch9-1",
+      "title": "The Oglethorpe Echo: Empowering local news through AI efficiency",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/the-oglethorpe-echo",
+      "source": "JournalismAI (LSE/Polis) – Innovation Challenge 2024",
+      "date": "2024 Innovation Challenge cohort",
+      "excerpt": "“A Slack-based AI tool that helps small newsrooms boost efficiency, reduce repetitive tasks, and strengthen local journalism.”",
+      "why_it_matters": "Concrete case study of an AI tool built into Slack to reduce repetitive production/onboarding work in a small community newsroom.",
+      "ai_extract": "The case study describes YESEO, a Slack-based assistant used by The Oglethorpe\nEcho to streamline routine outputs (headlines, social posts, newsletter copy) and to speed up onboarding by generating background on people and local issues from the newsroom’s own archive, reducing time lost to adnhoc searches.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    },
+    {
+      "batch": 9,
+      "entry_id": "batch9-2",
+      "title": "Center for Collaborative Investigative Journalism (CCIJ): ElectionWatch",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/ccij",
+      "source": "JournalismAI (LSE/Polis) – Innovation Challenge 2024",
+      "date": "2024 Innovation Challenge cohort",
+      "excerpt": "“CCIJ also plans to develop an AI newsroom kit… into a comprehensive ‘how-to’ guide… offering training for newsrooms.”",
+      "why_it_matters": "Shows a replicable approach: a reusable methodology (“newsroom kit”) and a structured data backbone for elections monitoring.",
+      "ai_extract": "CCIJ reports building a ‘data engine’ designed to be cleaner and referenceable, incorporating metadata, timestamps, and geotags. They describe plans to convert their ElectionWatch approach into an AI newsroom kit and training package, while limiting generative AI to final-stage summarisation to reduce hallucination risk.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    },
+    {
+      "batch": 9,
+      "entry_id": "batch9-3",
+      "title": "Shomrim: Teaching AI to spot hidden bias (SourceGuard)",
+      "url": "https://www.journalismai.info/programmes/innovation/innovation-challenge-2024/shomrim",
+      "source": "JournalismAI (LSE/Polis) – Innovation Challenge 2024",
+      "date": "2024 Innovation Challenge cohort",
+      "excerpt": "“The project represents what Levi calls ‘cyborg journalism’ – humans and machines continuously train each other.”",
+      "why_it_matters": "Useful for grounded-learning design: newsroom feedback loops to dispute AI findings and improve the model + editorial judgement.",
+      "ai_extract": "Shomrim’s SourceGuard is described as a tool that flags dozens of credibility flaws\n(missing context, unsubstantiated claims, linguistic bias). The write-up highlights calibration work to balance model freedom vs hallucinations, plus a feedback mechanism where journalists can dispute the AI’s findings—aimed at ‘cyborg journalism’ where the system improves alongside the newsroom’s critical reading.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    },
+    {
+      "batch": 9,
+      "entry_id": "batch9-4",
+      "title": "AI, Journalism, and Public Interest Media in Africa",
+      "url": "https://www.mediasupport.org/publication/ai-journalism-and-public-interest-media-in-africa",
+      "source": "International Media Support (IMS)",
+      "date": "June 2023",
+      "excerpt": "“The adoption of AI systems and tools in African media remains relatively low… most smaller media… rely largely on open-source tools.”",
+      "why_it_matters": "High-value regional baseline: adoption levels, where uptake is highest, and constraints shaping Global South AI deployment.",
+      "ai_extract": "IMS summarises a scoping study using interviews, newsroom observation, and document analysis across multiple African regions. It notes that AI use exists but adoption remains relatively low overall, varies by region and outlet type, and is most evident in Kenya and South Africa; larger well-resourced organisations invest in premium systems and custom tools, while smaller outlets often rely on open-source tools.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    },
+    {
+      "batch": 9,
+      "entry_id": "batch9-5",
+      "title": "How Journalism Groups in Africa Are Building AI Tools to Aid",
+      "url": "https://gijn.org/stories/africa-journalism-building-ai-investigations-fact-checking",
+      "source": "Global Investigative Journalism Network (GIJN)",
+      "date": "1 Oct 2024",
+      "excerpt": "“MyAIFactChecker has been effectively used in newsrooms to enhance fact-checking… during… elections and public health crises.”",
+      "why_it_matters": "Practical verification tooling example: how an AI fact-checker is introduced through training and integrated into daily newsroom practice.",
+      "ai_extract": "GIJN reports that MyAIFactChecker was created by BBYDI via FactCheckAfrica and launched in 2024, positioning it as a tool to verify news and social content. The article describes newsroom uptake and training-driven rollouts, including efforts to integrate it into daily workflows to improve accuracy—especially during high-stakes moments like elections and public health crises.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    },
+    {
+      "batch": 9,
+      "entry_id": "batch9-6",
+      "title": "South African Newsrooms Adopt AI to Boost Productivity and",
+      "url": "https://iafrica.com/south-african-newsrooms-adopt-ai-to-boost-productivity-and-strengthen-editorial-standards",
+      "source": "iAfrica.com",
+      "date": "9 Dec 2025",
+      "excerpt": "“The Foundation launched a four-month program to support four South African newsrooms… establishing editorial guardrails and policies.”",
+      "why_it_matters": "Recent, concrete outcomes: examples of newsroom tools built, productivity effects, and emphasis on policies/guardrails.",
+      "ai_extract": "The article describes a four-month programme (supported by Microsoft) working with\nMail & Guardian, amaBhungane, Briefly News, and Pondoland Times. It reports newsroom-built tools (e.g., sub-editing/proofing, repackaging investigations into multimedia, auto-posting), along with stated outcomes such as workflow improvements and increased reach, while stressing the need for editorial oversight and formal\nAI policies.",
+      "theme": "Practice-Led Case Studies & Africa-Focused Evidence"
+    }
+  ]
+}

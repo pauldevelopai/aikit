@@ -1,0 +1,157 @@
+{# Scoring Algorithm Explanation Component
+
+Shows users how recommendations are personalized based on their profile.
+
+Usage:
+{% include "components/scoring_explanation.html" %}
+
+Required context:
+- user: The current user object
+#}
+
+<div class="scoring-explanation bg-white rounded-lg border border-gray-200 p-4 mb-4">
+    <details class="group">
+        <summary class="cursor-pointer flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-lg">🎯</span>
+                <span class="font-medium text-gray-700">How We Personalize Your Recommendations</span>
+            </div>
+            <span class="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+        </summary>
+
+        <div class="mt-4 space-y-4">
+            <p class="text-sm text-gray-600">
+                Every recommendation is scored on a 0-100% scale based on how well it fits <strong>your specific context</strong>.
+                Different users get different recommendations because the scoring considers:
+            </p>
+
+            <!-- Scoring Components -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="bg-blue-50 rounded-lg p-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-blue-600 font-bold">30%</span>
+                        <span class="font-medium text-gray-800">CDI Constraints Fit</span>
+                    </div>
+                    <p class="text-xs text-gray-600">
+                        Tools are penalized if their Cost, Difficulty, or Invasiveness exceed your limits
+                        based on your <strong>budget</strong>, <strong>experience level</strong>, and <strong>data sensitivity</strong> settings.
+                    </p>
+                </div>
+
+                <div class="bg-purple-50 rounded-lg p-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-purple-600 font-bold">25%</span>
+                        <span class="font-medium text-gray-800">Use Case Match</span>
+                    </div>
+                    <p class="text-xs text-gray-600">
+                        Tools that match your saved <strong>use cases</strong> (e.g., transcription, verification)
+                        score higher.
+                    </p>
+                </div>
+
+                <div class="bg-yellow-50 rounded-lg p-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-yellow-600 font-bold">20%</span>
+                        <span class="font-medium text-gray-800">Community Reviews</span>
+                    </div>
+                    <p class="text-xs text-gray-600">
+                        Reviews from users with <strong>similar org type</strong> and <strong>use cases</strong>
+                        to yours are weighted more heavily.
+                    </p>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-3">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-green-600 font-bold">15%</span>
+                        <span class="font-medium text-gray-800">Your Activity</span>
+                    </div>
+                    <p class="text-xs text-gray-600">
+                        Tools related to clusters you've <strong>browsed</strong> and queries you've
+                        <strong>searched</strong> get a boost.
+                    </p>
+                </div>
+
+                <div class="bg-gray-100 rounded-lg p-3 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-1">
+                        <span class="text-gray-600 font-bold">10%</span>
+                        <span class="font-medium text-gray-800">Profile Fit</span>
+                    </div>
+                    <p class="text-xs text-gray-600">
+                        Country-specific and organization-type considerations. For example, freelancers may
+                        prefer free tools, while regulated newsrooms may prefer local/sovereign options.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Your Current Settings -->
+            {% if user %}
+            <div class="border-t border-gray-200 pt-4">
+                <h4 class="text-sm font-semibold text-gray-700 mb-2">Your Current Settings</h4>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    {% if user.budget %}
+                    <span class="px-2 py-1 rounded-full bg-blue-100 text-blue-700">
+                        Budget: {{ user.budget }}
+                    </span>
+                    {% endif %}
+                    {% if user.ai_experience_level %}
+                    <span class="px-2 py-1 rounded-full bg-purple-100 text-purple-700">
+                        Experience: {{ user.ai_experience_level }}
+                    </span>
+                    {% endif %}
+                    {% if user.data_sensitivity %}
+                    <span class="px-2 py-1 rounded-full bg-orange-100 text-orange-700">
+                        Data: {{ user.data_sensitivity }}
+                    </span>
+                    {% endif %}
+                    {% if user.organisation_type %}
+                    <span class="px-2 py-1 rounded-full bg-gray-200 text-gray-700">
+                        Org: {{ user.organisation_type }}
+                    </span>
+                    {% endif %}
+                    {% if user.risk_level %}
+                    <span class="px-2 py-1 rounded-full bg-green-100 text-green-700">
+                        Risk: {{ user.risk_level }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                {% if not user.budget and not user.ai_experience_level and not user.data_sensitivity %}
+                <p class="text-xs text-amber-600 mt-2">
+                    <a href="/profile" class="underline font-medium">Complete your profile</a>
+                    to get more accurate personalized recommendations.
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Why Different Users Get Different Results -->
+            <div class="border-t border-gray-200 pt-4">
+                <h4 class="text-sm font-semibold text-gray-700 mb-2">Why Different Users Get Different Results</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-indigo-50 rounded-lg p-3">
+                        <div class="font-medium text-indigo-900 mb-1">Example: Small Newsroom</div>
+                        <ul class="text-indigo-700 space-y-1">
+                            <li>• Budget: minimal → Max Cost Score: 2/10</li>
+                            <li>• Experience: beginner → Max Difficulty: 3/10</li>
+                            <li>• Data: internal → Max Invasiveness: 6/10</li>
+                        </ul>
+                        <p class="mt-2 text-indigo-600 italic">
+                            → Free, easy, local tools rank highest
+                        </p>
+                    </div>
+                    <div class="bg-emerald-50 rounded-lg p-3">
+                        <div class="font-medium text-emerald-900 mb-1">Example: Enterprise Newsroom</div>
+                        <ul class="text-emerald-700 space-y-1">
+                            <li>• Budget: large → Max Cost Score: 10/10</li>
+                            <li>• Experience: advanced → Max Difficulty: 10/10</li>
+                            <li>• Data: regulated → Max Invasiveness: 2/10</li>
+                        </ul>
+                        <p class="mt-2 text-emerald-600 italic">
+                            → Self-hosted, compliant tools rank highest
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>

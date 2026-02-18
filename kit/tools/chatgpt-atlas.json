@@ -1,0 +1,38 @@
+{
+  "slug": "chatgpt-atlas",
+  "name": "ChatGPT Atlas",
+  "number": 42,
+  "cluster_name": "AI Agents & Automated Workflows",
+  "cluster_slug": "ai-agents-automated-workflows",
+  "cluster_number": 7,
+  "description": "",
+  "purpose": "",
+  "journalism_relevance": "Useful for research and verification tasks that involve navigating complex or fragmented web interfaces, such as tracking regulatory updates, locating public records across multiple sites, comparing disclosures, or gathering background information that would otherwise require repetitive manual browsing.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 2,
+    "invasiveness": 4
+  },
+  "time_dividend": {
+    "time_saved": "Automates multi-step web navigation and information gathering that would otherwise require manual searching and copying.",
+    "reinvestment": "Validating findings, cross-checking sources, and deciding which surfaced information warrants deeper reporting."
+  },
+  "comments": "Runs entirely within the OpenAI ecosystem and performs actions on behalf of the user inside the browser. Should only be used with publicly accessible information and non- sensitive accounts. Journalists remain responsible for verifying outputs and ensuring compliance with terms of service and ethical standards.",
+  "url": "",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "apify",
+      "autogen",
+      "n8n",
+      "zapier-ai"
+    ],
+    "use_cases": [
+      "automation"
+    ]
+  }
+}

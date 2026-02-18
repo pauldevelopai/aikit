@@ -1,0 +1,246 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Discovered Resources{% endblock %}
+
+{% block content %}
+        <!-- Page Header -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Discovery</h1>
+                <p class="text-gray-600 mt-1">Automated discovery of AI tools, resources, and use cases</p>
+            </div>
+        </div>
+
+        <!-- Discovery Type Tabs -->
+        <div class="mb-6">
+            <nav class="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                <a href="/admin/discovery" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Overview
+                </a>
+                <a href="/admin/discovery/tools" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    Tools
+                </a>
+                <a href="/admin/discovery/resources" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium bg-purple-600 text-white">
+                    Resources
+                    <span class="ml-1 px-2 py-0.5 rounded-full text-xs bg-purple-500">{{ counts.all }}</span>
+                </a>
+                <a href="/admin/discovery/use-cases" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    Use Cases
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sub Header -->
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-semibold text-gray-900">Resources <span class="text-gray-500 font-normal">({{ total }})</span></h2>
+            <div class="flex gap-2">
+                <form action="/admin/discovery/run-resources" method="POST" class="inline">
+                    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 text-sm"
+                            onclick="return confirm('Run resource discovery now?');">
+                        Run Discovery
+                    </button>
+                </form>
+                <button onclick="document.getElementById('addResourceModal').classList.remove('hidden')"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">
+                    + Add Resource
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow mb-6 p-4">
+            <form method="GET" class="flex flex-wrap gap-4 items-end">
+                <!-- Status Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select name="status" class="border border-gray-300 rounded-md px-3 py-2 text-sm" onchange="this.form.submit()">
+                        <option value="" {% if not current_status %}selected{% endif %}>All</option>
+                        <option value="pending_review" {% if current_status == 'pending_review' %}selected{% endif %}>Pending Review ({{ counts.pending_review }})</option>
+                        <option value="approved" {% if current_status == 'approved' %}selected{% endif %}>Approved ({{ counts.approved }})</option>
+                        <option value="rejected" {% if current_status == 'rejected' %}selected{% endif %}>Rejected ({{ counts.rejected }})</option>
+                    </select>
+                </div>
+
+                <!-- Search -->
+                <div class="flex-1 min-w-[200px]">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <input type="text" name="search" value="{{ search or '' }}" placeholder="Title, summary, or source..."
+                           class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                </div>
+
+                <div>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Filter</button>
+                    <a href="/admin/discovery/resources" class="ml-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Clear</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Resources Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Discovered</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for resource in resources %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col">
+                                    <a href="/admin/discovery/resources/{{ resource.id }}" class="text-blue-600 font-medium hover:underline">
+                                        {{ resource.title }}
+                                    </a>
+                                    <a href="{{ resource.url }}" target="_blank" class="text-xs text-gray-500 hover:text-gray-700 truncate max-w-xs">
+                                        {{ resource.url_domain }}
+                                    </a>
+                                    {% if resource.summary %}
+                                    <p class="text-sm text-gray-600 mt-1 line-clamp-2">{{ resource.summary[:150] }}{% if resource.summary|length > 150 %}...{% endif %}</p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-900">{{ resource.source or '-' }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 text-xs rounded bg-gray-100 text-gray-700">{{ resource.resource_type or 'unknown' }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if resource.status == 'pending_review' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">pending</span>
+                                {% elif resource.status == 'approved' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">approved</span>
+                                {% elif resource.status == 'rejected' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">rejected</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ resource.discovered_at.strftime('%Y-%m-%d') if resource.discovered_at else '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                <a href="/admin/discovery/resources/{{ resource.id }}" class="text-blue-600 hover:text-blue-800">View</a>
+                                {% if resource.status == 'pending_review' %}
+                                <form action="/admin/discovery/resources/{{ resource.id }}/approve" method="POST" class="inline ml-2">
+                                    <button type="submit" class="text-green-600 hover:text-green-800">Approve</button>
+                                </form>
+                                <form action="/admin/discovery/resources/{{ resource.id }}/reject" method="POST" class="inline ml-2">
+                                    <button type="submit" class="text-red-600 hover:text-red-800">Reject</button>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+                                No resources found matching your criteria.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if total_pages > 1 %}
+            <div class="bg-gray-50 px-6 py-3 border-t border-gray-200 flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    Page {{ page }} of {{ total_pages }}
+                </div>
+                <div class="flex gap-2">
+                    {% if page > 1 %}
+                    <a href="?page={{ page - 1 }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+                       class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Previous</a>
+                    {% endif %}
+                    {% if page < total_pages %}
+                    <a href="?page={{ page + 1 }}{% if current_status %}&status={{ current_status }}{% endif %}{% if search %}&search={{ search }}{% endif %}"
+                       class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-100">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Add Resource Modal -->
+        <div id="addResourceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-900">Add Resource</h2>
+                        <button onclick="document.getElementById('addResourceModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">&times;</button>
+                    </div>
+                    <form id="addResourceForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Title *</label>
+                            <input type="text" name="title" required class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">URL *</label>
+                            <input type="url" name="url" required class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Summary</label>
+                            <textarea name="summary" rows="3" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Source</label>
+                                <input type="text" name="source" placeholder="e.g., Nieman Lab" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Type</label>
+                                <select name="resource_type" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                    <option value="article">Article</option>
+                                    <option value="report">Report</option>
+                                    <option value="study">Study</option>
+                                    <option value="guide">Guide</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Author</label>
+                            <input type="text" name="author" class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div class="flex justify-end gap-2 pt-4">
+                            <button type="button" onclick="document.getElementById('addResourceModal').classList.add('hidden')"
+                                    class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Cancel</button>
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Add Resource</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        document.getElementById('addResourceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch('/admin/discovery/api/resources', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    const data = await response.json();
+                    alert('Error: ' + (data.detail || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error adding resource: ' + error.message);
+            }
+        });
+    </script>
+{% endblock %}

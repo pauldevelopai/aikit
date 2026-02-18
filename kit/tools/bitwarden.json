@@ -1,0 +1,41 @@
+{
+  "slug": "bitwarden",
+  "name": "Bitwarden",
+  "number": 37,
+  "cluster_name": "Security Challenges",
+  "cluster_slug": "security-challenges",
+  "cluster_number": 5,
+  "description": "Open-source password manager with end-to-end encryption. Bitwarden is a popular open-source password manager that securely stores all your passwords in an encrypted vault. It helps generate strong, unique passwords for each account and auto-fills them when needed, so you don’t have to remember or reuse passwords. All data stored in Bitwarden is end-to-end encrypted (zero-knowledge), meaning even Bitwarden’s servers can’t read your passwords. The service has undergone independent security audits in 2023 and to ensure its integrity. Journalists often manage numerous online accounts (email, social media, cloud services, databases). A password manager is vital for protecting these accounts from hacking. Using strong, unique passwords for every account is one of the simplest yet most effective security steps",
+  "purpose": "Secure password storage and account protection.",
+  "journalism_relevance": "Prevents account compromise caused by weak or reused passwords—one of the most common ways journalists lose access to email, cloud storage, and social accounts.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 2,
+    "invasiveness": 1
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Operational stability. Journalists spend time reporting, not regaining access to tools."
+  },
+  "comments": "",
+  "url": "https://www.torproject.org",
+  "tags": [
+    "beginner-friendly",
+    "free",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "dangerzone-security-challenges",
+      "protonmail",
+      "tor-browser",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "security-privacy"
+    ]
+  }
+}

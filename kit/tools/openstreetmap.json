@@ -1,0 +1,37 @@
+{
+  "slug": "openstreetmap",
+  "name": "OpenStreetMap",
+  "number": 15,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Open geographic database and query interface for extracting detailed mapping data. OpenStreetMap is a website where volunteers around the world add and update information about roads, buildings, paths, villages, and landmarks. Think of it as a shared public map that anyone can improve and anyone can use. While Google Maps is mainly about directions, traffic, and businesses. OpenStreetMap is about recording what actually exists in a place. Because it is community-driven, it often shows things Google Maps misses, especially in rural areas, poorer regions, or conflict zones. OpenStreetMap often records things like footpaths, dirt roads, and informal routes that people actually use, but that are not “official”. Small or non-commercial buildings such as clinics, water points, refugee camps, schools, mosques, or community halls that have no business listings. For journalists, OpenStreetMap is useful when reporting on places that are under-mapped or ignored, because it can show whether basic infrastructure exists even when there are no reviews, photos, or commercial listings.",
+  "purpose": "Open geospatial investigation and mapping.",
+  "journalism_relevance": "Often more accurate than Google Maps in conflict zones and rural areas due to humanitarian mapping contributions.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 6,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Geolocation verification. Cross-check satellite imagery, eyewitness claims, and timelines."
+  },
+  "comments": "",
+  "url": "https://dangerzone.rocks",
+  "tags": [
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "invid-weverify"
+    ],
+    "use_cases": [
+      "geolocation"
+    ]
+  }
+}

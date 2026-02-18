@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Hero -->
+    <div class="text-center py-12">
+        <h1 class="text-5xl font-bold text-brand-primary mb-4">{{ product_name }}</h1>
+        <p class="text-xl text-gray-600 mb-4">{{ product_description|default('') }}</p>
+        {% if stats %}
+        <p class="text-gray-500 max-w-2xl mx-auto mb-8">
+            Explore {{ stats.tool_count }} AI tools across {{ stats.cluster_count }} clusters, each rated on Cost, Difficulty and Invasiveness.
+            Backed by {{ stats.source_count }} verified citations. Learn how to use AI responsibly in journalism.
+        </p>
+        {% endif %}
+        <div class="flex justify-center gap-4 flex-wrap">
+            {% if user and feature_recommendations|default(true) %}
+            <a href="/for-you" class="bg-brand-accent text-white px-6 py-3 rounded-lg hover:opacity-90 transition font-medium">
+                For You
+            </a>
+            {% endif %}
+            {% if feature_rag|default(true) %}
+            <a href="/tools/finder" class="bg-brand-primary text-white px-6 py-3 rounded-lg hover:bg-brand-secondary transition font-medium">
+                Find the Right Tool
+            </a>
+            {% endif %}
+            <a href="/tools" class="bg-white text-brand-primary border-2 border-brand-primary px-6 py-3 rounded-lg hover:bg-gray-50 transition font-medium">
+                Browse All Tools
+            </a>
+        </div>
+    </div>
+
+    <!-- Feature Cards -->
+    {% if stats %}
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <a href="/tools" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+            <h3 class="font-bold text-lg mb-2 text-gray-900">{{ stats.tool_count }} AI Tools</h3>
+            <p class="text-sm text-gray-600">Each tool rated with CDI scores - Cost, Difficulty, Invasiveness - so you know the trade-offs before you start.</p>
+        </a>
+        {% if feature_clusters|default(true) %}
+        <a href="/clusters" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+            <h3 class="font-bold text-lg mb-2 text-gray-900">{{ stats.cluster_count }} Clusters</h3>
+            <p class="text-sm text-gray-600">From transcription to verification to AI agents. Tools grouped by function with teaching guidance and exercises.</p>
+        </a>
+        {% endif %}
+        {% if feature_sources|default(true) %}
+        <a href="/sources" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition">
+            <h3 class="font-bold text-lg mb-2 text-gray-900">{{ stats.source_count }} Sources</h3>
+            <p class="text-sm text-gray-600">Every claim backed by verified citations from {{ stats.source_batch_count }} thematic batches of real-world evidence.</p>
+        </a>
+        {% endif %}
+        {% if feature_rag|default(true) %}
+        <button onclick="toggleChatPanel()" class="block bg-white p-6 rounded-lg shadow hover:shadow-md transition text-left w-full">
+            <h3 class="font-bold text-lg mb-2 text-gray-900">Ask Questions</h3>
+            <p class="text-sm text-gray-600">Chat with {{ product_name }} using AI-powered search. Every answer is grounded in the source material with citations.</p>
+        </button>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Clusters Quick Overview -->
+    {% if clusters and feature_clusters|default(true) %}
+    <div class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Tool Clusters</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {% for cluster in clusters %}
+            <a href="/clusters/{{ cluster.slug }}"
+               class="block bg-white rounded-lg shadow p-4 hover:shadow-md transition border-l-4 border-brand-primary">
+                <h3 class="font-semibold text-gray-900 text-sm">{{ cluster.name }}</h3>
+                <p class="text-xs text-gray-500 mt-1">{{ cluster.tool_count }} tools</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Introduction Section -->
+    <div class="mb-12 bg-white rounded-lg shadow p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Why This Toolkit Exists</h2>
+        <div class="prose prose-gray max-w-none space-y-4">
+            <p class="text-gray-700 leading-relaxed">
+                We are at an inflection point in journalism education. By 2025, the challenge is no longer access to Artificial Intelligence, but the governance of it. Research indicates that over 42% of journalists are already using "Shadow AI" (unapproved tools used without editorial oversight) to write headlines, transcribe interviews, and generate code.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Your students are likely already using AI tools. The danger is that they are using them blindly. They could be feeding sensitive data into opaque models, risking source confidentiality and relying on "black box" algorithms. This toolkit is designed to help you elevate your teaching from simple "tool training" to critical AI literacy. It does not merely list software. Here our goal is to train journalists who are not just users of technology, but auditors of it.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Artificial Intelligence is already embedded in journalism, whether it is formally acknowledged or not. Students and early-career journalists are using AI systems to transcribe interviews, summarise documents, translate material, write code, generate visuals, and search for information. The question facing journalism education is therefore not whether AI should be introduced, but how it should be understood, governed and used responsibly.
+            </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

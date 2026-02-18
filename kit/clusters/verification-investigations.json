@@ -1,0 +1,33 @@
+{
+  "number": 2,
+  "name": "Verification & Investigations",
+  "slug": "verification-investigations",
+  "description": "Tools and techniques for verifying content, tracking changes, and uncovering networks. Verification tools are now essential in everyday reporting, not just investigations. When a video circulates on social media claiming to show a war crime, protest, or police abuse, newsrooms use video verification tools to check where and when it was filmed and whether it has appeared before. When governments quietly update official websites after public backlash, journalists use change-tracking tools to document what was altered and when. In longer investigations, network-analysis tools are used to map company ownership, political connections, or financial flows, such as tracing how a local company links back to offshore entities. These tools matter because they allow journalists to prove claims, document accountability, and resist denial in environments where misinformation is deliberate and systematic.",
+  "teaching_guidance": "Reinforce that verification tools surface leads, not truth. Students should always be required to explain how a tool’s output supports or weakens a claim. Encourage methodological transparency. Ask students to document each verification step so the process can be assessed, not just the conclusion. Use this cluster to teach patience. Verification takes time, and resisting speed is part of professional discipline in investigative journalism.",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Prove or disprove",
+      "description": "Students are given a viral image or video with a strong claim attached. Their task is to verify it using appropriate tools and produce a short verification memo stating what can be confirmed, what cannot, and what evidence supports each conclusion. Marks are awarded for method, not outcome."
+    },
+    {
+      "number": 2,
+      "title": "Mapping power",
+      "description": "Students are given a list of companies or individuals involved in a public issue (e.g. housing, mining, elections). Using public data and network-mapping tools, they create a basic relationship map and submit a short explanation of what the map reveals that would not be obvious from reading documents alone."
+    }
+  ],
+  "where_to_start": "Start with: InVID / WeVerify + Visualping Why these first • These tools allow lecturers to focus on journalistic reasoning (what to check, why it matters) rather than technical setup. • Browser-based or very simple interfaces • Immediately applicable to everyday reporting • Teach verification as a habit, not a specialist skill What they teach well • How to verify social media content under time pressure • The idea that claims must be proven, not repeated • How small digital traces (a frame, a timestamp, a page change) become evidence Introduce next: Google Pinpoint + Aleph (OCCRP) Why these next • Both are free for journalists • Designed explicitly for investigative work • Handle large, messy datasets that overwhelm manual methods What they teach well • Once students understand why verification matters, these tools teach scale and structure. • How investigations move from documents to patterns • Entity recognition, cross-referencing, and follow-the-money thinking • The difference between a document archive and an investigation",
+  "tool_slugs": [
+    "notebooklm",
+    "google-pinpoint",
+    "invid-weverify",
+    "visualping",
+    "bellingcat-online-investigation-toolkit",
+    "aleph-occrp",
+    "neo4j",
+    "changedetectionio",
+    "dangerzone",
+    "openstreetmap"
+  ],
+  "tool_count": 10
+}

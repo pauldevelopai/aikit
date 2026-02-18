@@ -1,0 +1,39 @@
+{
+  "slug": "openrefine",
+  "name": "OpenRefine",
+  "number": 21,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Open-source tool for cleaning, clustering, and transforming messy datasets. page.html#:~:text=You%20can%20now%20see%20Gemini,in%20the%20Gemini%20side%20panel OpenRefine is a free tool that helps journalists work with messy or poorly formatted data. It is especially useful for cleaning spreadsheets, fixing inconsistencies, and preparing data so it can be properly analysed. It is widely used in data journalism because many official datasets are incomplete, inconsistent, or badly structured. Essential for cleaning government datasets where \"Chisinau\", \"Chișinău\", and \"Kishinev\" need to be merged into one entry. The tool looks similar to a spreadsheet, but it is much more powerful. Originally developed with Google’s support and later released to the public, OpenRefine is now maintained by a global community and is considered a standard tool for cleaning and preparing data before reporting.",
+  "purpose": "Cleaning messy data.",
+  "journalism_relevance": "It allows you to spot patterns, merge different versions of the same name or place, and make large-scale changes safely.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 6,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Days of manual \"find and replace.\"",
+    "reinvestment": "Once the data is clean, you can actually interrogate it to find the story."
+  },
+  "comments": "",
+  "url": "https://gemini.google.com",
+  "tags": [
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "pandas",
+      "tabula"
+    ],
+    "use_cases": [
+      "data-analysis"
+    ]
+  }
+}

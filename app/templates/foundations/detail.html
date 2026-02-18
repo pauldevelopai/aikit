@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-gray-500">
+        <a href="/foundations" class="hover:text-blue-600">Foundations</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-900">{{ section.title }}</span>
+    </nav>
+
+    <div class="lg:grid lg:grid-cols-4 lg:gap-8">
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <div class="bg-white rounded-lg shadow p-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">{{ section.title }}</h1>
+
+                <!-- Content rendered as paragraphs -->
+                <div class="text-gray-700 leading-relaxed space-y-3">
+                    {% set paragraphs = section.content.split('\n') %}
+                    {% for para in paragraphs %}
+                        {% if para.strip() %}
+                            {% if para.strip().startswith('## ') %}
+                                <h3 class="text-lg font-semibold text-gray-900 mt-6 mb-1">{{ para.strip()[3:] }}</h3>
+                            {% elif para.strip().startswith('●') or para.strip().startswith('○') or para.strip().startswith('-') %}
+                                <div class="pl-6 py-1 text-gray-600">{{ para.strip()|linkify }}</div>
+                            {% elif para.strip()[0:1].isdigit() and (')' in para.strip()[:4] or '.' in para.strip()[:4] or ':' in para.strip()[:4]) %}
+                                <div class="pl-4 py-1 font-medium text-gray-800">{{ para.strip()|linkify }}</div>
+                            {% else %}
+                                <p>{{ para.strip()|linkify }}</p>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <!-- Related Links -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex flex-wrap gap-3">
+                        {% if section.slug == 'cdi-scores' or section.slug == 'ai-audit-rubric' %}
+                        <a href="/tools" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            See CDI scores for all tools &rarr;
+                        </a>
+                        {% endif %}
+                        {% if section.slug == 'three-core-pillars' %}
+                        <a href="/tools/finder" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            Find the right tool for your needs &rarr;
+                        </a>
+                        {% endif %}
+                        {% if section.slug == 'top-10-use-cases' %}
+                        <a href="/clusters" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            Explore all 7 tool clusters &rarr;
+                        </a>
+                        {% endif %}
+                        {% if section.slug == 'glossary' %}
+                        <a href="javascript:void(0)" onclick="toggleChatPanel()" class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                            Ask a question about any term &rarr;
+                        </a>
+                        {% endif %}
+                        <a href="/foundations" class="text-sm text-gray-500 hover:text-gray-700">
+                            &larr; Back to all foundations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="mt-8 lg:mt-0">
+            <div class="bg-white rounded-lg shadow p-5 sticky top-6">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide">Sections</h3>
+                <nav class="space-y-1">
+                    {% for s in all_sections %}
+                        {% if not s.slug.startswith('addendum') %}
+                        <a href="/foundations/{{ s.slug }}"
+                           class="block px-3 py-2 rounded text-sm transition
+                               {% if s.slug == section.slug %}
+                               bg-blue-50 text-blue-700 font-medium
+                               {% else %}
+                               text-gray-600 hover:bg-gray-50 hover:text-gray-900
+                               {% endif %}">
+                            {{ s.title }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+
+                {% set addenda_list = [] %}
+                {% for s in all_sections %}
+                    {% if s.slug.startswith('addendum') %}
+                        {% if addenda_list.append(s) %}{% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if addenda_list %}
+                <h3 class="text-sm font-semibold text-gray-900 mt-6 mb-3 uppercase tracking-wide">Addenda</h3>
+                <nav class="space-y-1">
+                    {% for s in all_sections %}
+                        {% if s.slug.startswith('addendum') %}
+                        <a href="/foundations/{{ s.slug }}"
+                           class="block px-3 py-2 rounded text-sm transition
+                               {% if s.slug == section.slug %}
+                               bg-blue-50 text-blue-700 font-medium
+                               {% else %}
+                               text-gray-600 hover:bg-gray-50 hover:text-gray-900
+                               {% endif %}">
+                            {{ s.title }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </nav>
+                {% endif %}
+
+                <!-- Quick Actions -->
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <a href="/tools/finder" class="block text-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition">
+                        Find the Right Tool
+                    </a>
+                    <button onclick="toggleChatPanel()" class="w-full block text-center px-4 py-2 mt-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-200 transition cursor-pointer">
+                        Ask a Question
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

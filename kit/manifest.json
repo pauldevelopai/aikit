@@ -1,0 +1,669 @@
+{
+  "title": "The CEE Journalism Lecturer's Advanced AI Toolkit (2026 Edition)",
+  "source": "toolkit.pdf",
+  "tool_count": 46,
+  "cluster_count": 7,
+  "clusters": [
+    {
+      "number": 1,
+      "name": "Transcription & Translation",
+      "slug": "transcription-translation"
+    },
+    {
+      "number": 2,
+      "name": "Verification & Investigations",
+      "slug": "verification-investigations"
+    },
+    {
+      "number": 3,
+      "name": "Writing & Analysis",
+      "slug": "writing-analysis"
+    },
+    {
+      "number": 4,
+      "name": "Audio, Video & Social",
+      "slug": "audio-video-social"
+    },
+    {
+      "number": 5,
+      "name": "Security Challenges",
+      "slug": "security-challenges"
+    },
+    {
+      "number": 6,
+      "name": "Building Your Own Tools",
+      "slug": "building-your-own-tools"
+    },
+    {
+      "number": 7,
+      "name": "AI Agents & Automated Workflows",
+      "slug": "ai-agents-automated-workflows"
+    }
+  ],
+  "tools": [
+    {
+      "number": 1,
+      "name": "TurboScribe",
+      "slug": "turboscribe",
+      "cluster_slug": "transcription-translation",
+      "cdi_scores": {
+        "cost": 3,
+        "difficulty": 1,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 2,
+      "name": "HappyScribe",
+      "slug": "happyscribe",
+      "cluster_slug": "transcription-translation",
+      "cdi_scores": {
+        "cost": 6,
+        "difficulty": 2,
+        "invasiveness": 6
+      }
+    },
+    {
+      "number": 3,
+      "name": "DeepL Pro",
+      "slug": "deepl-pro",
+      "cluster_slug": "transcription-translation",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 1,
+        "invasiveness": 4
+      }
+    },
+    {
+      "number": 4,
+      "name": "Narakeet",
+      "slug": "narakeet",
+      "cluster_slug": "transcription-translation",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 1,
+        "invasiveness": 3
+      }
+    },
+    {
+      "number": 5,
+      "name": "OpenAI Whisper",
+      "slug": "openai-whisper",
+      "cluster_slug": "transcription-translation",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 8,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 6,
+      "name": "NotebookLM",
+      "slug": "notebooklm",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 1,
+        "invasiveness": 6
+      }
+    },
+    {
+      "number": 7,
+      "name": "Google Pinpoint",
+      "slug": "google-pinpoint",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 3,
+        "invasiveness": 6
+      }
+    },
+    {
+      "number": 8,
+      "name": "InVID / WeVerify",
+      "slug": "invid-weverify",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 5,
+        "invasiveness": 1
+      }
+    },
+    {
+      "number": 9,
+      "name": "Visualping",
+      "slug": "visualping",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 2,
+        "invasiveness": 2
+      }
+    },
+    {
+      "number": 10,
+      "name": "Bellingcat Online Investigation Toolkit",
+      "slug": "bellingcat-online-investigation-toolkit",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 9,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 11,
+      "name": "Aleph (OCCRP)",
+      "slug": "aleph-occrp",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 4,
+        "invasiveness": 1
+      }
+    },
+    {
+      "number": 12,
+      "name": "Neo4j",
+      "slug": "neo4j",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 3,
+        "difficulty": 8,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 13,
+      "name": "Changedetection.io",
+      "slug": "changedetectionio",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 4,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 14,
+      "name": "Dangerzone",
+      "slug": "dangerzone",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 3,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 15,
+      "name": "OpenStreetMap",
+      "slug": "openstreetmap",
+      "cluster_slug": "verification-investigations",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 6,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 16,
+      "name": "Claude",
+      "slug": "claude",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 4,
+        "invasiveness": 3
+      }
+    },
+    {
+      "number": 17,
+      "name": "ChatGPT Team Plan",
+      "slug": "chatgpt-team-plan",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 2,
+        "invasiveness": 8
+      }
+    },
+    {
+      "number": 18,
+      "name": "Perplexity",
+      "slug": "perplexity",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 3,
+        "difficulty": 1,
+        "invasiveness": 4
+      }
+    },
+    {
+      "number": 19,
+      "name": "Wordtune",
+      "slug": "wordtune",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 1,
+        "invasiveness": 3
+      }
+    },
+    {
+      "number": 20,
+      "name": "Gemini",
+      "slug": "gemini",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 2,
+        "invasiveness": 7
+      }
+    },
+    {
+      "number": 21,
+      "name": "OpenRefine",
+      "slug": "openrefine",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 6,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 22,
+      "name": "Tabula",
+      "slug": "tabula",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 4,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 23,
+      "name": "Pandas",
+      "slug": "pandas",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 7,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 24,
+      "name": "LanguageTool",
+      "slug": "languagetool",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 2,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 25,
+      "name": "Ollama",
+      "slug": "ollama",
+      "cluster_slug": "writing-analysis",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 6,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 26,
+      "name": "ElevenLabs",
+      "slug": "elevenlabs",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 6,
+        "difficulty": 3,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 27,
+      "name": "Descript",
+      "slug": "descript",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 3,
+        "invasiveness": 4
+      }
+    },
+    {
+      "number": 28,
+      "name": "OpusClip",
+      "slug": "opusclip",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 1,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 29,
+      "name": "Midjourney",
+      "slug": "midjourney",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 6,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 30,
+      "name": "Adobe Firefly",
+      "slug": "adobe-firefly",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 6,
+        "difficulty": 2,
+        "invasiveness": 4
+      }
+    },
+    {
+      "number": 31,
+      "name": "Buffer AI Assistant",
+      "slug": "buffer-ai-assistant",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 3,
+        "difficulty": 2,
+        "invasiveness": 3
+      }
+    },
+    {
+      "number": 32,
+      "name": "Runway",
+      "slug": "runway",
+      "cluster_slug": "audio-video-social",
+      "cdi_scores": {
+        "cost": 7,
+        "difficulty": 5,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 33,
+      "name": "VeraCrypt",
+      "slug": "veracrypt",
+      "cluster_slug": "security-challenges",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 6,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 34,
+      "name": "Dangerzone",
+      "slug": "dangerzone-security-challenges",
+      "cluster_slug": "security-challenges",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 3,
+        "invasiveness": 0
+      }
+    },
+    {
+      "number": 35,
+      "name": "ProtonMail",
+      "slug": "protonmail",
+      "cluster_slug": "security-challenges",
+      "cdi_scores": {
+        "cost": 2,
+        "difficulty": 3,
+        "invasiveness": 2
+      }
+    },
+    {
+      "number": 36,
+      "name": "Tor Browser",
+      "slug": "tor-browser",
+      "cluster_slug": "security-challenges",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 4,
+        "invasiveness": 2
+      }
+    },
+    {
+      "number": 37,
+      "name": "Bitwarden",
+      "slug": "bitwarden",
+      "cluster_slug": "security-challenges",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 2,
+        "invasiveness": 1
+      }
+    },
+    {
+      "number": 38,
+      "name": "Custom GPTs",
+      "slug": "custom-gpts",
+      "cluster_slug": "building-your-own-tools",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 2,
+        "invasiveness": 6
+      }
+    },
+    {
+      "number": 39,
+      "name": "Cursor",
+      "slug": "cursor",
+      "cluster_slug": "building-your-own-tools",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 4,
+        "invasiveness": 2
+      }
+    },
+    {
+      "number": 40,
+      "name": "Replit",
+      "slug": "replit",
+      "cluster_slug": "building-your-own-tools",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 2,
+        "invasiveness": 6
+      }
+    },
+    {
+      "number": 41,
+      "name": "Google Colab",
+      "slug": "google-colab",
+      "cluster_slug": "building-your-own-tools",
+      "cdi_scores": {
+        "cost": 0,
+        "difficulty": 3,
+        "invasiveness": 5
+      }
+    },
+    {
+      "number": 42,
+      "name": "ChatGPT Atlas",
+      "slug": "chatgpt-atlas",
+      "cluster_slug": "ai-agents-automated-workflows",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 2,
+        "invasiveness": 4
+      }
+    },
+    {
+      "number": 43,
+      "name": "Apify",
+      "slug": "apify",
+      "cluster_slug": "ai-agents-automated-workflows",
+      "cdi_scores": {
+        "cost": 4,
+        "difficulty": 3,
+        "invasiveness": 3
+      }
+    },
+    {
+      "number": 44,
+      "name": "AutoGen",
+      "slug": "autogen",
+      "cluster_slug": "ai-agents-automated-workflows",
+      "cdi_scores": {
+        "cost": 1,
+        "difficulty": 7,
+        "invasiveness": 2
+      }
+    },
+    {
+      "number": 45,
+      "name": "n8n",
+      "slug": "n8n",
+      "cluster_slug": "ai-agents-automated-workflows",
+      "cdi_scores": {
+        "cost": 1,
+        "difficulty": 7,
+        "invasiveness": 1
+      }
+    },
+    {
+      "number": 46,
+      "name": "Zapier AI",
+      "slug": "zapier-ai",
+      "cluster_slug": "ai-agents-automated-workflows",
+      "cdi_scores": {
+        "cost": 5,
+        "difficulty": 2,
+        "invasiveness": 2
+      }
+    }
+  ],
+  "foundations": [
+    {
+      "slug": "how-to-use",
+      "title": "How to Use This Toolkit"
+    },
+    {
+      "slug": "three-core-pillars",
+      "title": "Three Core Pillars of the Curriculum"
+    },
+    {
+      "slug": "cdi-scores",
+      "title": "CDI Scoring System"
+    },
+    {
+      "slug": "ethical-guidelines",
+      "title": "Ethical Guidelines for the Sustainable Newsroom"
+    },
+    {
+      "slug": "ai-audit-rubric",
+      "title": "The AI Audit Rubric"
+    },
+    {
+      "slug": "glossary",
+      "title": "Glossary of AI in Journalism"
+    },
+    {
+      "slug": "top-10-use-cases",
+      "title": "Top 10 AI Use Cases in Journalism"
+    }
+  ],
+  "addenda": [
+    {
+      "slug": "addendum-a",
+      "title": "Caution List: Tools with Significant Risks"
+    },
+    {
+      "slug": "addendum-b",
+      "title": "Strategic Reinvestment of Time"
+    },
+    {
+      "slug": "addendum-c",
+      "title": "Futureproofing & Updating the Curriculum"
+    },
+    {
+      "slug": "addendum-d",
+      "title": "Resources & Research Database"
+    },
+    {
+      "slug": "addendum-e",
+      "title": "Who to Follow Online"
+    }
+  ],
+  "sources": {
+    "total_entries": 83,
+    "batch_count": 12,
+    "batches": [
+      {
+        "batch": 1,
+        "theme": "Toolkit Footnotes & Core References",
+        "entry_count": 10
+      },
+      {
+        "batch": 2,
+        "theme": "Central European & Case Study Evidence",
+        "entry_count": 4
+      },
+      {
+        "batch": 3,
+        "theme": "Newsroom Chatbots, Transcription & Translation Tools",
+        "entry_count": 8
+      },
+      {
+        "batch": 4,
+        "theme": "Research Tools & Verification Plugins",
+        "entry_count": 8
+      },
+      {
+        "batch": 5,
+        "theme": "AI Literacy & Model Limitations",
+        "entry_count": 8
+      },
+      {
+        "batch": 6,
+        "theme": "Safety, Security & Privacy",
+        "entry_count": 8
+      },
+      {
+        "batch": 7,
+        "theme": "Business, Revenue & Sustainability",
+        "entry_count": 7
+      },
+      {
+        "batch": 8,
+        "theme": "Global South & Regional Case Studies",
+        "entry_count": 6
+      },
+      {
+        "batch": 9,
+        "theme": "Practice-Led Case Studies & Africa-Focused Evidence",
+        "entry_count": 6
+      },
+      {
+        "batch": 10,
+        "theme": "Claim Verification & LLM Surveys",
+        "entry_count": 4
+      },
+      {
+        "batch": 11,
+        "theme": "Datasets & Benchmarks for Fact Checking",
+        "entry_count": 6
+      },
+      {
+        "batch": 12,
+        "theme": "Open-source Tools & Infrastructure",
+        "entry_count": 8
+      }
+    ]
+  }
+}

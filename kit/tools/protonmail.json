@@ -1,0 +1,39 @@
+{
+  "slug": "protonmail",
+  "name": "ProtonMail",
+  "number": 35,
+  "cluster_name": "Security Challenges",
+  "cluster_slug": "security-challenges",
+  "cluster_number": 5,
+  "description": "Encrypted email service designed for secure communications. ProtonMail is an encrypted email service designed with privacy in mind. Based in Switzerland, it provides end-to-end encryption (E2EE) for emails between ProtonMail users, meaning the messages are encrypted on the sender’s device and can only be decrypted by the recipient. Even when emailing non-ProtonMail contacts, ProtonMail allows you to send a password- protected encrypted message that the recipient can decrypt with a shared password. The service is open source and has a user-friendly interface similar to mainstream email, making secure email accessible without special technical knowledge.",
+  "purpose": "Secure email for sensitive journalistic communications.",
+  "journalism_relevance": "Prevents third parties—including email providers—from accessing message content, reducing exposure when handling confidential information or whistleblower contact.",
+  "cdi_scores": {
+    "cost": 2,
+    "difficulty": 3,
+    "invasiveness": 2
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Editorial focus. Journalists can concentrate on reporting instead of digital damage control."
+  },
+  "comments": "",
+  "url": "https://dangerzone.rocks",
+  "tags": [
+    "open-source",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "bitwarden",
+      "dangerzone-security-challenges",
+      "tor-browser",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "security-privacy"
+    ]
+  }
+}

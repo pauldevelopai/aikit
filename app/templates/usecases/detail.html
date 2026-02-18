@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}{{ usecase.title }} - Use Cases{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-sm">
+            <li><a href="/" class="text-blue-600 hover:text-blue-800">Home</a></li>
+            <li class="text-gray-400">/</li>
+            <li><a href="/use-cases" class="text-blue-600 hover:text-blue-800">Use Cases</a></li>
+            <li class="text-gray-400">/</li>
+            <li class="text-gray-600">{{ usecase.title[:30] }}{% if usecase.title|length > 30 %}...{% endif %}</li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <article class="bg-white rounded-lg shadow p-8">
+                <!-- Header -->
+                <header class="mb-6">
+                    <!-- Organization Badges -->
+                    <div class="mb-4 flex flex-wrap gap-2">
+                        {% if usecase.organization %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                            {{ usecase.organization }}
+                        </span>
+                        {% endif %}
+                        {% if usecase.country %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+                            {{ usecase.country }}
+                        </span>
+                        {% endif %}
+                        {% if usecase.organization_type %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            {{ usecase.organization_type }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ usecase.title }}</h1>
+
+                    <!-- Source -->
+                    {% if usecase.source_name or usecase.source_date %}
+                    <div class="text-sm text-gray-600">
+                        {% if usecase.source_name %}Source: {{ usecase.source_name }}{% endif %}
+                        {% if usecase.source_date %} - {{ usecase.source_date.strftime('%B %Y') }}{% endif %}
+                    </div>
+                    {% endif %}
+                </header>
+
+                <!-- Summary -->
+                {% if usecase.summary %}
+                <div class="mb-6">
+                    <p class="text-gray-700 text-lg leading-relaxed">{{ usecase.summary }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Case Study Sections -->
+                <div class="space-y-6">
+                    {% if usecase.challenge %}
+                    <div class="bg-red-50 rounded-lg p-5">
+                        <h2 class="text-lg font-semibold text-red-900 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            The Challenge
+                        </h2>
+                        <p class="text-red-800">{{ usecase.challenge }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.solution %}
+                    <div class="bg-blue-50 rounded-lg p-5">
+                        <h2 class="text-lg font-semibold text-blue-900 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                            The Solution
+                        </h2>
+                        <p class="text-blue-800">{{ usecase.solution }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.outcome %}
+                    <div class="bg-green-50 rounded-lg p-5">
+                        <h2 class="text-lg font-semibold text-green-900 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            The Outcome
+                        </h2>
+                        <p class="text-green-800">{{ usecase.outcome }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if usecase.lessons_learned %}
+                    <div class="bg-yellow-50 rounded-lg p-5">
+                        <h2 class="text-lg font-semibold text-yellow-900 mb-2 flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            Lessons Learned
+                        </h2>
+                        <p class="text-yellow-800">{{ usecase.lessons_learned }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tools Used -->
+                {% if usecase.tools_used or usecase.tools_mentioned %}
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-3">Tools</h2>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tool in usecase.tools_used or [] %}
+                        <a href="/tools/{{ tool }}" class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm hover:bg-green-200">
+                            {{ tool }}
+                        </a>
+                        {% endfor %}
+                        {% for tool in usecase.tools_mentioned or [] %}
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                            {{ tool }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Source Link -->
+                {% if usecase.source_url %}
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <a href="{{ usecase.source_url }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                        Read Full Case Study
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                </div>
+                {% endif %}
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Related Use Cases -->
+            {% if related_usecases %}
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Related Use Cases</h2>
+                <div class="space-y-4">
+                    {% for related in related_usecases %}
+                    <a href="/use-cases/{{ related.slug }}" class="block hover:bg-gray-50 -mx-2 p-2 rounded">
+                        <div class="text-sm font-medium text-gray-900">{{ related.title }}</div>
+                        <div class="text-xs text-gray-500 mt-1">
+                            {% if related.organization %}{{ related.organization }}{% endif %}
+                            {% if related.country %} - {{ related.country }}{% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Back to Use Cases -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <a href="/use-cases" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to all use cases
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

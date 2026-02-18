@@ -1,0 +1,859 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Discovery{% endblock %}
+
+{% block content %}
+        <!-- Page Title -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Discovery</h1>
+                <p class="text-gray-600 mt-1">Automated discovery of AI tools, resources, and use cases</p>
+            </div>
+            <button type="button" onclick="toggleConfigPanel()" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+                Configure & Run Discovery
+            </button>
+        </div>
+
+        <!-- Discovery Configuration Panel (Hidden by default) -->
+        <div id="configPanel" class="hidden bg-white rounded-lg shadow-lg border-2 border-blue-500 p-6 mb-8">
+            <form id="runDiscoveryForm" action="/admin/discovery/run" method="POST">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900">Discovery Configuration</h2>
+                    <button type="button" onclick="toggleConfigPanel()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Column 1: Content Type & Pipeline Steps -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Content Type</label>
+                            <select name="content_type" id="contentTypeSelect" class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option value="tools">Tools</option>
+                                <option value="resources">Resources</option>
+                                <option value="usecases">Use Cases</option>
+                                <option value="all">All Content Types</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pipeline Steps</label>
+                            <div class="space-y-2 bg-gray-50 p-3 rounded-md">
+                                <label class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" name="step_fetch" value="1" checked class="rounded text-blue-600">
+                                    <span>Fetch from sources</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" name="step_validate" value="1" checked class="rounded text-blue-600">
+                                    <span>Quality validation</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" name="step_dedupe" value="1" checked class="rounded text-blue-600">
+                                    <span>Deduplication check</span>
+                                </label>
+                                <label class="flex items-center gap-2 text-sm text-gray-500">
+                                    <input type="checkbox" name="step_enrich" value="1" disabled class="rounded text-gray-400">
+                                    <span>AI enrichment (on approval)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Global Limit</label>
+                            <input type="number" name="global_limit" id="globalLimit"
+                                   class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                                   placeholder="No limit" min="1" max="1000">
+                            <p class="text-xs text-gray-500 mt-1">Max total items to process (optional)</p>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Source Selection -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Sources to Run</label>
+                            <div class="space-y-3 bg-gray-50 p-3 rounded-md">
+                                <!-- GitHub Trending -->
+                                <div class="border-b border-gray-200 pb-3">
+                                    <label class="flex items-center gap-2 text-sm font-medium">
+                                        <input type="checkbox" name="source_github" value="1" checked
+                                               class="rounded text-blue-600" onchange="toggleSourceConfig('github')">
+                                        <span>GitHub Trending</span>
+                                    </label>
+                                    <div id="github_config" class="mt-2 ml-6 space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Min stars:</label>
+                                            <input type="number" name="github_min_stars" value="100" min="10" max="10000"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Max per topic:</label>
+                                            <input type="number" name="github_max_per_topic" value="30" min="5" max="100"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Awesome Lists -->
+                                <div class="border-b border-gray-200 pb-3">
+                                    <label class="flex items-center gap-2 text-sm font-medium">
+                                        <input type="checkbox" name="source_awesome" value="1" checked
+                                               class="rounded text-blue-600" onchange="toggleSourceConfig('awesome')">
+                                        <span>Awesome Lists</span>
+                                    </label>
+                                    <div id="awesome_config" class="mt-2 ml-6 space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Max per list:</label>
+                                            <input type="number" name="awesome_max_per_list" value="50" min="10" max="200"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Product Hunt -->
+                                <div class="border-b border-gray-200 pb-3">
+                                    <label class="flex items-center gap-2 text-sm font-medium">
+                                        <input type="checkbox" name="source_producthunt" value="1" checked
+                                               class="rounded text-blue-600" onchange="toggleSourceConfig('producthunt')">
+                                        <span>Product Hunt</span>
+                                    </label>
+                                    <div id="producthunt_config" class="mt-2 ml-6 space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Min votes:</label>
+                                            <input type="number" name="ph_min_votes" value="50" min="10" max="1000"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Days back:</label>
+                                            <input type="number" name="ph_days_back" value="30" min="7" max="365"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Directories -->
+                                <div>
+                                    <label class="flex items-center gap-2 text-sm font-medium">
+                                        <input type="checkbox" name="source_directory" value="1" checked
+                                               class="rounded text-blue-600" onchange="toggleSourceConfig('directory')">
+                                        <span>AI Directories</span>
+                                    </label>
+                                    <div id="directory_config" class="mt-2 ml-6 space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <label class="text-xs text-gray-600">Max per dir:</label>
+                                            <input type="number" name="dir_max_per_dir" value="100" min="10" max="500"
+                                                   class="w-20 border border-gray-300 rounded px-2 py-1 text-xs">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Custom Sources & Info -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Custom Awesome List URLs</label>
+                            <textarea name="custom_awesome_urls" id="customAwesomeUrls" rows="4"
+                                      class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm font-mono"
+                                      placeholder="https://github.com/user/awesome-list&#10;https://github.com/other/list"></textarea>
+                            <p class="text-xs text-gray-500 mt-1">One GitHub URL per line (optional)</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Discovery Info</label>
+                            <div class="bg-blue-50 p-3 rounded-md text-sm text-blue-800">
+                                <p class="font-medium mb-2">Default Sources:</p>
+                                <ul class="text-xs space-y-1 ml-2">
+                                    <li>• <strong>GitHub:</strong> 10 AI topics, 100+ stars</li>
+                                    <li>• <strong>Awesome Lists:</strong> 5 curated lists</li>
+                                    <li>• <strong>Product Hunt:</strong> AI products, 50+ votes</li>
+                                    <li>• <strong>Directories:</strong> TAAFT, Future Tools</li>
+                                </ul>
+                                <p class="font-medium mt-3 mb-2">Quality Filters:</p>
+                                <ul class="text-xs space-y-1 ml-2">
+                                    <li>• Journalism keyword matching</li>
+                                    <li>• Spam/crypto/adult filtering</li>
+                                    <li>• Description quality check</li>
+                                    <li>• Confidence score ≥ 0.6</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200">
+                    <button type="button" onclick="toggleConfigPanel()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm">
+                        Cancel
+                    </button>
+                    <button type="submit" id="runButton" class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Run Discovery
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Discovery Type Tabs -->
+        <div class="mb-6">
+            <nav class="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                <a href="/admin/discovery" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium bg-gray-700 text-white">
+                    <svg class="w-4 h-4 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Overview
+                </a>
+                <a href="/admin/discovery/tools" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    Tools
+                    <span class="ml-1 px-2 py-0.5 rounded-full text-xs bg-gray-200">{{ stats.total_discovered }}</span>
+                </a>
+                <a href="/admin/discovery/resources" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    Resources
+                </a>
+                <a href="/admin/discovery/use-cases" class="flex-1 text-center px-4 py-2 rounded-md text-sm font-medium text-gray-600 hover:bg-white hover:text-gray-900">
+                    Use Cases
+                </a>
+            </nav>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-sm font-medium text-gray-600">Total Discovered</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats.total_discovered }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-sm font-medium text-gray-600">Pending Review</p>
+                <p class="text-3xl font-bold text-orange-600 mt-2">{{ stats.pending_review }}</p>
+                <a href="/admin/discovery/tools?status=pending_review" class="text-sm text-blue-600 hover:underline">Review now</a>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-sm font-medium text-gray-600">Approved</p>
+                <p class="text-3xl font-bold text-green-600 mt-2">{{ stats.approved }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-sm font-medium text-gray-600">Rejected</p>
+                <p class="text-3xl font-bold text-red-600 mt-2">{{ stats.rejected }}</p>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <p class="text-sm font-medium text-gray-600">New This Week</p>
+                <p class="text-3xl font-bold text-blue-600 mt-2">{{ stats.new_this_week }}</p>
+            </div>
+        </div>
+
+        <!-- Source Breakdown & Quick Links -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Source Breakdown -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">By Source</h2>
+                <div class="space-y-3">
+                    {% for source, count in stats.source_breakdown.items() %}
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 capitalize">{{ source.replace('_', ' ') }}</span>
+                        <span class="font-semibold text-gray-900">{{ count }}</span>
+                    </div>
+                    {% endfor %}
+                    {% if not stats.source_breakdown %}
+                    <p class="text-gray-500 text-sm">No tools discovered yet</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Quick Links</h2>
+                <div class="space-y-3">
+                    <a href="/admin/discovery/tools" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50">
+                        <span class="text-gray-700">All Discovered Tools</span>
+                        <span class="text-blue-600">View</span>
+                    </a>
+                    <a href="/admin/discovery/tools?status=pending_review" class="flex items-center justify-between p-3 rounded-lg border border-orange-200 bg-orange-50 hover:border-orange-500">
+                        <span class="text-orange-700">Pending Review ({{ stats.pending_review }})</span>
+                        <span class="text-orange-600">Review</span>
+                    </a>
+                    <a href="/admin/discovery/matches" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50">
+                        <span class="text-gray-700">Potential Duplicates</span>
+                        <span class="text-blue-600">Review</span>
+                    </a>
+                    <a href="/admin/discovery/runs" class="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50">
+                        <span class="text-gray-700">Discovery Runs</span>
+                        <span class="text-blue-600">View</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discovery Progress Panel (hidden by default) -->
+        <div id="progressPanel" class="hidden bg-white rounded-lg shadow-lg border-2 border-blue-500 p-6 mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                    <svg id="progressSpinner" class="w-5 h-5 text-blue-600 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    <span id="progressTitle">Discovery Running</span>
+                </h2>
+                <div class="flex items-center gap-4">
+                    <span id="lastUpdated" class="text-xs text-gray-400 hidden">Last updated: <span id="lastUpdatedTime">-</span></span>
+                    <span id="elapsedTime" class="text-sm text-gray-500 font-mono">00:00</span>
+                    <button id="cancelButton" type="button" onclick="cancelDiscovery()" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Current Source Progress -->
+            <div class="mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-gray-600">Source: <span id="currentSource" class="font-medium text-gray-900">-</span></span>
+                    <span id="sourceProgress" class="text-gray-500">0 / 0</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="sourceProgressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Tools Progress in Current Source -->
+            <div class="mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-gray-600">Tools: <span id="currentTool" class="font-medium text-gray-900 truncate max-w-xs">-</span></span>
+                    <span id="toolProgress" class="text-gray-500">0 / 0</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="toolProgressBar" class="bg-green-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Live Stats -->
+            <div class="grid grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+                <div class="text-center">
+                    <div id="statFound" class="text-2xl font-bold text-gray-900">0</div>
+                    <div class="text-xs text-gray-500">Found</div>
+                </div>
+                <div class="text-center">
+                    <div id="statNew" class="text-2xl font-bold text-green-600">0</div>
+                    <div class="text-xs text-gray-500">New</div>
+                </div>
+                <div class="text-center">
+                    <div id="statUpdated" class="text-2xl font-bold text-blue-600">0</div>
+                    <div class="text-xs text-gray-500">Updated</div>
+                </div>
+                <div class="text-center">
+                    <div id="statSkipped" class="text-2xl font-bold text-gray-400">0</div>
+                    <div class="text-xs text-gray-500">Skipped</div>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div id="statusMessage" class="mt-4 text-sm text-gray-600 text-center">
+                Processing sources...
+            </div>
+        </div>
+
+        <!-- Recent Runs -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">Recent Discovery Runs</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Started</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Found</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">New</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Triggered By</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for run in recent_runs %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                {{ run.started_at.strftime('%Y-%m-%d %H:%M') if run.started_at else '-' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                {% if run.status == 'completed' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">completed</span>
+                                {% elif run.status == 'running' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">running</span>
+                                {% elif run.status == 'failed' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">failed</span>
+                                {% elif run.status == 'cancelled' %}
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">cancelled</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {{ run.source_type or 'all' }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ run.tools_found }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600 font-medium">{{ run.tools_new }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600">{{ run.tools_updated }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ run.triggered_by or '-' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                                No discovery runs yet. Click "Run Discovery" to start.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        let pollInterval = null;
+        let startTime = null;
+        let elapsedInterval = null;
+        let currentRunId = null;
+
+        // Toggle config panel visibility
+        function toggleConfigPanel() {
+            const panel = document.getElementById('configPanel');
+            panel.classList.toggle('hidden');
+        }
+
+        // Toggle source-specific config based on checkbox
+        function toggleSourceConfig(source) {
+            const checkbox = document.querySelector(`input[name="source_${source}"]`);
+            const config = document.getElementById(`${source}_config`);
+            if (config) {
+                if (checkbox.checked) {
+                    config.classList.remove('opacity-50');
+                    config.querySelectorAll('input').forEach(el => el.disabled = false);
+                } else {
+                    config.classList.add('opacity-50');
+                    config.querySelectorAll('input').forEach(el => el.disabled = true);
+                }
+            }
+        }
+
+        // Build config object from form
+        function buildDiscoveryConfig() {
+            const form = document.getElementById('runDiscoveryForm');
+            const formData = new FormData(form);
+
+            // Determine selected sources
+            const sources = [];
+            if (formData.get('source_github')) sources.push('github');
+            if (formData.get('source_awesome')) sources.push('awesome_list');
+            if (formData.get('source_producthunt')) sources.push('producthunt');
+            if (formData.get('source_directory')) sources.push('directory');
+
+            // Build config object
+            const config = {
+                sources: sources.length > 0 ? sources : null,
+                content_type: formData.get('content_type'),
+                steps: {
+                    fetch: !!formData.get('step_fetch'),
+                    validate: !!formData.get('step_validate'),
+                    dedupe: !!formData.get('step_dedupe'),
+                },
+                global_limit: formData.get('global_limit') ? parseInt(formData.get('global_limit')) : null,
+                github: {
+                    min_stars: parseInt(formData.get('github_min_stars')) || 100,
+                    max_results_per_topic: parseInt(formData.get('github_max_per_topic')) || 30,
+                },
+                awesome_list: {
+                    max_per_list: parseInt(formData.get('awesome_max_per_list')) || 50,
+                },
+                producthunt: {
+                    min_votes: parseInt(formData.get('ph_min_votes')) || 50,
+                    days_back: parseInt(formData.get('ph_days_back')) || 30,
+                },
+                directory: {
+                    max_per_directory: parseInt(formData.get('dir_max_per_dir')) || 100,
+                },
+                custom_awesome_urls: formData.get('custom_awesome_urls')?.split('\n').filter(u => u.trim()) || [],
+            };
+
+            return config;
+        }
+
+        // Format seconds to MM:SS
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Cancel discovery run
+        async function cancelDiscovery() {
+            if (!currentRunId) return;
+
+            if (!confirm('Are you sure you want to cancel this discovery run?')) {
+                return;
+            }
+
+            const cancelBtn = document.getElementById('cancelButton');
+            cancelBtn.textContent = 'Cancelling...';
+            cancelBtn.disabled = true;
+
+            try {
+                const response = await fetch(`/admin/discovery/runs/${currentRunId}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'cancelled') {
+                    document.getElementById('progressTitle').textContent = 'Discovery Cancelled';
+                    document.getElementById('statusMessage').textContent = 'Discovery run was cancelled.';
+                    document.getElementById('progressSpinner').classList.remove('animate-spin');
+                    document.getElementById('progressSpinner').classList.add('text-yellow-600');
+                    cancelBtn.classList.add('hidden');
+
+                    // Stop polling
+                    if (pollInterval) {
+                        clearInterval(pollInterval);
+                        pollInterval = null;
+                    }
+                    if (elapsedInterval) {
+                        clearInterval(elapsedInterval);
+                        elapsedInterval = null;
+                    }
+
+                    // Re-enable run button
+                    const runBtn = document.getElementById('runButton');
+                    runBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Run Discovery';
+                    runBtn.disabled = false;
+
+                    // Reload after delay
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    alert('Failed to cancel: ' + (data.message || 'Unknown error'));
+                    cancelBtn.textContent = 'Cancel';
+                    cancelBtn.disabled = false;
+                }
+            } catch (error) {
+                alert('Error cancelling discovery: ' + error.message);
+                cancelBtn.textContent = 'Cancel';
+                cancelBtn.disabled = false;
+            }
+        }
+
+        // Update elapsed time display
+        function updateElapsedTime() {
+            if (startTime) {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('elapsedTime').textContent = formatTime(elapsed);
+            }
+        }
+
+        // Show progress panel
+        function showProgressPanel() {
+            document.getElementById('progressPanel').classList.remove('hidden');
+            startTime = Date.now();
+            elapsedInterval = setInterval(updateElapsedTime, 1000);
+        }
+
+        // Hide progress panel
+        function hideProgressPanel() {
+            document.getElementById('progressPanel').classList.add('hidden');
+            if (elapsedInterval) {
+                clearInterval(elapsedInterval);
+                elapsedInterval = null;
+            }
+            startTime = null;
+        }
+
+        // Update progress display
+        function updateProgress(data) {
+            // Update stats
+            document.getElementById('statFound').textContent = data.tools_found || 0;
+            document.getElementById('statNew').textContent = data.tools_new || 0;
+            document.getElementById('statUpdated').textContent = data.tools_updated || 0;
+            document.getElementById('statSkipped').textContent = data.tools_skipped || 0;
+
+            // Update elapsed time from server if available
+            if (data.elapsed_seconds) {
+                document.getElementById('elapsedTime').textContent = formatTime(data.elapsed_seconds);
+            }
+
+            // Update progress info
+            if (data.progress) {
+                const p = data.progress;
+
+                // Current source
+                document.getElementById('currentSource').textContent = p.current_source || '-';
+                document.getElementById('sourceProgress').textContent =
+                    `${p.sources_completed || 0} / ${p.total_sources || 0} sources`;
+
+                // Source progress bar
+                const sourcePercent = p.total_sources > 0
+                    ? ((p.sources_completed || 0) / p.total_sources * 100)
+                    : 0;
+                document.getElementById('sourceProgressBar').style.width = sourcePercent + '%';
+
+                // Current tool
+                document.getElementById('currentTool').textContent = p.current_tool || '-';
+                document.getElementById('toolProgress').textContent =
+                    `${p.tools_processed_in_source || 0} / ${p.tools_in_current_source || 0} tools`;
+
+                // Tool progress bar
+                const toolPercent = p.tools_in_current_source > 0
+                    ? ((p.tools_processed_in_source || 0) / p.tools_in_current_source * 100)
+                    : 0;
+                document.getElementById('toolProgressBar').style.width = toolPercent + '%';
+
+                // Status message
+                if (p.current_source) {
+                    document.getElementById('statusMessage').textContent =
+                        `Processing ${p.current_source}... (Source ${p.current_source_index || 0} of ${p.total_sources || 0})`;
+                }
+            }
+
+            // Show last updated time if available
+            if (data.progress && data.progress.last_progress_at) {
+                const lastUpdatedEl = document.getElementById('lastUpdated');
+                const lastUpdatedTimeEl = document.getElementById('lastUpdatedTime');
+                try {
+                    const lastUpdate = new Date(data.progress.last_progress_at);
+                    const secondsAgo = Math.floor((Date.now() - lastUpdate.getTime()) / 1000);
+                    if (secondsAgo < 60) {
+                        lastUpdatedTimeEl.textContent = `${secondsAgo}s ago`;
+                    } else {
+                        lastUpdatedTimeEl.textContent = `${Math.floor(secondsAgo / 60)}m ago`;
+                    }
+                    lastUpdatedEl.classList.remove('hidden');
+
+                    // Show warning if stale (> 2 minutes)
+                    if (secondsAgo > 120) {
+                        lastUpdatedEl.classList.add('text-yellow-600', 'font-medium');
+                        lastUpdatedEl.classList.remove('text-gray-400');
+                    } else {
+                        lastUpdatedEl.classList.remove('text-yellow-600', 'font-medium');
+                        lastUpdatedEl.classList.add('text-gray-400');
+                    }
+                } catch (e) {
+                    console.error('Error parsing last_progress_at:', e);
+                }
+            }
+
+            // Update title based on status
+            if (data.status === 'completed') {
+                document.getElementById('progressTitle').textContent = 'Discovery Completed';
+                document.getElementById('statusMessage').textContent =
+                    `Finished! Found ${data.tools_found} tools (${data.tools_new} new, ${data.tools_updated} updated)`;
+                document.getElementById('sourceProgressBar').style.width = '100%';
+                document.getElementById('toolProgressBar').style.width = '100%';
+                document.getElementById('progressSpinner').classList.remove('animate-spin');
+                document.getElementById('cancelButton').classList.add('hidden');
+            } else if (data.status === 'failed') {
+                document.getElementById('progressTitle').textContent = 'Discovery Failed';
+                document.getElementById('statusMessage').textContent = data.error_message || 'Unknown error';
+                document.getElementById('statusMessage').classList.add('text-red-600');
+                document.getElementById('progressSpinner').classList.remove('animate-spin');
+                document.getElementById('progressSpinner').classList.add('text-red-600');
+                document.getElementById('cancelButton').classList.add('hidden');
+            } else if (data.status === 'cancelled') {
+                document.getElementById('progressTitle').textContent = 'Discovery Cancelled';
+                document.getElementById('statusMessage').textContent = data.error_message || 'Cancelled by admin';
+                document.getElementById('statusMessage').classList.add('text-yellow-600');
+                document.getElementById('progressSpinner').classList.remove('animate-spin');
+                document.getElementById('progressSpinner').classList.add('text-yellow-600');
+                document.getElementById('cancelButton').classList.add('hidden');
+            }
+        }
+
+        // Poll for status updates
+        async function pollStatus(runId) {
+            currentRunId = runId;
+            try {
+                const response = await fetch(`/admin/discovery/runs/${runId}`);
+                const data = await response.json();
+
+                updateProgress(data);
+
+                // Stop polling when complete, failed, or cancelled
+                if (data.status === 'completed' || data.status === 'failed' || data.status === 'cancelled') {
+                    if (pollInterval) {
+                        clearInterval(pollInterval);
+                        pollInterval = null;
+                    }
+                    if (elapsedInterval) {
+                        clearInterval(elapsedInterval);
+                        elapsedInterval = null;
+                    }
+
+                    // Re-enable button
+                    const button = document.getElementById('runButton');
+                    button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Run Discovery';
+                    button.disabled = false;
+
+                    // Reload after delay to show final results
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error polling status:', error);
+            }
+        }
+
+        // Check for running discovery on page load (passed from backend)
+        {% if running_discovery %}
+        document.addEventListener('DOMContentLoaded', function() {
+            const runId = "{{ running_discovery.id }}";
+
+            // Show progress panel
+            showProgressPanel();
+            document.getElementById('statusMessage').textContent =
+                'Discovery is running. You can navigate away - it will continue.';
+            document.getElementById('progressTitle').textContent = 'Discovery In Progress';
+
+            // Disable the run button
+            const button = document.getElementById('runButton');
+            button.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Running...';
+            button.disabled = true;
+
+            // Start polling for updates
+            pollInterval = setInterval(() => pollStatus(runId), 2000);
+            // Do an immediate poll
+            pollStatus(runId);
+        });
+        {% endif %}
+
+        // Handle form submission
+        document.getElementById('runDiscoveryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const config = buildDiscoveryConfig();
+            const contentType = config.content_type;
+
+            // Check if at least one source is selected
+            if (!config.sources || config.sources.length === 0) {
+                alert('Please select at least one source to run discovery.');
+                return;
+            }
+
+            // Build confirmation message
+            const sourceNames = config.sources.map(s => {
+                const names = {
+                    'github': 'GitHub Trending',
+                    'awesome_list': 'Awesome Lists',
+                    'producthunt': 'Product Hunt',
+                    'directory': 'AI Directories'
+                };
+                return names[s] || s;
+            });
+            const limitInfo = config.global_limit ? ` (max ${config.global_limit} items)` : '';
+
+            if (!confirm(`Run ${contentType} discovery from ${sourceNames.join(', ')}${limitInfo}?`)) {
+                return;
+            }
+
+            const button = document.getElementById('runButton');
+            button.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Starting...';
+            button.disabled = true;
+
+            // Hide config panel and show progress panel
+            document.getElementById('configPanel').classList.add('hidden');
+            showProgressPanel();
+            document.getElementById('statusMessage').textContent = `Starting ${contentType} discovery from ${sourceNames.length} source(s)...`;
+
+            // Determine the endpoint based on content type
+            let baseUrl;
+            if (contentType === 'resources') {
+                baseUrl = '/admin/discovery/run-resources';
+            } else if (contentType === 'usecases') {
+                baseUrl = '/admin/discovery/run-usecases';
+            } else if (contentType === 'all') {
+                baseUrl = '/admin/discovery/run-all';
+            } else {
+                baseUrl = '/admin/discovery/run';
+            }
+
+            try {
+                // Build query params for sources
+                const sourcesParam = config.sources.join(',');
+                const url = `${baseUrl}?sources=${sourcesParam}`;
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const data = await response.json();
+
+                // Helper to reset button with icon
+                const resetButton = () => {
+                    button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Run Discovery';
+                    button.disabled = false;
+                };
+
+                if (response.ok) {
+                    // Discovery now starts in the background and returns immediately with run_id
+                    if (data.run_id) {
+                        // Start polling for updates every 2 seconds
+                        pollInterval = setInterval(() => pollStatus(data.run_id), 2000);
+                        // Do an immediate poll
+                        pollStatus(data.run_id);
+                    }
+
+                    // Update status message based on response
+                    if (data.status === 'started') {
+                        document.getElementById('statusMessage').textContent =
+                            'Discovery running in background. You can navigate away - it will continue.';
+                    } else if (data.status === 'already_running') {
+                        document.getElementById('statusMessage').textContent =
+                            'Discovery already running. Showing progress...';
+                    } else if (data.status === 'completed') {
+                        // Immediate completion (e.g., resources/usecases placeholders)
+                        document.getElementById('progressTitle').textContent = 'Discovery Completed';
+                        document.getElementById('statusMessage').textContent =
+                            data.message || 'Discovery completed.';
+                        document.getElementById('sourceProgressBar').style.width = '100%';
+                        document.getElementById('toolProgressBar').style.width = '100%';
+
+                        resetButton();
+
+                        if (pollInterval) {
+                            clearInterval(pollInterval);
+                            pollInterval = null;
+                        }
+                        if (elapsedInterval) {
+                            clearInterval(elapsedInterval);
+                            elapsedInterval = null;
+                        }
+
+                        // Reload after delay
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 3000);
+                    }
+                } else {
+                    hideProgressPanel();
+                    alert('Error: ' + (data.detail || 'Unknown error'));
+                    resetButton();
+                }
+            } catch (error) {
+                hideProgressPanel();
+                alert('Error running discovery: ' + error.message);
+                const button = document.getElementById('runButton');
+                button.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Run Discovery';
+                button.disabled = false;
+            }
+        });
+    </script>
+{% endblock %}

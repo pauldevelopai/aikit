@@ -1,0 +1,34 @@
+{
+  "slug": "runway",
+  "name": "Runway",
+  "number": 32,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "AI-powered video generation and editing platform for text-to-video and visual effects. Runway is a research company pioneering AI video generation. Their Gen-2 and Gen-3 Alpha models allow for text-to-video, video-to-video, and image-to-video creation, effectively acting as an AI film studio. Runway created the original Stable Diffusion model. They are a core innovator in the space, often releasing features months before Adobe or OpenAI. They focus on professional filmmakers, not just casual users.",
+  "purpose": "B-roll generation.",
+  "journalism_relevance": "Generating \"generic\" video (e.g., \"a gloomy street in a city\") when filming is impossible.",
+  "cdi_scores": {
+    "cost": 7,
+    "difficulty": 5,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "Rapid generation of illustrative video and visual sequences without filming, location shoots, or sourcing stock footage.",
+    "reinvestment": "Use the saved production time to verify facts, add context, and apply clear labeling so synthetic visuals are not mistaken for real footage."
+  },
+  "comments": "",
+  "url": "https://runwayml.com",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "descript",
+      "opusclip"
+    ],
+    "use_cases": [
+      "video-production"
+    ]
+  }
+}

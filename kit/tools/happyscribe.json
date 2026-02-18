@@ -1,0 +1,38 @@
+{
+  "slug": "happyscribe",
+  "name": "HappyScribe",
+  "number": 2,
+  "cluster_name": "Transcription & Translation",
+  "cluster_slug": "transcription-translation",
+  "cluster_number": 1,
+  "description": "Transcription and subtitle platform combining AI output with human editing workflows for publication-ready text. HappyScribe operates as a hybrid transcription and subtitling platform 27 that bridges the gap between AI automation and human precision. Its defining feature is the integrated \"Human Review\" service and a highly sophisticated interactive editor designed specifically for subtitling workflows. It supports over 120 languages and dialects 28, catering to a global user base that requires nuance often missed by purely algorithmic approaches. The platform’s interactive editor is its standout technical achievement. It allows users to visually sync text with audio waveforms, adjust timing for subtitles, and correct speaker labels dynamically. This makes it superior for post-production video work where timing precision is paramount. HappyScribe is a European company that has carved a niche by focusing on the workflow of transcription rather than just the raw AI output.",
+  "purpose": "Video subtitles and translation for social distribution.",
+  "journalism_relevance": "Critical for newsrooms producing content for EU audiences. It provides a visual \"timeline\" for subtitles, which is essential for correcting timing errors in translation.",
+  "cdi_scores": {
+    "cost": 6,
+    "difficulty": 2,
+    "invasiveness": 6
+  },
+  "time_dividend": {
+    "time_saved": "2 hours per minute of video (synchronization is tedious).",
+    "reinvestment": "Cultural Localization. Don't just translate the content, adapt it. Use the time to ensure the English subtitles convey the irony or sarcasm common in political discourse, for example."
+  },
+  "comments": "",
+  "url": "https://www.happyscribe.com",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "openai-whisper",
+    "similar_tools": [
+      "deepl-pro",
+      "openai-whisper",
+      "turboscribe"
+    ],
+    "use_cases": [
+      "transcription",
+      "translation"
+    ]
+  }
+}

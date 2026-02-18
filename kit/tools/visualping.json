@@ -1,0 +1,36 @@
+{
+  "slug": "visualping",
+  "name": "Visualping",
+  "number": 9,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Website monitoring service that alerts users when visual or textual changes occur on web pages. Visualping is a simple yet potent website change detection tool 52. It monitors web pages for visual or text changes and sends alerts via email, Slack, or SMS. It is widely used for competitive intelligence, regulatory monitoring, and tracking disparate digital footprints that do not offer RSS feeds or APIs.",
+  "purpose": "Monitoring changes on government websites.",
+  "journalism_relevance": "Governments in the region often stealthily delete reports or plugin/#:~:text=Assistant%20guides%20users%20between%20the,Checking%20Innovative%20Initiative change politician biographies. Visualping alerts you to pixel-level changes.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 2,
+    "invasiveness": 2
+  },
+  "time_dividend": {
+    "time_saved": "Automates continuous monitoring of multiple web pages, removing the need for repeated manual checks to see whether content has changed.",
+    "reinvestment": "Use the saved time to confirm what changed, capture evidence (screenshots, timestamps), and maintain a clear change log before deciding whether further reporting or outreach is warranted."
+  },
+  "comments": "",
+  "url": "https://weverify.eu/verification-",
+  "tags": [
+    "beginner-friendly",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "bellingcat-online-investigation-toolkit",
+    "similar_tools": [
+      "changedetectionio"
+    ],
+    "use_cases": [
+      "web-monitoring"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "slug": "perplexity",
+  "name": "Perplexity",
+  "number": 18,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "AI-powered search engine that synthesises answers with citations from live web sources. Perplexity is an engine that challenges the traditional Google Search paradigm 74. Instead of a ai/#:~:text=Perplexity%20Decoded%3A%20Lessons%20from%20the,and%20synthesize%20information %20through%20AI list of links, it uses LLMs (ChatGPT, Claude) to read search results and synthesize a direct answer with citations. Perplexity was created by people who previously worked at major tech companies like OpenAI and Google, with the goal of making online search less cluttered and more useful. However, it has also been criticised for collecting 75 information from websites in ways that some publishers do not agree with, which has caused tension with parts of the media industry. But they are not the only LLM doing this 76. ● The tool's purpose: The \"Journalistic\" Search Engine. ● Relevance to journalism: Provides citations for every claim. Excellent for background research on complex geopolitical topics.",
+  "purpose": "",
+  "journalism_relevance": "Provides citations for every claim. Excellent for background research on complex geopolitical topics.",
+  "cdi_scores": {
+    "cost": 3,
+    "difficulty": 1,
+    "invasiveness": 4
+  },
+  "time_dividend": {
+    "time_saved": "Quickly summarizes and compares information from multiple web sources in one view, reducing the time spent opening, skimming, and synthesizing many separate pages.",
+    "reinvestment": "Verification and triangulation—use the saved time to open the cited sources, cross-check key claims against primary documents or trusted outlets, and build a short source list you would be comfortable publishing from."
+  },
+  "comments": "",
+  "url": "https://chat.openai.com",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "chatgpt-team-plan",
+      "claude",
+      "gemini"
+    ],
+    "use_cases": [
+      "llm-writing"
+    ]
+  }
+}

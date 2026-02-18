@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}Use Cases - AI in Newsrooms{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Use Cases</h1>
+        <p class="mt-2 text-gray-600">
+            Real-world examples of how newsrooms are implementing AI.
+            {{ total }} case studies available.
+        </p>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <form method="GET" action="/use-cases" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Search -->
+                <div>
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <input type="text" id="search" name="search" value="{{ search or '' }}"
+                           placeholder="Search use cases..."
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Country Filter -->
+                <div>
+                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                    <select id="country" name="country"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Countries</option>
+                        {% for c in countries %}
+                        <option value="{{ c }}" {% if current_country == c %}selected{% endif %}>
+                            {{ c }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Organization Type Filter -->
+                <div>
+                    <label for="organization_type" class="block text-sm font-medium text-gray-700 mb-1">Organization Type</label>
+                    <select id="organization_type" name="organization_type"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Types</option>
+                        {% for ot in organization_types %}
+                        <option value="{{ ot }}" {% if current_organization_type == ot %}selected{% endif %}>
+                            {{ ot|capitalize }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+                <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                    Filter
+                </button>
+                {% if search or current_country or current_organization_type %}
+                <a href="/use-cases" class="text-sm text-blue-600 hover:text-blue-800">Clear filters</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Results count -->
+    <div class="mb-4 text-sm text-gray-600">
+        Showing {{ usecases|length }} of {{ total }} use cases
+    </div>
+
+    <!-- Use Cases Grid -->
+    {% if usecases %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {% for usecase in usecases %}
+        <a href="/use-cases/{{ usecase.slug }}" class="block bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+            <div class="p-6">
+                <!-- Organization & Country -->
+                <div class="mb-3 flex flex-wrap gap-2">
+                    {% if usecase.organization %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {{ usecase.organization }}
+                    </span>
+                    {% endif %}
+                    {% if usecase.country %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                        {{ usecase.country }}
+                    </span>
+                    {% endif %}
+                    {% if usecase.organization_type %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {{ usecase.organization_type }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Title -->
+                <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ usecase.title }}</h2>
+
+                <!-- Summary -->
+                {% if usecase.summary %}
+                <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                    {{ usecase.summary[:200] }}{% if usecase.summary|length > 200 %}...{% endif %}
+                </p>
+                {% endif %}
+
+                <!-- Meta Info -->
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    {% if usecase.source_name %}
+                    <span>{{ usecase.source_name }}</span>
+                    {% endif %}
+                    {% if usecase.source_date %}
+                    <span>{{ usecase.source_date.strftime('%b %Y') }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="mt-8 flex justify-center items-center gap-4">
+        {% if page > 1 %}
+        <a href="?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}{% if current_country %}&country={{ current_country }}{% endif %}{% if current_organization_type %}&organization_type={{ current_organization_type }}{% endif %}"
+           class="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+            Previous
+        </a>
+        {% endif %}
+
+        <span class="text-sm text-gray-600">Page {{ page }} of {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}{% if current_country %}&country={{ current_country }}{% endif %}{% if current_organization_type %}&organization_type={{ current_organization_type }}{% endif %}"
+           class="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+            Next
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+        <p class="text-gray-500 text-lg">No use cases found matching your criteria.</p>
+        <a href="/use-cases" class="mt-4 inline-block text-blue-600 hover:text-blue-800">View all use cases</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

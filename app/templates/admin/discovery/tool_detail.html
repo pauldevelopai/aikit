@@ -1,0 +1,470 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ tool.name }} - Discovery{% endblock %}
+
+{% block content %}
+        <!-- Breadcrumb -->
+        <div class="mb-4">
+            <a href="/admin/discovery" class="text-blue-600 hover:underline">Discovery</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <a href="/admin/discovery/tools" class="text-blue-600 hover:underline">Tools</a>
+            <span class="text-gray-400 mx-2">/</span>
+            <span class="text-gray-600">{{ tool.name }}</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Main Info -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Tool Header -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">{{ tool.name }}</h1>
+                            <a href="{{ tool.url }}" target="_blank" class="text-blue-600 hover:underline text-sm mt-1 block">
+                                {{ tool.url }}
+                            </a>
+                        </div>
+                        <div>
+                            {% if tool.status == 'pending_review' %}
+                            <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">Pending Review</span>
+                            {% elif tool.status == 'approved' %}
+                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-800 font-medium">Approved</span>
+                            {% elif tool.status == 'rejected' %}
+                            <span class="px-3 py-1 rounded-full bg-red-100 text-red-800 font-medium">Rejected</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if tool.description %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">Description</h3>
+                        <p class="text-gray-600 mt-1">{{ tool.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.purpose %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">Purpose (Journalism Relevance)</h3>
+                        <p class="text-gray-600 mt-1">{{ tool.purpose }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.ai_summary %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">AI Summary</h3>
+                        <p class="text-gray-600 mt-1 italic">{{ tool.ai_summary }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.raw_description and tool.raw_description != tool.description %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-500">Original Scraped Description</h3>
+                        <p class="text-gray-400 mt-1 text-sm">{{ tool.raw_description }}</p>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.github_url %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">GitHub</h3>
+                        <a href="{{ tool.github_url }}" target="_blank" class="text-blue-600 hover:underline text-sm">{{ tool.github_url }}</a>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.categories %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">Categories</h3>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            {% for cat in tool.categories %}
+                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-sm rounded">{{ cat }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.tags %}
+                    <div class="mt-4">
+                        <h3 class="text-sm font-medium text-gray-700">Tags</h3>
+                        <div class="flex flex-wrap gap-2 mt-1">
+                            {% for tag in tool.tags %}
+                            <span class="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Discovery Metadata -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Discovery Information</h2>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-500">Source:</span>
+                            <span class="text-gray-900 ml-2">{{ tool.source_name }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Source Type:</span>
+                            <span class="text-gray-900 ml-2 capitalize">{{ tool.source_type.replace('_', ' ') }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Source URL:</span>
+                            <a href="{{ tool.source_url }}" target="_blank" class="text-blue-600 hover:underline ml-2">View Source</a>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Domain:</span>
+                            <span class="text-gray-900 ml-2">{{ tool.url_domain }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Discovered:</span>
+                            <span class="text-gray-900 ml-2">{{ tool.discovered_at.strftime('%Y-%m-%d %H:%M') if tool.discovered_at else '-' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Last Seen:</span>
+                            <span class="text-gray-900 ml-2">{{ tool.last_seen_at.strftime('%Y-%m-%d %H:%M') if tool.last_seen_at else '-' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Confidence:</span>
+                            <span class="text-gray-900 ml-2">{{ (tool.confidence_score * 100)|int }}%</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Slug:</span>
+                            <span class="text-gray-900 ml-2 font-mono text-xs">{{ tool.slug }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Quality Metrics -->
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">Quality Metrics</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Has Documentation:</span>
+                                <span class="ml-2 {% if tool.has_documentation %}text-green-600{% else %}text-red-600{% endif %}">
+                                    {{ 'Yes' if tool.has_documentation else 'No' }}
+                                </span>
+                            </div>
+                            {% if tool.github_stars is not none %}
+                            <div>
+                                <span class="text-gray-500">GitHub Stars:</span>
+                                <span class="text-gray-900 ml-2">{{ tool.github_stars }}</span>
+                            </div>
+                            {% endif %}
+                            {% if tool.journalism_relevance_score is not none %}
+                            <div>
+                                <span class="text-gray-500">Journalism Relevance:</span>
+                                <span class="text-gray-900 ml-2">{{ (tool.journalism_relevance_score * 100)|int }}%</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if tool.quality_flags %}
+                        <div class="mt-3">
+                            <span class="text-gray-500 text-sm">Quality Flags:</span>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                {% for key, value in tool.quality_flags.items() %}
+                                <span class="px-2 py-0.5 text-xs rounded {% if key == 'journalism_keywords' %}bg-green-100 text-green-700{% else %}bg-yellow-100 text-yellow-700{% endif %}">
+                                    {{ key }}: {{ value if value is not iterable or value is string else value|length }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- CDI Scores (if set) -->
+                    {% if tool.cdi_cost is not none or tool.cdi_difficulty is not none or tool.cdi_invasiveness is not none %}
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-700 mb-3">CDI Scores</h3>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-blue-600">{{ tool.cdi_cost if tool.cdi_cost is not none else '-' }}</div>
+                                <div class="text-xs text-gray-500">Cost</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-orange-600">{{ tool.cdi_difficulty if tool.cdi_difficulty is not none else '-' }}</div>
+                                <div class="text-xs text-gray-500">Difficulty</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-purple-600">{{ tool.cdi_invasiveness if tool.cdi_invasiveness is not none else '-' }}</div>
+                                <div class="text-xs text-gray-500">Invasiveness</div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if tool.extra_data %}
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">Extra Data</h3>
+                        <pre class="bg-gray-50 p-3 rounded text-xs overflow-x-auto">{{ tool.extra_data | tojson(indent=2) }}</pre>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Potential Matches -->
+                {% if matches %}
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Potential Matches ({{ matches|length }})</h2>
+                    <div class="space-y-4">
+                        {% for item in matches %}
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-2 py-0.5 text-xs rounded bg-gray-100 text-gray-700">{{ item.match.match_type.replace('_', ' ') }}</span>
+                                        <span class="text-sm text-gray-600">{{ (item.match.match_score * 100)|int }}% confidence</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        {% if item.matched_tool_name %}
+                                        <span class="font-medium text-gray-900">{{ item.matched_tool_name }}</span>
+                                        {% if item.matched_tool_url %}
+                                        <a href="{{ item.matched_tool_url }}" target="_blank" class="text-blue-600 text-sm ml-2">(visit)</a>
+                                        {% endif %}
+                                        {% elif item.match.matched_kit_slug %}
+                                        <span class="font-medium text-gray-900">Kit: {{ item.match.matched_kit_slug }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if item.match.match_details %}
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        {% for key, value in item.match.match_details.items() %}
+                                        {{ key }}: {{ value }}{% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% if item.match.is_duplicate is none %}
+                                <form action="/admin/discovery/matches/{{ item.match.id }}/resolve" method="POST" class="flex gap-2">
+                                    <input type="hidden" name="is_duplicate" value="true">
+                                    <button type="submit" class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200">Mark Duplicate</button>
+                                </form>
+                                <form action="/admin/discovery/matches/{{ item.match.id }}/resolve" method="POST" class="flex gap-2 ml-2">
+                                    <input type="hidden" name="is_duplicate" value="false">
+                                    <button type="submit" class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">Not Duplicate</button>
+                                </form>
+                                {% else %}
+                                <span class="text-xs text-gray-500">
+                                    {% if item.match.is_duplicate %}Marked as duplicate{% else %}Marked as not duplicate{% endif %}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+
+                <!-- Review Actions -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Review Actions</h2>
+
+                    {% if tool.status == 'pending_review' %}
+                    <div class="space-y-3">
+                        <form action="/admin/discovery/tools/{{ tool.id }}/approve" method="POST">
+                            <!-- CDI Scores Section -->
+                            <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                <h3 class="text-sm font-medium text-blue-900 mb-3">CDI Scores (optional)</h3>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <label class="block text-xs text-blue-700 mb-1">Cost (0-10)</label>
+                                        <input type="number" name="cdi_cost" min="0" max="10" value="{{ tool.cdi_cost or '' }}"
+                                               placeholder="0-10" class="w-full border border-blue-200 rounded px-2 py-1 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-blue-700 mb-1">Difficulty (0-10)</label>
+                                        <input type="number" name="cdi_difficulty" min="0" max="10" value="{{ tool.cdi_difficulty or '' }}"
+                                               placeholder="0-10" class="w-full border border-blue-200 rounded px-2 py-1 text-sm">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs text-blue-700 mb-1">Invasiveness (0-10)</label>
+                                        <input type="number" name="cdi_invasiveness" min="0" max="10" value="{{ tool.cdi_invasiveness or '' }}"
+                                               placeholder="0-10" class="w-full border border-blue-200 rounded px-2 py-1 text-sm">
+                                    </div>
+                                </div>
+                                <p class="text-xs text-blue-600 mt-2">0 = lowest, 10 = highest</p>
+                            </div>
+                            <textarea name="notes" placeholder="Optional notes..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mb-2" rows="2"></textarea>
+                            <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                Approve Tool
+                            </button>
+                        </form>
+                        <form action="/admin/discovery/tools/{{ tool.id }}/reject" method="POST">
+                            <textarea name="notes" placeholder="Reason for rejection..." class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mb-2" rows="2"></textarea>
+                            <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                Reject Tool
+                            </button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="text-sm text-gray-600">
+                        <p>Reviewed: {{ tool.reviewed_at.strftime('%Y-%m-%d %H:%M') if tool.reviewed_at else 'N/A' }}</p>
+                        {% if tool.review_notes %}
+                        <p class="mt-2"><strong>Notes:</strong> {{ tool.review_notes }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Allow changing status -->
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        {% if tool.status == 'rejected' %}
+                        <form action="/admin/discovery/tools/{{ tool.id }}/approve" method="POST">
+                            <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                Change to Approved
+                            </button>
+                        </form>
+                        {% elif tool.status == 'approved' %}
+                        <form action="/admin/discovery/tools/{{ tool.id }}/reject" method="POST">
+                            <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                Change to Rejected
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Use Case -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Use Case</h2>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Generate implementation guidance for newsrooms from the tool's website and documentation.
+                    </p>
+                    <a href="/admin/playbooks/tool/{{ tool.id }}" class="block w-full px-4 py-2 bg-purple-600 text-white text-center rounded-md hover:bg-purple-700">
+                        View / Generate Use Case
+                    </a>
+                </div>
+
+                <!-- Enrich Tool -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Enrich Tool</h2>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Fetch up-to-date information from the tool's website and use AI to generate descriptions.
+                    </p>
+                    <form action="/admin/discovery/tools/{{ tool.id }}/enrich" method="POST">
+                        <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            Fetch &amp; Enrich
+                        </button>
+                    </form>
+                    <p class="text-xs text-gray-500 mt-2">This will fetch the tool's website content and GitHub README (if available), then use AI to generate a description, purpose statement, and summary.</p>
+                </div>
+
+                <!-- Edit Tool -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Edit Tool</h2>
+                    <form action="/admin/discovery/tools/{{ tool.id }}/edit" method="POST" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" name="name" value="{{ tool.name }}" required
+                                   class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">URL</label>
+                            <input type="url" name="url" value="{{ tool.url }}" required
+                                   class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">GitHub URL</label>
+                            <input type="url" name="github_url" value="{{ tool.github_url or '' }}"
+                                   placeholder="https://github.com/..."
+                                   class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Docs URL</label>
+                                <input type="url" name="docs_url" value="{{ tool.docs_url or '' }}"
+                                       placeholder="Documentation link"
+                                       class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Pricing URL</label>
+                                <input type="url" name="pricing_url" value="{{ tool.pricing_url or '' }}"
+                                       placeholder="Pricing page link"
+                                       class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="description" rows="4"
+                                      class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">{{ tool.description or '' }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Main description of what the tool is and does.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Purpose (Journalism Relevance)</label>
+                            <textarea name="purpose" rows="3"
+                                      class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">{{ tool.purpose or '' }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Why this tool is relevant for journalists and newsrooms.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">AI Summary</label>
+                            <input type="text" name="ai_summary" value="{{ tool.ai_summary or '' }}"
+                                   class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                            <p class="text-xs text-gray-500 mt-1">One-line summary of the tool.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Categories (comma-separated)</label>
+                            <input type="text" name="categories" value="{{ tool.categories|join(', ') if tool.categories else '' }}"
+                                   class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                        </div>
+                        <!-- CDI Scores -->
+                        <div class="pt-3 border-t border-gray-200">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">CDI Scores (0-10)</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Cost</label>
+                                    <input type="number" name="cdi_cost" min="0" max="10"
+                                           value="{{ tool.cdi_cost if tool.cdi_cost is not none else '' }}"
+                                           placeholder="0-10"
+                                           class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Difficulty</label>
+                                    <input type="number" name="cdi_difficulty" min="0" max="10"
+                                           value="{{ tool.cdi_difficulty if tool.cdi_difficulty is not none else '' }}"
+                                           placeholder="0-10"
+                                           class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Invasiveness</label>
+                                    <input type="number" name="cdi_invasiveness" min="0" max="10"
+                                           value="{{ tool.cdi_invasiveness if tool.cdi_invasiveness is not none else '' }}"
+                                           placeholder="0-10"
+                                           class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Additional URLs -->
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Additional URLs</h2>
+                    <div class="space-y-2 text-sm">
+                        <div>
+                            <span class="text-gray-500">Docs URL:</span>
+                            {% if tool.docs_url %}
+                            <a href="{{ tool.docs_url }}" target="_blank" class="text-blue-600 hover:underline ml-1">{{ tool.docs_url[:30] }}...</a>
+                            {% else %}
+                            <span class="text-gray-400 ml-1">Not available</span>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Pricing URL:</span>
+                            {% if tool.pricing_url %}
+                            <a href="{{ tool.pricing_url }}" target="_blank" class="text-blue-600 hover:underline ml-1">{{ tool.pricing_url[:30] }}...</a>
+                            {% else %}
+                            <span class="text-gray-400 ml-1">Not available</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{% endblock %}

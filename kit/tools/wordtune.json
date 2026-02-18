@@ -1,0 +1,35 @@
+{
+  "slug": "wordtune",
+  "name": "Wordtune",
+  "number": 19,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Writing assistant that rewrites sentences to adjust tone, clarity, and emphasis. Wordtune is an AI-powered writing companion focused on phrasing and tone. Unlike a grammar checker, it rewrites sentences to be more casual, formal, concise, or expanded, acting as a \"co-writer\" rather than a proofreader. Excellent for overcoming writer's block or refining non-native English. The tool's purpose: To help journalists quickly improve sentence clarity, tone, and flow without changing the underlying meaning of their reporting. scraping/#:~:text=AI%20startup%20Perplexity%20is%20crawling,to%20internet%20infrastructure%20pro vider%20Cloudflare standard-scrape-publisher-sites-licensing-2024-06- 21/#:~:text=Exclusive%3A%20Multiple%20AI%20companies%20bypassing,scraping%20of%20their%20c ontent Relevance to journalism: Particularly useful for journalists writing in a second language or under deadline pressure, Wordtune helps refine copy while keeping editorial control with the reporter, not the tool.",
+  "purpose": "",
+  "journalism_relevance": "Particularly useful for journalists writing in a second language or under deadline pressure, Wordtune helps refine copy while keeping editorial control with the reporter, not the tool.",
+  "cdi_scores": {
+    "cost": 4,
+    "difficulty": 1,
+    "invasiveness": 3
+  },
+  "time_dividend": {
+    "time_saved": "Reduces editing rounds for English copy.",
+    "reinvestment": "Reporting. More time investigating, less time wrestling with syntax."
+  },
+  "comments": "",
+  "url": "https://techcrunch.com/2025/08/04/perplexity-accused-of-scraping-websites-that-explicitly-blocked-ai-",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "languagetool"
+    ],
+    "use_cases": [
+      "text-editing"
+    ]
+  }
+}

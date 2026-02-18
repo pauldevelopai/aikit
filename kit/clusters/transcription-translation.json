@@ -1,0 +1,28 @@
+{
+  "number": 1,
+  "name": "Transcription & Translation",
+  "slug": "transcription-translation",
+  "description": "Using AI to process interviews, recordings, and multilingual material accurately and safely. Newsrooms now routinely record far more material than they can manually process. A reporter covering a corruption trial may record several days of court proceedings; a local newsroom may record dozens of community interviews; an investigative team may collect interviews across multiple countries and languages. Transcription tools are used to turn hours of audio into searchable text, so journalists can find quotes, cross-check testimony, and share material with editors. Translation tools allow reporting done in one language to be used by colleagues and audiences in another, as seen in cross-border investigations where interviews conducted in Ukrainian, Romanian, or Arabic are translated into English for collaborative reporting. These tools matter because they determine which reporting is usable, which voices make it into stories, and how accurately spoken evidence is represented.",
+  "teaching_guidance": "Emphasise that a transcript is not evidence until it has been checked against the original audio. Students often assume text is authoritative. This cluster is an opportunity to reinforce listening, accuracy, and responsibility. Draw attention to which voices are transcribed poorly and why. Accents, background noise, and speech patterns are not technical edge cases but core issues of representation and inclusion. Be explicit when transcription and translation tools are unsafe to use, particularly for sensitive interviews. This cluster is an early place to introduce source protection without fear-based teaching.",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Meaning loss in translation",
+      "description": "Students translate a short interview excerpt into another language using AI, then back into the original language.39 They must identify shifts in tone, meaning, or emphasis and explain how those shifts could affect a published story."
+    },
+    {
+      "number": 2,
+      "title": "Accent and exclusion test",
+      "description": "Students are given short interview recordings featuring different accents, speech patterns, or levels of audio quality. They run all recordings through the same transcription tool and compare accuracy rates. Students then write a short reflection on which voices are transcribed least accurately and why this matters for fairness, representation, and whose voices are likely to be excluded from published journalism."
+    }
+  ],
+  "where_to_start": "Start with: TurboScribe + DeepL Pro Why: Extremely low learning curve (drag-and-drop, copy-paste). Immediate, visible payoff for students. Affordable or free tiers suitable for universities and students What it teaches well: The value of transcription as a working document, not a finished artefact. How translation choices affect meaning, tone, and power. The limits of “AI accuracy” and the need for human verification Best teaching use: Introductory AI literacy, interview processing and cross-border collaboration exercises. Introduce next: HappyScribe (selectively) Why: Slightly higher cost, but unmatched for subtitle timing and video workflows. Visual interface makes it easy to teach to non-technical students. What it teaches well: The difference between transcription for reporting and transcription for publication. How translation and timing choices shape audience perception.",
+  "tool_slugs": [
+    "turboscribe",
+    "happyscribe",
+    "deepl-pro",
+    "narakeet",
+    "openai-whisper"
+  ],
+  "tool_count": 5
+}

@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block title %}For You - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">For You</h1>
+        <p class="text-gray-600">
+            Personalized tool recommendations based on your profile and activity.
+        </p>
+    </div>
+
+    <!-- Login Prompt for Anonymous Users -->
+    {% if requires_login %}
+    {% include "components/login_prompt.html" %}
+    {% else %}
+
+    <!-- How Recommendations Work - Always Visible -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-6">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <span>How We Personalize Your Recommendations</span>
+        </h2>
+
+        <p class="text-gray-600 mb-4">
+            Every recommendation is scored on a 0-100% scale based on how well it fits <strong>your specific context</strong>.
+            Different users get different recommendations because the scoring considers:
+        </p>
+
+        <!-- Scoring Components -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+            <div class="bg-blue-50 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-blue-600 font-bold text-lg">30%</span>
+                </div>
+                <span class="font-medium text-gray-800 text-sm">CDI Fit</span>
+                <p class="text-xs text-gray-600 mt-1">
+                    Tools penalized if Cost, Difficulty, or Invasiveness exceed your limits
+                </p>
+            </div>
+
+            <div class="bg-purple-50 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-purple-600 font-bold text-lg">25%</span>
+                </div>
+                <span class="font-medium text-gray-800 text-sm">Use Case Match</span>
+                <p class="text-xs text-gray-600 mt-1">
+                    Tools matching your saved use cases score higher
+                </p>
+            </div>
+
+            <div class="bg-yellow-50 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-yellow-600 font-bold text-lg">20%</span>
+                </div>
+                <span class="font-medium text-gray-800 text-sm">Reviews</span>
+                <p class="text-xs text-gray-600 mt-1">
+                    Reviews from similar users weighted more heavily
+                </p>
+            </div>
+
+            <div class="bg-green-50 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-green-600 font-bold text-lg">15%</span>
+                </div>
+                <span class="font-medium text-gray-800 text-sm">Your Activity</span>
+                <p class="text-xs text-gray-600 mt-1">
+                    Clusters you've browsed and searches you've made
+                </p>
+            </div>
+
+            <div class="bg-gray-100 rounded-lg p-3">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-gray-600 font-bold text-lg">10%</span>
+                </div>
+                <span class="font-medium text-gray-800 text-sm">Profile Fit</span>
+                <p class="text-xs text-gray-600 mt-1">
+                    Country and org-type specific considerations
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Personalized Picks -->
+    {% include "components/suggested_block.html" %}
+
+    <!-- Use Case Filter -->
+    <div class="mb-6">
+        <form method="GET" action="/for-you" class="flex items-center gap-3">
+            <label for="use_case" class="text-sm font-medium text-gray-700">Filter by use case:</label>
+            <select name="use_case" id="use_case" onchange="this.form.submit()"
+                    class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="">All recommendations</option>
+                {% for cluster in clusters %}
+                <option value="{{ cluster.slug }}" {% if selected_use_case == cluster.slug %}selected{% endif %}>
+                    {{ cluster.name }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <!-- Recommendations -->
+    {% if show_suggested and suggested_tools %}
+    <div class="mb-4">
+        <p class="text-sm text-gray-500">
+            Showing {{ suggested_tools|length }} personalized recommendations. These rotate automatically based on your activity &mdash; check back later for fresh suggestions!
+        </p>
+    </div>
+    <div class="space-y-4">
+        {% for rec in suggested_tools %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <!-- Tool Header with Rank -->
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm">
+                            {{ loop.index }}
+                        </span>
+                        <a href="/tools/{{ rec.tool_slug }}"
+                           class="text-xl font-semibold text-gray-900 hover:text-indigo-600">
+                            {{ rec.tool_name }}
+                        </a>
+                        <span class="text-sm px-3 py-1 rounded-full
+                            {% if rec.fit_score >= 80 %}bg-green-100 text-green-700
+                            {% elif rec.fit_score >= 60 %}bg-yellow-100 text-yellow-700
+                            {% else %}bg-gray-100 text-gray-600{% endif %}">
+                            {{ rec.fit_score | round(0) }}% fit
+                        </span>
+                        {% if 'sovereign-alternative' in rec.tags %}
+                        <span class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">Sovereign</span>
+                        {% endif %}
+                        {% if 'free' in rec.tags %}
+                        <span class="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700">Free</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Explanation -->
+                    <p class="text-gray-600 mb-4">{{ rec.explanation }}</p>
+
+                    <!-- Score Breakdown -->
+                    {% if rec.score_breakdown %}
+                    <div class="flex flex-wrap gap-4 text-xs text-gray-500 mb-4">
+                        <span>CDI Fit: {{ rec.score_breakdown.cdi_fit | round(0) }}</span>
+                        {% if rec.score_breakdown.use_case_match > 0 %}
+                        <span class="text-green-600">+{{ rec.score_breakdown.use_case_match | round(0) }} use case</span>
+                        {% endif %}
+                        {% if rec.score_breakdown.activity_relevance > 0 %}
+                        <span class="text-blue-600">+{{ rec.score_breakdown.activity_relevance | round(0) }} activity</span>
+                        {% endif %}
+                        {% if rec.score_breakdown.review_signal > 0 %}
+                        <span class="text-purple-600">+{{ rec.score_breakdown.review_signal | round(0) }} reviews</span>
+                        {% endif %}
+                        {% if rec.score_breakdown.profile_fit > 0 %}
+                        <span class="text-indigo-600">+{{ rec.score_breakdown.profile_fit | round(0) }} profile</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Citations -->
+                    {% if rec.citations %}
+                    <div class="space-y-2 mb-4">
+                        {% for citation in rec.citations[:2] %}
+                        <div class="text-sm bg-gray-50 rounded p-3 border-l-2 border-indigo-300">
+                            {% if citation.type == 'review' %}
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-yellow-500">
+                                    {% for i in range(citation.rating or 0) %}&#9733;{% endfor %}{% for i in range(5 - (citation.rating or 0)) %}<span class="text-gray-300">&#9733;</span>{% endfor %}
+                                </span>
+                                {% if citation.reviewer_type %}
+                                <span class="text-xs text-gray-500">({{ citation.reviewer_type }})</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            <p class="text-gray-700 italic">"{{ citation.text | truncate(150) }}"</p>
+                            {% if citation.source %}
+                            <p class="text-xs text-gray-500 mt-1">{{ citation.source }}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Actions -->
+                    <div class="flex items-center gap-4">
+                        <a href="/tools/{{ rec.tool_slug }}"
+                           class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                            View tool details &rarr;
+                        </a>
+                        <a href="/clusters/{{ rec.cluster_slug }}"
+                           class="text-xs text-gray-400 hover:text-gray-600">
+                            {{ rec.cluster_name }}
+                        </a>
+                    </div>
+
+                    <!-- Why Recommended - Expandable -->
+                    <details class="mt-4 border-t border-gray-100 pt-4">
+                        <summary class="text-sm font-medium text-indigo-600 hover:text-indigo-800 cursor-pointer flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Why is this recommended for you?
+                        </summary>
+                        <div class="mt-3 space-y-4">
+                            <!-- Personalized Reasoning -->
+                            <div class="bg-indigo-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-indigo-900 mb-2">Based on Your Profile & Activity</h4>
+                                <ul class="text-sm text-indigo-800 space-y-1">
+                                    {% if rec.score_breakdown %}
+                                    {% if rec.score_breakdown.activity_relevance > 0 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Your activity:</strong> You've browsed similar tools or searched for related topics (+{{ rec.score_breakdown.activity_relevance | round(0) }} points)</span>
+                                    </li>
+                                    {% endif %}
+                                    {% if rec.score_breakdown.use_case_match > 0 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Use case match:</strong> Matches use cases you've saved in your profile (+{{ rec.score_breakdown.use_case_match | round(0) }} points)</span>
+                                    </li>
+                                    {% endif %}
+                                    {% if rec.score_breakdown.cdi_fit >= 25 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Great fit:</strong> Cost, difficulty, and data handling all match your constraints (+{{ rec.score_breakdown.cdi_fit | round(0) }} points)</span>
+                                    </li>
+                                    {% elif rec.score_breakdown.cdi_fit >= 15 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Good fit:</strong> Mostly matches your budget, experience, and data requirements (+{{ rec.score_breakdown.cdi_fit | round(0) }} points)</span>
+                                    </li>
+                                    {% endif %}
+                                    {% if rec.score_breakdown.review_signal > 0 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Positive reviews:</strong> Users similar to you rated this well (+{{ rec.score_breakdown.review_signal | round(0) }} points)</span>
+                                    </li>
+                                    {% endif %}
+                                    {% if rec.score_breakdown.profile_fit > 5 %}
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-4 h-4 mt-0.5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span><strong>Profile match:</strong> Fits your organisation type and country preferences (+{{ rec.score_breakdown.profile_fit | round(0) }} points)</span>
+                                    </li>
+                                    {% endif %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <!-- Score Transparency -->
+                            {% if rec.score_breakdown %}
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2">Score Breakdown (100 points max)</h4>
+                                <div class="space-y-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 text-xs text-gray-600">CDI Fit (30%)</div>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-blue-500 h-2 rounded-full" style="width: {{ (rec.score_breakdown.cdi_fit / 30 * 100) | round(0) }}%"></div>
+                                        </div>
+                                        <div class="w-12 text-xs text-gray-600 text-right">{{ rec.score_breakdown.cdi_fit | round(0) }}/30</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 text-xs text-gray-600">Use Cases (25%)</div>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-purple-500 h-2 rounded-full" style="width: {{ (rec.score_breakdown.use_case_match / 25 * 100) | round(0) }}%"></div>
+                                        </div>
+                                        <div class="w-12 text-xs text-gray-600 text-right">{{ rec.score_breakdown.use_case_match | round(0) }}/25</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 text-xs text-gray-600">Reviews (20%)</div>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-yellow-500 h-2 rounded-full" style="width: {{ (rec.score_breakdown.review_signal / 20 * 100) | round(0) }}%"></div>
+                                        </div>
+                                        <div class="w-12 text-xs text-gray-600 text-right">{{ rec.score_breakdown.review_signal | round(0) }}/20</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 text-xs text-gray-600">Activity (15%)</div>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-green-500 h-2 rounded-full" style="width: {{ (rec.score_breakdown.activity_relevance / 15 * 100) | round(0) }}%"></div>
+                                        </div>
+                                        <div class="w-12 text-xs text-gray-600 text-right">{{ rec.score_breakdown.activity_relevance | round(0) }}/15</div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-24 text-xs text-gray-600">Profile (10%)</div>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-2">
+                                            <div class="bg-indigo-500 h-2 rounded-full" style="width: {{ (rec.score_breakdown.profile_fit / 10 * 100) | round(0) }}%"></div>
+                                        </div>
+                                        <div class="w-12 text-xs text-gray-600 text-right">{{ rec.score_breakdown.profile_fit | round(0) }}/10</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Data Used -->
+                            <div class="text-xs text-gray-500">
+                                <p><strong>Data used:</strong> Your profile settings, activity history (searches, tool views, cluster browsing), reviews from similar users, and tool metadata (CDI scores, use cases).</p>
+                                <p class="mt-1"><a href="/profile" class="text-indigo-600 hover:underline">Update your profile</a> to improve recommendations.</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- CDI Scores -->
+                <div class="ml-6 flex gap-2">
+                    {% if rec.cdi_scores %}
+                    <div class="text-center px-3 py-2 rounded-lg
+                        {% if rec.cdi_scores.cost <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.cost <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase font-medium">Cost</div>
+                        <div class="text-2xl font-bold">{{ rec.cdi_scores.cost }}</div>
+                    </div>
+                    <div class="text-center px-3 py-2 rounded-lg
+                        {% if rec.cdi_scores.difficulty <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.difficulty <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase font-medium">Difficulty</div>
+                        <div class="text-2xl font-bold">{{ rec.cdi_scores.difficulty }}</div>
+                    </div>
+                    <div class="text-center px-3 py-2 rounded-lg
+                        {% if rec.cdi_scores.invasiveness <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.invasiveness <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase font-medium">Invasiveness</div>
+                        <div class="text-2xl font-bold">{{ rec.cdi_scores.invasiveness }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <!-- No Recommendations -->
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+        <svg class="mx-auto h-16 w-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+        </svg>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No recommendations yet</h3>
+        <p class="text-gray-600 mb-6">
+            We need more information to give you personalized recommendations.
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="/profile" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition font-medium">
+                Complete Your Profile
+            </a>
+            <a href="/tools" class="bg-white text-gray-700 border-2 border-gray-300 px-6 py-3 rounded-lg hover:bg-gray-50 transition font-medium">
+                Browse All Tools
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endif %}{# end requires_login else #}
+</div>
+{% endblock %}

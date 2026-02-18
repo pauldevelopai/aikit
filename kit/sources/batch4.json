@@ -1,0 +1,103 @@
+{
+  "batch": 4,
+  "theme": "Research Tools & Verification Plugins",
+  "entry_count": 8,
+  "entries": [
+    {
+      "batch": 4,
+      "entry_id": "batch4-1",
+      "title": "Pinpoint: A research tool for journalists",
+      "url": "https://journaliststudio.google.com/pinpoint/about",
+      "source": "Google Journalist Studio",
+      "date": "Product page; date not shown on snippet",
+      "excerpt": "“Turn audio and video recordings into searchable text files…”",
+      "why_it_matters": "Pinpoint is a newsroom-facing, searchable-corpus tool; good for grounding claims about large-scale document/audio search and collaboration.",
+      "ai_extract": "Google’s Pinpoint page lists core capabilities including searching large document sets, transcribing audio/video into searchable text with jump-to-audio, transforming tables into spreadsheets, and collaboration features.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-2",
+      "title": "About Pinpoint (Help Center)",
+      "url": "https://support.google.com/pinpoint/answer/11948320?hl=en",
+      "source": "Google Support",
+      "date": "Help article; date not shown on snippet",
+      "excerpt": "“Upload and search hundreds of thousands of documents… images… emails… and audio files…”",
+      "why_it_matters": "More “definitional” than the marketing page; useful for strict grounding of what Pinpoint is and what it supports.",
+      "ai_extract": "Google’s help article defines Pinpoint as a research tool for journalists and academics for exploring/analyzing large document collections, including images, emails, handwritten notes, and audio files, with sharing and annotation.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-3",
+      "title": "Tips for Organizing Audio and Video Files and Making Them",
+      "url": "https://gijn.org/stories/making-video-audio-files-searchable",
+      "source": "GIJN",
+      "date": "Feb 22, 2023",
+      "excerpt": "“Upload a video or audio file, and the tool creates a PDF with a timestamped transcription…”",
+      "why_it_matters": "Practical workflow write-up that supports training material: what to do, what to expect, and limitations.",
+      "ai_extract": "GIJN explains a workflow for making interviews searchable and notes Pinpoint can transcribe uploaded audio/video and generate timestamped transcript PDFs; it also mentions limitations and compares to DocumentCloud for sharing.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-4",
+      "title": "Getting started with Pinpoint, a research tool for journalists (training",
+      "url": "https://newsonair.withgoogle.com/events/googlepinpoint",
+      "source": "Google News Initiative (News on Air / with Google)",
+      "date": "Event page; date not shown on snippet",
+      "excerpt": "“Pinpoint can transcribe, organize… 'Structured data extraction'…”",
+      "why_it_matters": "Training/onboarding reference for Pinpoint capabilities (useful for grounding a training module and linking to official learning material).",
+      "ai_extract": "A Google training/event page introducing Pinpoint and describing how it can help organize and transcribe materials, including mention of structured data extraction functionality.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-5",
+      "title": "InVID Verification Plugin",
+      "url": "https://www.invid-project.eu/tools-and-services/invid-verification-plugin",
+      "source": "InVID Project",
+      "date": "Tool page; date not shown on snippet",
+      "excerpt": "“Designed as a verification “Swiss army knife”… especially when verifying videos and images.”",
+      "why_it_matters": "A foundational reference for video/image verification tooling in journalism and OSINT\nworkflows.",
+      "ai_extract": "The InVID project describes the InVID verification plugin as a toolbox to help journalists verify social content, emphasizing efficiency for fact-checking and debunking (noting some external services are not open-sourced).",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-6",
+      "title": "Verification plugin (InVID–WeVerify)",
+      "url": "https://weverify.eu/verification-plugin",
+      "source": "WeVerify",
+      "date": "Page mentions launch Sep 2021; last update date not fully specified",
+      "excerpt": "“More than 57k weekly active users… (according to Google Chrome statistics).”",
+      "why_it_matters": "Adds adoption signals (users) plus provenance (AFP Medialab + partners), useful for a grounded ‘why this tool matters’ entry.",
+      "ai_extract": "WeVerify describes the InVID–WeVerify browser extension, notes a 2021 redesign, references weekly active user counts, and states the toolkit is designed/maintained by AFP Medialab with support from scientific partners.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-7",
+      "title": "Fake news debunker by InVID & WeVerify (Chrome Web Store listing)",
+      "url": "https://chromewebstore.google.com/detail/fake-news-debunker-by-inv/mhccpoafgdgbhnjfhkcmgknndkee",
+      "source": "Chrome Web Store",
+      "date": "Listing; rolling",
+      "excerpt": "“Designed as a verification “Swiss army knife”… especially when verifying videos and images.”",
+      "why_it_matters": "Concrete installable artifact + distribution channel; useful for “how to get it” and for verifiable adoption/updates via store metadata.",
+      "ai_extract": "The Chrome Web Store listing describes the InVID–WeVerify extension as a verification toolbox for journalists and fact-checkers and references its purpose for verifying videos/images; it also links to related project context.",
+      "theme": "Research Tools & Verification Plugins"
+    },
+    {
+      "batch": 4,
+      "entry_id": "batch4-8",
+      "title": "Google NotebookLM Help Center",
+      "url": "https://support.google.com/notebooklm/?hl=en",
+      "source": "Google Support",
+      "date": "Help center; rolling",
+      "excerpt": "“Official Help Center where you can find tips and tutorials…”",
+      "why_it_matters": "A stable grounding reference for how NotebookLM works and what it supports, especially when the marketing page is script-heavy.",
+      "ai_extract": "Google’s NotebookLM Help Center provides official guidance, FAQs, and troubleshooting for NotebookLM, suitable as a canonical reference in training materials.",
+      "theme": "Research Tools & Verification Plugins"
+    }
+  ]
+}

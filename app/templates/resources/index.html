@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Resources - AI in Journalism{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Resources</h1>
+        <p class="mt-2 text-gray-600">
+            Reports, studies, and articles about AI in journalism and media.
+            {{ total }} resources available.
+        </p>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <form method="GET" action="/resources" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Search -->
+                <div>
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <input type="text" id="search" name="search" value="{{ search or '' }}"
+                           placeholder="Search resources..."
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <!-- Type Filter -->
+                <div>
+                    <label for="resource_type" class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                    <select id="resource_type" name="resource_type"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Types</option>
+                        {% for rt in resource_types %}
+                        <option value="{{ rt }}" {% if current_resource_type == rt %}selected{% endif %}>
+                            {{ rt|capitalize }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Source Filter -->
+                <div>
+                    <label for="source" class="block text-sm font-medium text-gray-700 mb-1">Source</label>
+                    <select id="source" name="source"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Sources</option>
+                        {% for s in sources %}
+                        <option value="{{ s }}" {% if current_source == s %}selected{% endif %}>
+                            {{ s }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+                <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                    Filter
+                </button>
+                {% if search or current_resource_type or current_source %}
+                <a href="/resources" class="text-sm text-blue-600 hover:text-blue-800">Clear filters</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <!-- Results count -->
+    <div class="mb-4 text-sm text-gray-600">
+        Showing {{ resources|length }} of {{ total }} resources
+    </div>
+
+    <!-- Resources Grid -->
+    {% if resources %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for resource in resources %}
+        <a href="/resources/{{ resource.slug }}" class="block bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+            <div class="p-6">
+                <!-- Resource Type Badge -->
+                <div class="mb-3">
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        {{ resource.resource_type or 'article' }}
+                    </span>
+                    {% if resource.source %}
+                    <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 ml-1">
+                        {{ resource.source }}
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Resource Title -->
+                <h2 class="text-lg font-semibold text-gray-900 mb-2">{{ resource.title }}</h2>
+
+                <!-- Summary -->
+                {% if resource.summary %}
+                <p class="text-sm text-gray-600 line-clamp-3 mb-3">
+                    {{ resource.summary[:150] }}{% if resource.summary|length > 150 %}...{% endif %}
+                </p>
+                {% endif %}
+
+                <!-- Meta Info -->
+                <div class="flex items-center justify-between text-xs text-gray-500">
+                    {% if resource.author %}
+                    <span>{{ resource.author }}</span>
+                    {% endif %}
+                    {% if resource.publication_date %}
+                    <span>{{ resource.publication_date.strftime('%b %d, %Y') }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="mt-8 flex justify-center items-center gap-4">
+        {% if page > 1 %}
+        <a href="?page={{ page - 1 }}{% if search %}&search={{ search }}{% endif %}{% if current_resource_type %}&resource_type={{ current_resource_type }}{% endif %}{% if current_source %}&source={{ current_source }}{% endif %}"
+           class="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+            Previous
+        </a>
+        {% endif %}
+
+        <span class="text-sm text-gray-600">Page {{ page }} of {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+        <a href="?page={{ page + 1 }}{% if search %}&search={{ search }}{% endif %}{% if current_resource_type %}&resource_type={{ current_resource_type }}{% endif %}{% if current_source %}&source={{ current_source }}{% endif %}"
+           class="px-4 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50">
+            Next
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+        <p class="text-gray-500 text-lg">No resources found matching your criteria.</p>
+        <a href="/resources" class="mt-4 inline-block text-blue-600 hover:text-blue-800">View all resources</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

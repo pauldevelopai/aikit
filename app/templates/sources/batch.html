@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Batch {{ batch_num }}: {{ batch.theme }} - Sources - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-gray-500">
+        <a href="/sources" class="hover:text-blue-600">Sources</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-900">Batch {{ batch_num }}</span>
+    </nav>
+
+    {% if batch %}
+    <!-- Header -->
+    <div class="bg-white rounded-lg shadow p-8 mb-6">
+        <div class="flex items-center gap-3 mb-2">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full
+                {% if batch_num <= 4 %}bg-blue-100 text-blue-700
+                {% elif batch_num <= 8 %}bg-green-100 text-green-700
+                {% else %}bg-purple-100 text-purple-700{% endif %}
+                text-lg font-bold">
+                {{ batch_num }}
+            </span>
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ batch.theme }}</h1>
+                <p class="text-sm text-gray-500">{{ batch.entry_count }} verified citation(s)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Entries -->
+    <div class="space-y-6 mb-8">
+        {% for entry in batch.entries %}
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ entry.title }}</h3>
+
+                    {% if entry.source %}
+                    <p class="text-sm text-gray-400 mb-3">{{ entry.source }}{% if entry.date %} &middot; {{ entry.date }}{% endif %}</p>
+                    {% endif %}
+
+                    {% if entry.excerpt %}
+                    <blockquote class="border-l-3 border-gray-200 pl-4 my-3 text-sm text-gray-600 italic">
+                        {{ entry.excerpt }}
+                    </blockquote>
+                    {% endif %}
+
+                    {% if entry.why_it_matters %}
+                    <div class="bg-gray-50 rounded p-3 my-3">
+                        <p class="text-sm text-gray-700">
+                            <span class="font-semibold text-gray-900">Why it matters:</span>
+                            {{ entry.why_it_matters }}
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    {% if entry.ai_extract and entry.ai_extract != entry.excerpt %}
+                    <details class="mt-3">
+                        <summary class="text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-700">
+                            Full extract for AI ingestion
+                        </summary>
+                        <p class="mt-2 text-sm text-gray-600 bg-gray-50 rounded p-3">
+                            {{ entry.ai_extract }}
+                        </p>
+                    </details>
+                    {% endif %}
+                </div>
+
+                {% if entry.url %}
+                <a href="{{ entry.url }}" target="_blank" rel="noopener noreferrer"
+                   class="flex-shrink-0 inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-100 transition">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                    View Source
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between">
+        {% if batch_num > 1 %}
+        <a href="/sources/batch/{{ batch_num - 1 }}" class="text-sm text-blue-600 hover:text-blue-800">
+            &larr; Batch {{ batch_num - 1 }}
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+
+        <a href="/sources" class="text-sm text-gray-500 hover:text-gray-700">All sources</a>
+
+        {% if batch_num < 12 %}
+        <a href="/sources/batch/{{ batch_num + 1 }}" class="text-sm text-blue-600 hover:text-blue-800">
+            Batch {{ batch_num + 1 }} &rarr;
+        </a>
+        {% else %}
+        <span></span>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <div class="bg-white rounded-lg shadow p-12 text-center">
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Batch not found</h3>
+        <a href="/sources" class="text-blue-600 hover:text-blue-800">Back to all sources</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

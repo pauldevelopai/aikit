@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}{{ cluster.name }} - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Back -->
+    <div class="mb-6">
+        <a href="/clusters" class="text-blue-600 hover:text-blue-800 text-sm">&larr; All Clusters</a>
+    </div>
+
+    <!-- Cluster Header -->
+    <div class="bg-white rounded-lg shadow p-8 mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">
+            Cluster {{ cluster.number }}: {{ cluster.name }}
+        </h1>
+        <p class="text-sm text-gray-500 mb-4">{{ tools|length }} tools</p>
+
+        {% if cluster.description %}
+        <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed">
+            {{ cluster.description }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tools in this Cluster -->
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Tools</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {% for tool in tools %}
+        <a href="/tools/{{ tool.slug }}" class="block bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+            <div class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ tool.name }}</h3>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-2">
+                    {{ tool.purpose or tool.description[:120] }}{% if tool.description|length > 120 and not tool.purpose %}...{% endif %}
+                </p>
+
+                <!-- CDI Score Bar -->
+                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div class="rounded py-1
+                        {% if tool.cdi_scores.cost <= 3 %}bg-green-50 text-green-700
+                        {% elif tool.cdi_scores.cost <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        C: {{ tool.cdi_scores.cost }}
+                    </div>
+                    <div class="rounded py-1
+                        {% if tool.cdi_scores.difficulty <= 3 %}bg-green-50 text-green-700
+                        {% elif tool.cdi_scores.difficulty <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        D: {{ tool.cdi_scores.difficulty }}
+                    </div>
+                    <div class="rounded py-1
+                        {% if tool.cdi_scores.invasiveness <= 3 %}bg-green-50 text-green-700
+                        {% elif tool.cdi_scores.invasiveness <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        I: {{ tool.cdi_scores.invasiveness }}
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Teaching Guidance -->
+    {% if cluster.teaching_guidance %}
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-3">Teaching Guidance</h2>
+        <div class="prose prose-sm max-w-none text-gray-700 leading-relaxed">
+            {{ cluster.teaching_guidance }}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Exercises -->
+    {% if cluster.exercises %}
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Exercises</h2>
+        <div class="space-y-4">
+            {% for exercise in cluster.exercises %}
+            <div class="border-l-4 border-blue-500 pl-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                    Exercise {{ exercise.number }}: {{ exercise.title }}
+                </h3>
+                <p class="text-sm text-gray-600 mt-1">{{ exercise.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Where to Start -->
+    {% if wts_blocks %}
+    <div class="bg-green-50 rounded-lg border border-green-200 p-6 mb-8">
+        <h2 class="text-xl font-semibold text-green-900 mb-6">Where to Start</h2>
+
+        <div class="space-y-5">
+            {% for block in wts_blocks %}
+            <div class="bg-white rounded-lg p-5 border-l-4
+                {% if block.type == 'start' %}border-green-500
+                {% elif block.type == 'next' %}border-blue-500
+                {% elif block.type == 'avoid' %}border-amber-500
+                {% endif %}">
+
+                <span class="inline-block text-xs font-semibold uppercase tracking-wider px-2 py-0.5 rounded mb-2
+                    {% if block.type == 'start' %}bg-green-100 text-green-700
+                    {% elif block.type == 'next' %}bg-blue-100 text-blue-700
+                    {% elif block.type == 'avoid' %}bg-amber-100 text-amber-700
+                    {% endif %}">
+                    {{ block.label }}
+                </span>
+
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">{{ block.intro }}</h3>
+
+                {% if block.sections %}
+                <div class="space-y-3">
+                    {% for section in block.sections %}
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">{{ section.heading }}</h4>
+                        {% if section.is_list %}
+                        <ul class="text-sm text-gray-700 space-y-1">
+                            {% for item in section.list_items %}
+                            <li class="flex items-start gap-2">
+                                <span class="mt-1.5 h-1.5 w-1.5 rounded-full flex-shrink-0
+                                    {% if block.type == 'start' %}bg-green-400
+                                    {% elif block.type == 'next' %}bg-blue-400
+                                    {% elif block.type == 'avoid' %}bg-amber-400
+                                    {% endif %}"></span>
+                                <span>{{ item }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="text-sm text-gray-700">{{ section.content }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            {% if not loop.last %}
+            <div class="flex justify-center">
+                <div class="w-0.5 h-4 bg-green-300 rounded"></div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

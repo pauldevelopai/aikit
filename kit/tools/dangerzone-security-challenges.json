@@ -1,0 +1,40 @@
+{
+  "slug": "dangerzone-security-challenges",
+  "name": "Dangerzone",
+  "number": 34,
+  "cluster_name": "Security Challenges",
+  "cluster_slug": "security-challenges",
+  "cluster_number": 5,
+  "description": "Tool for safely opening and sanitising documents from untrusted sources. Dangerzone is a security tool designed specifically for journalists handling untrusted documents from anonymous sources. It converts potentially malicious PDFs, Word files, or images into safe, inert PDFs by opening them in a sandboxed environment and reconstructing them as images. Developed by Micah Lee at the Freedom of the Press Foundation, Dangerzone assumes all leaked documents are hostile until proven otherwise.",
+  "purpose": "Safe handling of leaks and anonymous submissions.",
+  "journalism_relevance": "Prevents malware attacks embedded in documents—one of the most common attack vectors against journalists.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 3,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Avoids catastrophic compromise rather than saving time.",
+    "reinvestment": "Secure verification. Clean documents first, investigate second."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "bitwarden",
+      "protonmail",
+      "tor-browser",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "security-privacy"
+    ]
+  }
+}

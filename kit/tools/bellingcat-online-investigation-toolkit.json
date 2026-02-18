@@ -1,0 +1,45 @@
+{
+  "slug": "bellingcat-online-investigation-toolkit",
+  "name": "Bellingcat Online Investigation Toolkit",
+  "number": 10,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Bellingcat Online Investigation Toolkit Curated collection of open-source tools and methods for digital investigations. The Bellingcat Toolkit is not a single piece of software but a curated, dynamic repository of open-source tools maintained by the world's premier citizen investigation collective. 55 It serves as the definitive map for the OSINT landscape, organizing tools by function: geolocation, data verification, archiving, and transport analysis. The toolkit includes guides and links 56 to satellite imagery services, shadow analysis tools and social media scrapers. Bellingcat has revolutionized journalism by proving that open-source data can solve war crimes and expose state secrets. Their toolkit is the crystallization of this methodology. Using their toolkit aligns the researcher with a methodology of transparency and verifiability. It is a community-driven resource, democratizing access to intelligence capabilities previously reserved for state agencies.",
+  "purpose": "Methodology and geolocation tools.",
+  "journalism_relevance": "Not a single \"AI,\" but a suite of AI-assisted tools (like SunCalc and satellite imagery analysis) vital for holding power to account in the region.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 9,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "Prevents \"reinventing the wheel\" for investigations.",
+    "reinvestment": "Determin the exact time an event happened to disprove 139f06458172 toolkit/#:~:text=Toolkit%20www,and%20maps%2C%20social%20media%2C official narratives."
+  },
+  "comments": "",
+  "url": "https://bellingcat.gitbook.io/toolkit",
+  "tags": [
+    "advanced",
+    "free",
+    "local-processing",
+    "open-source",
+    "privacy-friendly",
+    "sovereign-alternative"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [
+      "notebooklm",
+      "google-pinpoint",
+      "invid-weverify",
+      "visualping"
+    ],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "invid-weverify"
+    ],
+    "use_cases": [
+      "verification"
+    ]
+  }
+}

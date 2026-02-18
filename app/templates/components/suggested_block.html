@@ -1,0 +1,142 @@
+{# Suggested Tools Block Component
+
+Usage:
+{% include "components/suggested_block.html" with context %}
+
+Required context:
+- suggested_tools: list of ToolRecommendation objects
+- suggested_title: string title for the block
+- show_suggested: boolean to show/hide
+
+Optional:
+- suggested_location: "home", "tool_detail", "cluster", "finder"
+- compact: boolean for compact display mode
+#}
+
+{% if show_suggested and suggested_tools %}
+<div class="suggested-tools-block bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200 p-6 mb-6">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-indigo-900">
+            {{ suggested_title | default("Suggested for You") }}
+        </h3>
+        <span class="text-xs text-indigo-600 bg-indigo-100 px-2 py-1 rounded-full">
+            Personalized
+        </span>
+    </div>
+
+    <div class="space-y-4">
+        {% for rec in suggested_tools %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 hover:shadow-md transition">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-1">
+                        <a href="/tools/{{ rec.tool_slug }}"
+                           class="font-semibold text-gray-900 hover:text-indigo-600">
+                            {{ rec.tool_name }}
+                        </a>
+                        <span class="text-xs px-2 py-0.5 rounded-full
+                            {% if rec.fit_score >= 80 %}bg-green-100 text-green-700
+                            {% elif rec.fit_score >= 60 %}bg-yellow-100 text-yellow-700
+                            {% else %}bg-gray-100 text-gray-600{% endif %}">
+                            {{ rec.fit_score | round(0) }}% fit
+                        </span>
+                        {% if 'sovereign-alternative' in rec.tags %}
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">Sovereign</span>
+                        {% endif %}
+                        {% if 'free' in rec.tags %}
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700">Free</span>
+                        {% endif %}
+                    </div>
+
+                    <p class="text-sm text-gray-600 mb-2">
+                        {{ rec.explanation }}
+                    </p>
+
+                    {# Show best citation if available #}
+                    {% if rec.citations %}
+                    {% set review_citations = rec.citations | selectattr("type", "equalto", "review") | list %}
+                    {% if review_citations %}
+                    {% set best_review = review_citations[0] %}
+                    <div class="text-xs bg-gray-50 rounded p-2 mb-2 border-l-2 border-indigo-300">
+                        <span class="text-yellow-500">
+                            {% for i in range(best_review.rating or 0) %}&#9733;{% endfor %}{% for i in range(5 - (best_review.rating or 0)) %}<span class="text-gray-300">&#9733;</span>{% endfor %}
+                        </span>
+                        {% if best_review.reviewer_type %}
+                        <span class="text-gray-500">({{ best_review.reviewer_type }})</span>
+                        {% endif %}
+                        <span class="text-gray-600 italic">"{{ best_review.text | truncate(80) }}"</span>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+
+                    <div class="flex items-center gap-3">
+                        <a href="/tools/{{ rec.tool_slug }}"
+                           class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                            View details &rarr;
+                        </a>
+                        <a href="/clusters/{{ rec.cluster_slug }}"
+                           class="text-xs text-gray-400 hover:text-gray-600">
+                            {{ rec.cluster_name }}
+                        </a>
+                    </div>
+                </div>
+
+                {# Compact CDI display #}
+                <div class="ml-4 flex gap-1">
+                    {% if rec.cdi_scores %}
+                    <div class="text-center px-2 py-1 rounded
+                        {% if rec.cdi_scores.cost <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.cost <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase">C</div>
+                        <div class="font-bold">{{ rec.cdi_scores.cost }}</div>
+                    </div>
+                    <div class="text-center px-2 py-1 rounded
+                        {% if rec.cdi_scores.difficulty <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.difficulty <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase">D</div>
+                        <div class="font-bold">{{ rec.cdi_scores.difficulty }}</div>
+                    </div>
+                    <div class="text-center px-2 py-1 rounded
+                        {% if rec.cdi_scores.invasiveness <= 3 %}bg-green-50 text-green-700
+                        {% elif rec.cdi_scores.invasiveness <= 6 %}bg-yellow-50 text-yellow-700
+                        {% else %}bg-red-50 text-red-700{% endif %}">
+                        <div class="text-xs uppercase">I</div>
+                        <div class="font-bold">{{ rec.cdi_scores.invasiveness }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Tailored guidance preview (only on tool_detail location) #}
+            {% if suggested_location == "tool_detail" and rec.tailored_guidance %}
+            <div class="mt-3 pt-3 border-t border-gray-100">
+                <div class="flex gap-4 text-xs">
+                    <div>
+                        <span class="font-medium text-gray-700">Training:</span>
+                        <span class="text-gray-500">{{ rec.tailored_guidance.training_plan.duration }}</span>
+                    </div>
+                    <div>
+                        <span class="font-medium text-gray-700">Rollout:</span>
+                        <span class="text-gray-500">{{ rec.tailored_guidance.rollout_approach.pace }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Scoring Explanation -->
+    {% include "components/scoring_explanation.html" %}
+
+    {% if suggested_location != "for_you" %}
+    <div class="mt-4 text-center">
+        <a href="/for-you" class="text-sm text-indigo-600 hover:text-indigo-800">
+            See all recommendations &rarr;
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endif %}

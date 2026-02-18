@@ -1,0 +1,35 @@
+{
+  "slug": "adobe-firefly",
+  "name": "Adobe Firefly",
+  "number": 30,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "Commercially safe generative AI integrated into Adobe’s creative tools. Adobe Firefly is integrated into Photoshop and Illustrator and offers image generation that is safe for commercial use, trained on Adobe Stock images rather than scraped internet data 91. Firefly powers the \"Generative Fill\" tool in Photoshop, allowing users to extend images or add/remove objects with perfect lighting matching. In this context, “Generative Fill” means using generative AI to create new pixels that complete or modify an image based on a user’s intent or description. You are not just cloning or patching an image like you would with traditional Photoshop tools. It analyses the existing image and produce new content that matches the surrounding lighting, perspective and style wherever you make a selection. Its \"Structure Reference\" allows users to upload a sketch and generate an image that matches the layout. It now includes a video model.",
+  "purpose": "\"Safe\" generative fill.",
+  "journalism_relevance": "Extending the background of a photo to fit a website banner. \"Copyright safe\" for commercial newsrooms.",
+  "cdi_scores": {
+    "cost": 6,
+    "difficulty": 2,
+    "invasiveness": 4
+  },
+  "time_dividend": {
+    "time_saved": "Automates complex visual edits—background extension, object removal, and layout adjustments—that would normally require advanced Photoshop skills and significant manual time.",
+    "reinvestment": "Stronger visual storytelling—use the saved time to select better images, improve captions and context, and collaborate more closely between editors and designers on how visuals support the story."
+  },
+  "comments": "",
+  "url": "https://www.midjourney.com",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "midjourney"
+    ],
+    "use_cases": [
+      "image-generation"
+    ]
+  }
+}

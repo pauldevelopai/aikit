@@ -1,0 +1,35 @@
+{
+  "slug": "buffer-ai-assistant",
+  "name": "Buffer AI Assistant",
+  "number": 31,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "Social media scheduling and caption-generation tool integrated into Buffer. Buffer is a social media management platform, and its AI Assistant is integrated to help draft, repurpose, and schedule content across platforms. The AI helps generate post ideas, rewrite content for different networks (e.g., shorten for X, expand for LinkedIn), and summarize long articles into threads. It uses OpenAI's API but is tuned for social media best practices.",
+  "purpose": "To help newsrooms plan, adapt, and publish content across multiple",
+  "journalism_relevance": "Supports consistent, responsible distribution of reporting by adapting headlines and summaries for different platforms, while allowing journalists to retain editorial judgment over tone, timing, and context rather than chasing engagement manually.",
+  "cdi_scores": {
+    "cost": 3,
+    "difficulty": 2,
+    "invasiveness": 3
+  },
+  "time_dividend": {
+    "time_saved": "Writing 10 variations of a tweet for different platforms.",
+    "reinvestment": "Analyzing when your audience is online and what they engage with."
+  },
+  "comments": "",
+  "url": "https://buffer.com",
+  "tags": [
+    "beginner-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "opusclip"
+    ],
+    "use_cases": [
+      "social-media"
+    ]
+  }
+}

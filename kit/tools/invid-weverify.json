@@ -1,0 +1,38 @@
+{
+  "slug": "invid-weverify",
+  "name": "InVID / WeVerify",
+  "number": 8,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Browser-based video and image verification toolkit for social media and conflict reporting. The InVID/WeVerify plugin is a browser extension designed to help journalists 47 and fact- checkers verify videos and images from social media platforms like Facebook, YouTube and X. The tool offers a suite of forensic modules. It can fragment a video into keyframes, allowing users to perform reverse image searches on specific moments to find the original source. It includes metadata readers, optical character recognition (OCR) for text within images, and pinpoint/#:~:text=Initiative%20newsinitiative,its%20new%20functionality%20%27Structured techniques-to-increase-efficiency-in-the- newsroom/#:~:text=,complex%20ideas%20and%20generate%20connections plugin/#:~:text=This%20toolkit%20is%20provided%20by,when%20verifying%20videos%20and%20image s forensic filters (like magnifying lens and error level analysis) to detect image manipulation. Recent updates added 48 a \"CheckGIF\" tool to compare manipulated images against originals and a \"Database of Known Fakes\". It is comprehensive, free, and trusted by major newsrooms, consolidating multiple forensic tools into one interface. However, it relies on third-party APIs 49 (like Twitter/YouTube) which can break or change access rules, disrupting workflows. ● The tool's purpose: Video forensics and keyframe extraction. ● Relevance to journalism: This is the standard EU-funded tool for verifying footage from conflict zones. It is essential for checking \"reverse image search\" across Yandex, Baidu, and Google simultaneously.",
+  "purpose": "",
+  "journalism_relevance": "This is the standard EU-funded tool for verifying footage from conflict zones. It is essential for checking \"reverse image search\" across Yandex, Baidu, and Google simultaneously.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 5,
+    "invasiveness": 1
+  },
+  "time_dividend": {
+    "time_saved": "Automates multiple technical verification steps—keyframe extraction, reverse image searches, metadata checks, and basic forensic analysis— within a single interface.",
+    "reinvestment": "Use the saved time to compare results across sources, assess consistency or contradictions, and document clearly why a piece of visual evidence is credible or not."
+  },
+  "comments": "",
+  "url": "https://gijn.org/stories/making-video-audio-files-searchable/#:~:text=Drive%29",
+  "tags": [
+    "free",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": "bellingcat-online-investigation-toolkit",
+    "similar_tools": [
+      "bellingcat-online-investigation-toolkit",
+      "openstreetmap"
+    ],
+    "use_cases": [
+      "verification",
+      "geolocation"
+    ]
+  }
+}

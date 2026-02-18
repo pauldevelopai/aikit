@@ -1,0 +1,39 @@
+{
+  "slug": "pandas",
+  "name": "Pandas",
+  "number": 23,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Python library for data analysis, manipulation, and statistical computation. Pandas is the top alternative to Excel and OpenRefine for serious data analysis. It is an open- source Python library that provides high-performance, easy-to-use data structures and analysis tools. Pandas is better than Excel when data becomes large, complex, or needs to be handled responsibly. Excel is a visual spreadsheet designed for manual work, while Pandas is a data analysis engine built for scale and repeatability. With Pandas, every step of cleaning, filtering, or analysing data is written as code, which means the process is transparent, reusable, and auditable, a critical requirement for serious journalism. Pandas can handle millions of rows where Excel and OpenRefine often fail, and because it runs locally, journalists retain full control over their data.",
+  "purpose": "Sovereign large-scale data analysis.",
+  "journalism_relevance": "Required when datasets exceed spreadsheet limits or require reproducible analysis.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 7,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Story discovery. Use free time to explore anomalies instead of fixing formatting."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "advanced",
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "openrefine",
+      "tabula"
+    ],
+    "use_cases": [
+      "data-analysis"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "midjourney",
+  "name": "Midjourney",
+  "number": 29,
+  "cluster_name": "Audio, Video & Social",
+  "cluster_slug": "audio-video-social",
+  "cluster_number": 4,
+  "description": "AI image generation tool accessed via Discord, focused on high-quality visual illustration. Midjourney is widely regarded as the most artistically capable AI image generator. Accessible primarily via Discord, it generates high-fidelity, creative, and photorealistic images from text prompts. ● The tool's purpose: Conceptual illustration. ● Relevance to journalism: Creating visuals for abstract topics like \"inflation,\" \"cyberwar,\" or \"corruption\" when all the stock photos you find are boring.",
+  "purpose": "",
+  "journalism_relevance": "Creating visuals for abstract topics like \"inflation,\" \"cyberwar,\" or \"corruption\" when all the stock photos you find are boring.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 6,
+    "invasiveness": 5
+  },
+  "time_dividend": {
+    "time_saved": "No need to buy stock photos.",
+    "reinvestment": "Workflow reliability—use the saved time to run a proper visual sign-off process (editor approval, keep originals, document any edits) and to publish faster across multiple formats without losing accuracy or trust."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "adobe-firefly"
+    ],
+    "use_cases": [
+      "image-generation"
+    ]
+  }
+}

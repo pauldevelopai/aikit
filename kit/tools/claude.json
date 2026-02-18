@@ -1,0 +1,35 @@
+{
+  "slug": "claude",
+  "name": "Claude",
+  "number": 16,
+  "cluster_name": "Writing & Analysis",
+  "cluster_slug": "writing-analysis",
+  "cluster_number": 3,
+  "description": "Large language models optimized for long documents, reasoning and analytical writing tasks. Claude Opus 4.5 (released November 2025 68) is positioned as the world's premier model for complex reasoning, coding, and agentic tasks. It is the flagship model from Anthropic, designed to outperform competitors in deep research and extended cognitive tasks. Anthropic was founded by former OpenAI safety researchers. Their \"Constitutional AI\" approach prioritizes safety and steerability 69. For investigators, this means Claude is often less prone to sycophancy 70 (agreeing with the user falsely) and better at nuanced, neutral analysis than ChatGPT.",
+  "purpose": "The \"Editor\" and \"Coder.\"",
+  "journalism_relevance": "Superior nuance and less \"robotic\" tone than ChatGPT. The 200k context window allows pasting entire EU regulation PDFs for summary.",
+  "cdi_scores": {
+    "cost": 5,
+    "difficulty": 4,
+    "invasiveness": 3
+  },
+  "time_dividend": {
+    "time_saved": "Drafting headlines, summarizing reports, writing Python code.",
+    "reinvestment": "Fact-Checking. Always assume the AI is hallucinating. comparison-on-features-performance-pri Check every name and date."
+  },
+  "comments": "",
+  "url": "https://www.anthropic.com/claude",
+  "tags": [],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "chatgpt-team-plan",
+      "gemini",
+      "perplexity"
+    ],
+    "use_cases": [
+      "llm-writing"
+    ]
+  }
+}

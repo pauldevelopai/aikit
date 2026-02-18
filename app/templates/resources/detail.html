@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource.title }} - Resources{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-sm">
+            <li><a href="/" class="text-blue-600 hover:text-blue-800">Home</a></li>
+            <li class="text-gray-400">/</li>
+            <li><a href="/resources" class="text-blue-600 hover:text-blue-800">Resources</a></li>
+            <li class="text-gray-400">/</li>
+            <li class="text-gray-600">{{ resource.title[:30] }}{% if resource.title|length > 30 %}...{% endif %}</li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <article class="bg-white rounded-lg shadow p-8">
+                <!-- Header -->
+                <header class="mb-6">
+                    <!-- Type Badge -->
+                    <div class="mb-4">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                            {{ resource.resource_type or 'Article' }}
+                        </span>
+                    </div>
+
+                    <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ resource.title }}</h1>
+
+                    <!-- Meta -->
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600">
+                        {% if resource.source %}
+                        <span class="font-medium">{{ resource.source }}</span>
+                        {% endif %}
+                        {% if resource.author %}
+                        <span>By {{ resource.author }}</span>
+                        {% endif %}
+                        {% if resource.publication_date %}
+                        <span>{{ resource.publication_date.strftime('%B %d, %Y') }}</span>
+                        {% endif %}
+                    </div>
+                </header>
+
+                <!-- Summary -->
+                {% if resource.summary %}
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Summary</h2>
+                    <p class="text-gray-700 leading-relaxed">{{ resource.summary }}</p>
+                </div>
+                {% endif %}
+
+                <!-- AI Extract -->
+                {% if resource.ai_extract %}
+                <div class="mb-6 bg-blue-50 rounded-lg p-4">
+                    <h2 class="text-lg font-semibold text-blue-900 mb-2">Key Points</h2>
+                    <p class="text-blue-800">{{ resource.ai_extract }}</p>
+                </div>
+                {% endif %}
+
+                <!-- Themes -->
+                {% if resource.themes %}
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 mb-2">Themes</h2>
+                    <div class="flex flex-wrap gap-2">
+                        {% for theme in resource.themes %}
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">{{ theme }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Read Original -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <a href="{{ resource.url }}" target="_blank" rel="noopener noreferrer"
+                       class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                        Read Original
+                        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Related Resources -->
+            {% if related_resources %}
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Related Resources</h2>
+                <div class="space-y-4">
+                    {% for related in related_resources %}
+                    <a href="/resources/{{ related.slug }}" class="block hover:bg-gray-50 -mx-2 p-2 rounded">
+                        <div class="text-sm font-medium text-gray-900">{{ related.title }}</div>
+                        <div class="text-xs text-gray-500 mt-1">
+                            {% if related.source %}{{ related.source }}{% endif %}
+                            {% if related.publication_date %} - {{ related.publication_date.strftime('%b %Y') }}{% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Back to Resources -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <a href="/resources" class="text-blue-600 hover:text-blue-800 text-sm flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to all resources
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

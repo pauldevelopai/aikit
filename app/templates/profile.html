@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-0">
+
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Your Profile</h2>
+        <a href="/my-suggestions" class="inline-flex items-center text-sm text-blue-600 hover:text-blue-800">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            My Tool Suggestions
+        </a>
+    </div>
+
+    {% if success %}
+    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+        <p class="text-green-800 text-sm font-medium">Profile updated successfully.</p>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="/profile/update" class="bg-white rounded-lg shadow p-8 space-y-6">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <!-- Display Name -->
+        <div>
+            <label for="display_name" class="block text-sm font-medium text-gray-700 mb-2">
+                Display Name
+            </label>
+            <input
+                type="text"
+                id="display_name"
+                name="display_name"
+                value="{{ user.display_name or '' }}"
+                placeholder="How you'd like to be called"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+        </div>
+
+        <!-- Organisation -->
+        <div>
+            <label for="organisation" class="block text-sm font-medium text-gray-700 mb-2">
+                Organisation
+            </label>
+            <input
+                type="text"
+                id="organisation"
+                name="organisation"
+                value="{{ user.organisation or '' }}"
+                placeholder="e.g., BBC, Reuters, Freelance"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+        </div>
+
+        <!-- Organisation Type -->
+        <div>
+            <label for="organisation_type" class="block text-sm font-medium text-gray-700 mb-2">
+                Organisation Type
+            </label>
+            <select
+                id="organisation_type"
+                name="organisation_type"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+                <option value="">Select type...</option>
+                <option value="newsroom" {{ 'selected' if user.organisation_type == 'newsroom' else '' }}>Newsroom</option>
+                <option value="freelance" {{ 'selected' if user.organisation_type == 'freelance' else '' }}>Freelance</option>
+                <option value="ngo" {{ 'selected' if user.organisation_type == 'ngo' else '' }}>NGO</option>
+                <option value="academic" {{ 'selected' if user.organisation_type == 'academic' else '' }}>Academic</option>
+                <option value="other" {{ 'selected' if user.organisation_type == 'other' else '' }}>Other</option>
+            </select>
+        </div>
+
+        <!-- Role -->
+        <div>
+            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">
+                Role
+            </label>
+            <input
+                type="text"
+                id="role"
+                name="role"
+                value="{{ user.role or '' }}"
+                placeholder="e.g., Reporter, Editor, Data Journalist"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+        </div>
+
+        <!-- Country -->
+        <div>
+            <label for="country" class="block text-sm font-medium text-gray-700 mb-2">
+                Country
+            </label>
+            <input
+                type="text"
+                id="country"
+                name="country"
+                value="{{ user.country or '' }}"
+                placeholder="e.g., United Kingdom, Kenya, Brazil"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+        </div>
+
+        <!-- Interests -->
+        <div>
+            <label for="interests" class="block text-sm font-medium text-gray-700 mb-2">
+                Interests & Focus Areas
+            </label>
+            <textarea
+                id="interests"
+                name="interests"
+                rows="3"
+                placeholder="e.g., investigative journalism, data analysis, fact-checking, AI ethics"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >{{ user.interests or '' }}</textarea>
+        </div>
+
+        <!-- AI Experience Level -->
+        <div>
+            <label for="ai_experience_level" class="block text-sm font-medium text-gray-700 mb-2">
+                AI Experience Level
+            </label>
+            <select
+                id="ai_experience_level"
+                name="ai_experience_level"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >
+                <option value="">Select level...</option>
+                <option value="beginner" {{ 'selected' if user.ai_experience_level == 'beginner' else '' }}>Beginner - New to AI tools</option>
+                <option value="intermediate" {{ 'selected' if user.ai_experience_level == 'intermediate' else '' }}>Intermediate - Some experience</option>
+                <option value="advanced" {{ 'selected' if user.ai_experience_level == 'advanced' else '' }}>Advanced - Regular AI user</option>
+            </select>
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">
+                About You
+            </label>
+            <textarea
+                id="bio"
+                name="bio"
+                rows="4"
+                placeholder="Tell us a bit about yourself, your background, and what you're working on..."
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            >{{ user.bio or '' }}</textarea>
+        </div>
+
+        <!-- Social Links Section -->
+        <div class="pt-6 border-t">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Social & Links</h3>
+
+            <!-- Website -->
+            <div class="mb-4">
+                <label for="website" class="block text-sm font-medium text-gray-700 mb-2">
+                    Personal Website
+                </label>
+                <input
+                    type="url"
+                    id="website"
+                    name="website"
+                    value="{{ user.website or '' }}"
+                    placeholder="https://yourwebsite.com"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+            </div>
+
+            <!-- Twitter -->
+            <div class="mb-4">
+                <label for="twitter" class="block text-sm font-medium text-gray-700 mb-2">
+                    Twitter / X
+                </label>
+                <div class="flex">
+                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">@</span>
+                    <input
+                        type="text"
+                        id="twitter"
+                        name="twitter"
+                        value="{{ user.twitter or '' }}"
+                        placeholder="username"
+                        class="flex-1 px-3 py-2 border border-gray-300 rounded-r-md focus:ring-blue-500 focus:border-blue-500"
+                    >
+                </div>
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="mb-4">
+                <label for="linkedin" class="block text-sm font-medium text-gray-700 mb-2">
+                    LinkedIn
+                </label>
+                <input
+                    type="url"
+                    id="linkedin"
+                    name="linkedin"
+                    value="{{ user.linkedin or '' }}"
+                    placeholder="https://linkedin.com/in/yourprofile"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+            </div>
+        </div>
+
+        <!-- Organisation Details Section -->
+        <div class="pt-6 border-t">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Organisation Details</h3>
+
+            <!-- Organisation Website -->
+            <div class="mb-4">
+                <label for="organisation_website" class="block text-sm font-medium text-gray-700 mb-2">
+                    Organisation Website
+                </label>
+                <input
+                    type="url"
+                    id="organisation_website"
+                    name="organisation_website"
+                    value="{{ user.organisation_website or '' }}"
+                    placeholder="https://yourorganisation.com"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+            </div>
+
+            <!-- Organisation Notes -->
+            <div>
+                <label for="organisation_notes" class="block text-sm font-medium text-gray-700 mb-2">
+                    Organisation Notes
+                </label>
+                <textarea
+                    id="organisation_notes"
+                    name="organisation_notes"
+                    rows="3"
+                    placeholder="Additional information about your organisation, team size, focus areas, etc."
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >{{ user.organisation_notes or '' }}</textarea>
+            </div>
+        </div>
+
+        <!-- Strategy Preferences Section -->
+        <div class="pt-6 border-t">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">AI Strategy Preferences</h3>
+            <p class="text-sm text-gray-600 mb-4">These preferences are used when generating your AI implementation strategy. They'll be pre-filled in the Strategy Builder.</p>
+
+            <!-- Risk Level -->
+            <div class="mb-4">
+                <label for="risk_level" class="block text-sm font-medium text-gray-700 mb-2">
+                    Risk Tolerance
+                </label>
+                <select
+                    id="risk_level"
+                    name="risk_level"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="">Select risk level...</option>
+                    <option value="low" {{ 'selected' if user.risk_level == 'low' else '' }}>Low (Conservative, highly regulated)</option>
+                    <option value="medium" {{ 'selected' if user.risk_level == 'medium' else '' }}>Medium (Balanced approach)</option>
+                    <option value="high" {{ 'selected' if user.risk_level == 'high' else '' }}>High (Innovation-focused)</option>
+                </select>
+            </div>
+
+            <!-- Data Sensitivity -->
+            <div class="mb-4">
+                <label for="data_sensitivity" class="block text-sm font-medium text-gray-700 mb-2">
+                    Data Sensitivity
+                </label>
+                <select
+                    id="data_sensitivity"
+                    name="data_sensitivity"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="">Select data sensitivity...</option>
+                    <option value="public" {{ 'selected' if user.data_sensitivity == 'public' else '' }}>Public (No sensitive data)</option>
+                    <option value="internal" {{ 'selected' if user.data_sensitivity == 'internal' else '' }}>Internal (Business confidential)</option>
+                    <option value="pii" {{ 'selected' if user.data_sensitivity == 'pii' else '' }}>Personal Identifiable Information (PII)</option>
+                    <option value="regulated" {{ 'selected' if user.data_sensitivity == 'regulated' else '' }}>Regulated (HIPAA, GDPR, etc.)</option>
+                </select>
+            </div>
+
+            <!-- Budget -->
+            <div class="mb-4">
+                <label for="budget" class="block text-sm font-medium text-gray-700 mb-2">
+                    Budget Range
+                </label>
+                <select
+                    id="budget"
+                    name="budget"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="">Select budget range...</option>
+                    <option value="minimal" {{ 'selected' if user.budget == 'minimal' else '' }}>Minimal ($0-$1k/month)</option>
+                    <option value="small" {{ 'selected' if user.budget == 'small' else '' }}>Small ($1k-$10k/month)</option>
+                    <option value="medium" {{ 'selected' if user.budget == 'medium' else '' }}>Medium ($10k-$50k/month)</option>
+                    <option value="large" {{ 'selected' if user.budget == 'large' else '' }}>Large ($50k+/month)</option>
+                </select>
+            </div>
+
+            <!-- Deployment Preference -->
+            <div class="mb-4">
+                <label for="deployment_pref" class="block text-sm font-medium text-gray-700 mb-2">
+                    Deployment Preference
+                </label>
+                <select
+                    id="deployment_pref"
+                    name="deployment_pref"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                >
+                    <option value="">Select deployment...</option>
+                    <option value="cloud" {{ 'selected' if user.deployment_pref == 'cloud' else '' }}>Cloud (SaaS, easy to deploy)</option>
+                    <option value="hybrid" {{ 'selected' if user.deployment_pref == 'hybrid' else '' }}>Hybrid (Mix of cloud and on-premise)</option>
+                    <option value="sovereign" {{ 'selected' if user.deployment_pref == 'sovereign' else '' }}>Sovereign (On-premise, data residency)</option>
+                </select>
+            </div>
+
+            <!-- Use Cases -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Primary Use Cases
+                </label>
+                <div class="grid grid-cols-2 gap-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="content_generation" class="mr-2" {{ 'checked' if user.use_cases and 'content_generation' in user.use_cases else '' }}>
+                        <span class="text-sm">Content Generation</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="code_assistance" class="mr-2" {{ 'checked' if user.use_cases and 'code_assistance' in user.use_cases else '' }}>
+                        <span class="text-sm">Code Assistance</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="data_analysis" class="mr-2" {{ 'checked' if user.use_cases and 'data_analysis' in user.use_cases else '' }}>
+                        <span class="text-sm">Data Analysis</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="customer_support" class="mr-2" {{ 'checked' if user.use_cases and 'customer_support' in user.use_cases else '' }}>
+                        <span class="text-sm">Customer Support</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="research" class="mr-2" {{ 'checked' if user.use_cases and 'research' in user.use_cases else '' }}>
+                        <span class="text-sm">Research & Analysis</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" name="use_cases" value="automation" class="mr-2" {{ 'checked' if user.use_cases and 'automation' in user.use_cases else '' }}>
+                        <span class="text-sm">Process Automation</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="pt-4 border-t">
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium"
+            >
+                Save Profile
+            </button>
+        </div>
+    </form>
+
+    <!-- Account Info -->
+    <div class="bg-white rounded-lg shadow p-6 mt-6">
+        <h3 class="text-sm font-medium text-gray-700 mb-3">Account Information</h3>
+        <div class="text-sm text-gray-600 space-y-1">
+            <p><span class="font-medium">Email:</span> {{ user.email }}</p>
+            <p><span class="font-medium">Username:</span> {{ user.username }}</p>
+            <p><span class="font-medium">Joined:</span> {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

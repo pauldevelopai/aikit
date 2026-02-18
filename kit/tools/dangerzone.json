@@ -1,0 +1,39 @@
+{
+  "slug": "dangerzone",
+  "name": "Dangerzone",
+  "number": 14,
+  "cluster_name": "Verification & Investigations",
+  "cluster_slug": "verification-investigations",
+  "cluster_number": 2,
+  "description": "Local document sanitisation tool that converts untrusted files into safe, non-executable PDFs. Dangerzone is a specialized security tool that sanitizes potentially malicious documents. It takes untrusted PDFs, office documents, or images and converts them into safe, inert PDFs. Dangerzone works by creating a sandbox (a secure, isolated environment) where you can open the suspicious file and convert it 65 into raw pixel data (images), and then reconstruct a new PDF from those images. Developed by Micah Lee at the Freedom of the Press Foundation, Dangerzone is explicitly designed for journalists handling leaks from anonymous sources.",
+  "purpose": "Safe handling of leaks and untrusted documents.",
+  "journalism_relevance": "Prevents malware hidden in PDFs, Word files, or images from compromising a journalist’s device—one of the most common and least visible attack vectors against newsrooms.",
+  "cdi_scores": {
+    "cost": 0,
+    "difficulty": 3,
+    "invasiveness": 0
+  },
+  "time_dividend": {
+    "time_saved": "",
+    "reinvestment": "Secure verification. Always sanitise documents before reading, sharing, or analysing their contents."
+  },
+  "comments": "",
+  "url": "",
+  "tags": [
+    "free",
+    "local-processing",
+    "privacy-friendly"
+  ],
+  "cross_references": {
+    "sovereign_alternative_for": [],
+    "sovereign_alternative": null,
+    "similar_tools": [
+      "ollama",
+      "openai-whisper",
+      "veracrypt"
+    ],
+    "use_cases": [
+      "local-ai"
+    ]
+  }
+}

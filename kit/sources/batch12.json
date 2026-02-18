@@ -1,0 +1,103 @@
+{
+  "batch": 12,
+  "theme": "Open-source Tools & Infrastructure",
+  "entry_count": 8,
+  "entries": [
+    {
+      "batch": 12,
+      "entry_id": "batch12-1",
+      "title": "ClaimBuster: The First-ever End-to-end Fact-checking System",
+      "url": "https://idir.uta.edu/claimbuster",
+      "source": "",
+      "date": "",
+      "excerpt": "ClaimBuster identifies check-worthy claims and helps fact-checkers prioritize verification.",
+      "why_it_matters": "A practical, newsroom-facing example of end-to-end automated fact-checking assistance:\nclaim detection, ranking, and workflow support.",
+      "ai_extract": "ClaimBuster provides a pipeline for detecting and ranking check-worthy claims, enabling editorial teams to triage what should be verified first; it’s frequently cited as a reference implementation for integrating automation into fact-checking workflows.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-2",
+      "title": "Google Fact Check Tools (Fact Check Explorer)",
+      "url": "https://toolbox.google.com/factcheck/explorer",
+      "source": "",
+      "date": "",
+      "excerpt": "Search for fact checks published by fact-checking organizations.",
+      "why_it_matters": "A widely used practical tool for verification work that can be linked as a canonical public lookup step in a newsroom verification protocol.",
+      "ai_extract": "Google’s Fact Check Explorer aggregates structured fact checks from publishers using\nClaimReview markup, making it possible to search previously published fact checks and incorporate them into verification workflows.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-3",
+      "title": "DocumentCloud (open source / investigative document platform)",
+      "url": "https://www.documentcloud.org",
+      "source": "",
+      "date": "",
+      "excerpt": "DocumentCloud helps journalists upload, analyze, annotate, and publish primary source documents.",
+      "why_it_matters": "Core infrastructure for investigative reporting: searchable source documents, annotations, and public sharing with verifiable citations.",
+      "ai_extract": "DocumentCloud supports upload and OCR/search of documents, collaborative annotation, and publishing embeddable documents with highlighted citations—useful as a grounded evidence layer when linking claims back to source material.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-4",
+      "title": "Elastic (Elasticsearch) — Search and retrieval infrastructure",
+      "url": "https://www.elastic.co/elasticsearch",
+      "source": "",
+      "date": "",
+      "excerpt": "A distributed search and analytics engine for all types of data.",
+      "why_it_matters": "Practical retrieval backbone for grounded systems: index documents, run keyword + vector retrieval, and support citation anchoring.",
+      "ai_extract": "Elasticsearch is commonly used to index large text corpora with fast keyword search and analytics; combined with embeddings/vector search, it can power retrieval layers that feed grounded answers and provide passage-level citations.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-5",
+      "title": "LangChain — Retrieval Augmented Generation (RAG) documentation",
+      "url": "https://python.langchain.com/docs/use_cases/question_answering",
+      "source": "",
+      "date": "",
+      "excerpt": "RAG combines retrieval from data sources with LLM generation.",
+      "why_it_matters": "Widely referenced framework pattern for building grounded Q&A; systems over documents with citation anchoring.",
+      "ai_extract": "LangChain’s QA/RAG docs outline how to ingest documents, chunk them, embed and index them in a vector store, retrieve relevant passages, and condition an LLM on that evidence to produce grounded answers.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-6",
+      "title": "Haystack by deepset — Open-source LLM orchestration for RAG",
+      "url": "https://docs.haystack.deepset.ai/docs/intro",
+      "source": "",
+      "date": "",
+      "excerpt": "Build LLM-powered applications with retrieval, pipelines, and evaluation.",
+      "why_it_matters": "Alternative open-source framework for building and evaluating retrieval + generation pipelines used in production systems.",
+      "ai_extract": "Haystack provides modular pipelines for document indexing, retrieval, reading/generation, and evaluation, supporting production-grade RAG systems and allowing structured outputs with references to retrieved documents.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-7",
+      "title": "OpenAI Cookbook — RAG patterns and best practices",
+      "url": "https://github.com/openai/openai-cookbook",
+      "source": "",
+      "date": "",
+      "excerpt": "Examples and best practices for building with OpenAI, including retrieval-augmented generation.",
+      "why_it_matters": "Concrete implementation patterns (code) that can be used as a starting point for newsroom knowledge bases and grounded assistants.",
+      "ai_extract": "The OpenAI Cookbook includes example notebooks and guides for building RAG\nsystems, covering chunking, embeddings, vector search, prompt construction, and techniques to reduce hallucinations by grounding on retrieved evidence.",
+      "theme": "Open-source Tools & Infrastructure"
+    },
+    {
+      "batch": 12,
+      "entry_id": "batch12-8",
+      "title": "Meedan Check (tiplines + verification workflow)",
+      "url": "https://meedan.org/check",
+      "source": "",
+      "date": "",
+      "excerpt": "Run public tiplines on WhatsApp and other messaging apps for verification.",
+      "why_it_matters": "An operational workflow platform bridging audience-submitted claims to verification teams—useful for community reporting and rumor management systems.",
+      "ai_extract": "Meedan’s Check supports verification workflows that collect tips and content through messaging platforms, route items for review, and track status—useful for building structured rumor and claim pipelines tied to grounded evidence.",
+      "theme": "Open-source Tools & Infrastructure"
+    }
+  ]
+}

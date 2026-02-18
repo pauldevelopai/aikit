@@ -1,0 +1,30 @@
+{
+  "number": 4,
+  "name": "Audio, Video & Social",
+  "slug": "audio-video-social",
+  "description": "Applying AI to multimedia storytelling and social distribution while maintaining editorial control. Many newsrooms now produce one story across multiple formats: an article, a podcast segment, a short video, and social clips. AI tools are used to generate subtitles for videos, create audio versions of articles for visually impaired audiences, or cut long interviews into short, shareable clips. A regional newsroom might turn a written investigation into a narrated video explainer to reach younger audiences on social platforms. These tools matter because they shape who can access journalism and how stories travel, while also raising important questions about transparency when synthetic visuals or voices are used.",
+  "teaching_guidance": "Stress that format choices are editorial decisions. Changing a story’s medium changes how it is understood, and students must be able to explain those choices. Be clear about transparency requirements when synthetic media is involved. Students should practice writing disclosure notes alongside content, not as an afterthought. Encourage reflection on audience impact. This cluster is an opportunity to discuss reach, accessibility, and responsibility together.",
+  "exercises": [
+    {
+      "number": 1,
+      "title": "Format reshaping",
+      "description": "Students take one reported story and use AI tools to produce an audio version and a short social video. They submit all versions and a short reflection on how tone, emphasis, and meaning changed across formats."
+    },
+    {
+      "number": 2,
+      "title": "The misleading clip test",
+      "description": "Students are given a long video interview or press conference and asked to use AI tools to generate three short clips suitable for social media. They must then analyse each clip and explain how editing choices (length, captions, framing) could change audience interpretation or introduce misrepresentation. The submission includes the clips and a written justification of which version, if any, is publishable."
+    }
+  ],
+  "where_to_start": "Start with: Descript + Buffer AI Assistant Why these first • Moderate cost, low technical barrier • Text-based workflows feel familiar to journalists • Immediate relevance to everyday newsroom output • Allow experimentation without synthetic media risks What they teach well • How one piece of reporting travels across formats • The relationship between transcript, audio, and video • How tone and framing shift between article, clip, and post • That distribution is an editorial decision, not a marketing afterthought Introduce next: OpusClip (with guardrails) Why this next • Extremely easy to use, OpusClip is ideal for teaching scale and reach, but must be framed carefully. • Demonstrates how AI identifies “hooks” and attention patterns • Highly relevant for reaching younger audiences What it teaches well • How algorithms prioritise moments over context • The trade-off between reach and nuance • Why viral formats can distort meaning",
+  "tool_slugs": [
+    "elevenlabs",
+    "descript",
+    "opusclip",
+    "midjourney",
+    "adobe-firefly",
+    "buffer-ai-assistant",
+    "runway"
+  ],
+  "tool_count": 7
+}

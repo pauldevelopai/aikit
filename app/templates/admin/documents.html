@@ -1,0 +1,234 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Document Management{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Document Management</h1>
+            <p class="text-gray-600 mt-1">Manage documents and their ingestion into the RAG pipeline</p>
+        </div>
+        <div class="flex gap-3">
+            <form action="/admin/documents/ingest-approved-tools" method="POST" class="inline">
+                <input type="hidden" name="create_embeddings" value="true">
+                <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium"
+                        onclick="return confirm('Ingest all approved documents from discovery? This creates searchable content for each approved document.')">
+                    Ingest Approved Documents
+                </button>
+            </form>
+            <a href="/admin/documents/upload" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium">
+                + Upload Document
+            </a>
+        </div>
+    </div>
+
+    <!-- Pending Documents Section -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900">Pending Documents</h2>
+            <p class="text-sm text-gray-600 mt-1">Documents uploaded but not yet ingested into the search pipeline</p>
+        </div>
+
+        {% set pending_docs = documents | selectattr('is_ingested', 'false') | list %}
+        {% if pending_docs %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-yellow-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for doc in pending_docs %}
+                    <tr class="hover:bg-yellow-50">
+                        <td class="px-6 py-4">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">{{ doc.version_tag }}</div>
+                                <div class="text-xs text-gray-500">{{ doc.source_filename }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ doc.upload_date.strftime('%Y-%m-%d %H:%M') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="flex items-center justify-end space-x-3">
+                                <!-- Ingest Button -->
+                                <form action="/admin/documents/{{ doc.id }}/ingest" method="POST" class="inline">
+                                    <input type="hidden" name="create_embeddings" value="true">
+                                    <button type="submit"
+                                            class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
+                                            onclick="return confirm('Ingest this document? This will create chunks and embeddings.')">
+                                        Ingest
+                                    </button>
+                                </form>
+
+                                <!-- Delete Button -->
+                                <form action="/admin/documents/{{ doc.id }}/delete" method="POST" class="inline">
+                                    <button type="submit"
+                                            class="text-red-600 hover:text-red-900"
+                                            title="Delete document"
+                                            onclick="return confirm('Delete this document? This cannot be undone.')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="px-6 py-8 text-center text-gray-500">
+            <p class="text-sm">No pending documents. All uploaded documents have been ingested.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Ingested Documents Section -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-900">Ingested Documents</h2>
+            <p class="text-sm text-gray-600 mt-1">Documents processed and searchable in the RAG pipeline</p>
+        </div>
+
+        {% set ingested_docs = documents | selectattr('is_ingested') | list %}
+        {% if ingested_docs %}
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-green-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chunks</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for doc in ingested_docs %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">{{ doc.version_tag }}</div>
+                                <div class="text-xs text-gray-500">{{ doc.source_filename }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span class="text-sm text-gray-900">{{ doc.chunk_count }}</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {% if doc.is_active %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                Active
+                            </span>
+                            {% else %}
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                Inactive
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ doc.upload_date.strftime('%Y-%m-%d %H:%M') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="flex items-center justify-end space-x-3">
+                                <!-- Reindex Button -->
+                                <form action="/admin/documents/{{ doc.id }}/reindex" method="POST" class="inline">
+                                    <button type="submit"
+                                            class="text-blue-600 hover:text-blue-900"
+                                            title="Reindex document"
+                                            onclick="return confirm('Reindex {{ doc.version_tag }}? This will re-chunk and re-embed the document.')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+
+                                <!-- Toggle Active Button -->
+                                <form action="/admin/documents/{{ doc.id }}/toggle-active" method="POST" class="inline">
+                                    <button type="submit"
+                                            class="{% if doc.is_active %}text-gray-600 hover:text-gray-900{% else %}text-green-600 hover:text-green-900{% endif %}"
+                                            title="{% if doc.is_active %}Deactivate{% else %}Activate{% endif %}">
+                                        {% if doc.is_active %}
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                                        </svg>
+                                        {% else %}
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                                <!-- Uningest Button -->
+                                <form action="/admin/documents/{{ doc.id }}/uningest" method="POST" class="inline">
+                                    <button type="submit"
+                                            class="text-orange-600 hover:text-orange-900"
+                                            title="Remove from search (keep document)"
+                                            onclick="return confirm('Remove {{ doc.version_tag }} from search? This deletes chunks but keeps the document for re-ingestion later.')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+
+                                <!-- Delete Button -->
+                                <form action="/admin/documents/{{ doc.id }}/delete" method="POST" class="inline">
+                                    <button type="submit"
+                                            class="text-red-600 hover:text-red-900"
+                                            title="Delete document permanently"
+                                            onclick="return confirm('Delete {{ doc.version_tag }} permanently? This removes all chunks and cannot be undone.')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="px-6 py-8 text-center text-gray-500">
+            <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <p class="text-gray-900 font-medium mb-2">No ingested documents</p>
+            <p class="text-sm mb-4">Upload and ingest documents to make them searchable</p>
+            <a href="/admin/documents/upload" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium">
+                + Upload Document
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Help Section -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <h3 class="text-sm font-semibold text-blue-900 mb-2">Document Actions</h3>
+        <ul class="text-sm text-blue-800 space-y-1">
+            <li><strong>Ingest:</strong> Process document into chunks and create embeddings for search</li>
+            <li><strong>Reindex:</strong> Re-parse and re-chunk the document, then regenerate embeddings</li>
+            <li><strong>Toggle Active:</strong> Active documents are searchable; inactive documents are hidden from queries</li>
+            <li><strong>Uningest:</strong> Remove from search pipeline but keep the document file for later re-ingestion</li>
+            <li><strong>Delete:</strong> Permanently remove the document and all its data</li>
+            <li><strong>Ingest Approved Tools:</strong> Load all approved tools from discovery into the RAG pipeline</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{
+  "batch": 6,
+  "theme": "Safety, Security & Privacy",
+  "entry_count": 8,
+  "entries": [
+    {
+      "batch": 6,
+      "entry_id": "batch6-1",
+      "title": "Security of AI Systems",
+      "url": "https://owasp.org/www-project-ai-security-and-privacy-guide",
+      "source": "OWASP",
+      "date": "2023",
+      "excerpt": "“AI systems introduce new attack surfaces beyond traditional software.”",
+      "why_it_matters": "OWASP outlines emerging security risks in AI systems, including prompt injection, data leakage, and model misuse — critical for newsroom AI risk awareness.",
+      "ai_extract": "The OWASP AI Security and Privacy Guide identifies threats such as prompt injection, data exfiltration through model outputs, insecure integrations, and model supply chain risks, offering mitigation strategies.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-2",
+      "title": "AI Incident Database",
+      "url": "https://incidentdatabase.ai",
+      "source": "Partnership on AI",
+      "date": "Ongoing",
+      "excerpt": "“Documenting realnworld incidents involving AI systems.”",
+      "why_it_matters": "A curated database of real AI failures and harms, useful for grounding training and policy discussions in documented cases.",
+      "ai_extract": "The AI Incident Database catalogs publicly reported failures, harms, and misuse of AI\nsystems, providing structured examples that help organizations anticipate and mitigate risks.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-3",
+      "title": "Signal Threat Model",
+      "url": "https://signal.org/blog",
+      "source": "Signal Foundation",
+      "date": "2022",
+      "excerpt": "“Threat modeling helps you understand who might try to target you.”",
+      "why_it_matters": "Explains threat modeling for digital communication — relevant to journalists using AI tools that may expose sensitive data.",
+      "ai_extract": "Signal’s guidance on threat modeling emphasizes identifying adversaries, assets, and attack vectors before choosing tools or workflows, encouraging a risknbased approach to communication security.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-4",
+      "title": "Security Recommendations for Journalists",
+      "url": "https://cpj.org/2023/04/security-advice",
+      "source": "Committee to Protect Journalists (CPJ)",
+      "date": "2023",
+      "excerpt": "“Journalists should assess digital risks before adopting new technologies.”",
+      "why_it_matters": "CPJ guidance on digital safety practices, grounding discussions on secure tool adoption and AInrelated data risks.",
+      "ai_extract": "CPJ recommends journalists use encrypted communication, strong authentication, secure backups, and careful tool evaluation to minimize digital risks, especially when handling sensitive information.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-5",
+      "title": "AI Risk Management Framework (AI RMF 1.0)",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "source": "NIST",
+      "date": "2023",
+      "excerpt": "“The AI RMF helps organizations manage risks of AI systems.”",
+      "why_it_matters": "Official U.S. government framework outlining how to assess and manage AI risks —\ngovernance, mapping, measurement, and mitigation.",
+      "ai_extract": "NIST’s AI Risk Management Framework provides guidance for identifying, assessing, and mitigating AI risks across design, deployment, and operation, emphasizing transparency, accountability, and human oversight.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-6",
+      "title": "Generative AI Security: Prompt Injection Attacks",
+      "url": "https://www.microsoft.com/en-us/security/blog/2023/03/21/generative-ai-prompt-injection",
+      "source": "Microsoft Security Blog",
+      "date": "2023",
+      "excerpt": "“Prompt injection is a new class of attack targeting LLMs.”",
+      "why_it_matters": "Explains how malicious prompts can manipulate AI outputs, a key technical risk for newsroom AI integrations.",
+      "ai_extract": "Microsoft describes prompt injection attacks as attempts to override system instructions or extract sensitive data from language models, recommending input validation, output filtering, and layered security controls.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-7",
+      "title": "Privacy & Data Protection in AI Systems",
+      "url": "https://edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-artificial-intelligence-and-data",
+      "source": "European Data Protection Board (EDPB)",
+      "date": "2023",
+      "excerpt": "“AI systems must comply with data protection principles.”",
+      "why_it_matters": "Guidelines clarifying how GDPR principles apply to AI tools, useful for newsroom compliance awareness.",
+      "ai_extract": "The EDPB outlines how data minimization, purpose limitation, and lawful processing apply to AI systems, stressing transparency and user rights when personal data is processed.",
+      "theme": "Safety, Security & Privacy"
+    },
+    {
+      "batch": 6,
+      "entry_id": "batch6-8",
+      "title": "Secure AI Development Practices",
+      "url": "https://ai.google/responsibility/security",
+      "source": "Google AI",
+      "date": "2024",
+      "excerpt": "“Security must be built into AI systems from the start.”",
+      "why_it_matters": "Google’s overview of AI security practices, emphasizing defenseninndepth and responsible deployment.",
+      "ai_extract": "Google describes secure AI development as involving robust data governance, adversarial testing, secure infrastructure, and continuous monitoring to prevent misuse or exploitation of AI\nsystems.",
+      "theme": "Safety, Security & Privacy"
+    }
+  ]
+}

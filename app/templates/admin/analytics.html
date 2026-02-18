@@ -1,0 +1,188 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Page Header -->
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900">Usage Analytics</h1>
+        <p class="text-sm text-gray-600 mt-1">How users are interacting with the platform</p>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-sm font-medium text-gray-600">Total Users</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2">{{ analytics.total_users }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-sm font-medium text-gray-600">Active Users</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2">{{ analytics.active_users }}</p>
+            <p class="text-xs text-gray-500 mt-1">last 30 days</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-sm font-medium text-gray-600">Total Chats</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2">{{ analytics.total_chats }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <p class="text-sm font-medium text-gray-600">Total Activities</p>
+            <p class="text-3xl font-bold text-gray-900 mt-2">{{ analytics.total_activities }}</p>
+            <p class="text-xs text-gray-500 mt-1">tool finder, browse, etc.</p>
+        </div>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Top Queries -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Top Chat Queries</h3>
+                <p class="text-sm text-gray-600 mt-1">Most frequently asked questions</p>
+            </div>
+            <div class="p-6">
+                {% if analytics.top_queries %}
+                <ol class="space-y-3">
+                    {% for item in analytics.top_queries %}
+                    <li class="flex items-start group">
+                        <span class="flex-shrink-0 inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-100 text-blue-700 text-xs font-medium mr-3">
+                            {{ loop.index }}
+                        </span>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm text-gray-900 truncate">{{ item.query }}</p>
+                            <p class="text-xs text-gray-500">{{ item.count }} times</p>
+                            <p class="text-xs text-blue-600">by: {{ item.users | join(', ') }}</p>
+                        </div>
+                        <form action="/admin/chats/delete-by-query" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity ml-2">
+                            <input type="hidden" name="query_text" value="{{ item.query }}">
+                            <button type="submit" class="text-red-500 hover:text-red-700 text-xs"
+                                    onclick="return confirm('Delete ALL {{ item.count }} instances of this query?')">
+                                &times;
+                            </button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="text-gray-500 text-sm text-center py-8">No queries yet</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Activity Breakdown -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Activity Breakdown</h3>
+                <p class="text-sm text-gray-600 mt-1">Usage by feature</p>
+            </div>
+            <div class="p-6">
+                {% if analytics.activity_breakdown %}
+                <div class="space-y-3">
+                    {% for activity_type, count in analytics.activity_breakdown %}
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">{{ activity_type | replace('_', ' ') | title }}</span>
+                            <span class="text-sm text-gray-500">{{ count }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            {% set max_count = analytics.activity_breakdown[0][1] if analytics.activity_breakdown else 1 %}
+                            {% set percentage = (count / max_count * 100) | round | int if max_count > 0 else 0 %}
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: {{ percentage }}%"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-gray-500 text-sm text-center py-8">No activity recorded yet</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Most Active Users -->
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Most Active Users</h3>
+            <p class="text-sm text-gray-600 mt-1">Users with the most chat interactions</p>
+        </div>
+        <div class="p-6">
+            {% if analytics.most_active_users %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {% for username, chat_count in analytics.most_active_users %}
+                <div class="bg-gray-50 rounded-lg p-4 text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <span class="text-blue-700 font-bold">{{ username[0].upper() }}</span>
+                    </div>
+                    <p class="text-sm font-medium text-gray-900">{{ username }}</p>
+                    <p class="text-xs text-gray-500">{{ chat_count }} chats</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-sm text-center py-8">No user activity yet</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Recent Chats -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Recent Chats</h3>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% if analytics.recent_chats %}
+                {% for chat, chat_user in analytics.recent_chats %}
+                <div class="px-6 py-3 hover:bg-gray-50 group">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0 mr-4">
+                            <p class="text-sm text-gray-900 truncate">{{ chat.query }}</p>
+                            <p class="text-xs text-gray-500">{{ chat_user.username }}</p>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-gray-400 whitespace-nowrap">{{ chat.created_at.strftime('%b %d, %H:%M') }}</span>
+                            <form action="/admin/chats/{{ chat.id }}/delete" method="POST" class="opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs"
+                                        onclick="return confirm('Delete this chat log?')">
+                                    &times;
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="px-6 py-8 text-center text-gray-500 text-sm">No chats yet</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Recent Activities</h3>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% if analytics.recent_activities %}
+                {% for activity, activity_user in analytics.recent_activities %}
+                <div class="px-6 py-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0 mr-4">
+                            <p class="text-sm text-gray-900">{{ activity.activity_type | replace('_', ' ') | title }}</p>
+                            <p class="text-xs text-gray-500">{{ activity_user.username }}{% if activity.query %} - {{ activity.query[:40] }}{% if activity.query|length > 40 %}...{% endif %}{% endif %}</p>
+                        </div>
+                        <span class="text-xs text-gray-400 whitespace-nowrap">{{ activity.created_at.strftime('%b %d, %H:%M') }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="px-6 py-8 text-center text-gray-500 text-sm">No activities yet</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

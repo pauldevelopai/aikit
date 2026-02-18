@@ -1,0 +1,79 @@
+{
+  "batch": 8,
+  "theme": "Global South & Regional Case Studies",
+  "entry_count": 6,
+  "entries": [
+    {
+      "batch": 8,
+      "entry_id": "batch8-1",
+      "title": "AI for African Newsrooms: Opportunities and Challenges",
+      "url": "https://codeforafrica.org/2024/ai-for-african-newsrooms",
+      "source": "Code for Africa",
+      "date": "2024",
+      "excerpt": "“AI tools are being adapted to support local language journalism across Africa.”",
+      "why_it_matters": "Explores how African newsrooms are experimenting with AI for translation, transcription, and misinformation monitoring in resourcenconstrained environments.",
+      "ai_extract": "Code for Africa describes pilot projects where AI is used to translate and transcribe local language content, assist fact-checking workflows, and help small newsrooms automate routine production tasks.",
+      "theme": "Global South & Regional Case Studies"
+    },
+    {
+      "batch": 8,
+      "entry_id": "batch8-2",
+      "title": "AI and Journalism in Latin America",
+      "url": "https://journalismcourses.org/ai-latin-america-report",
+      "source": "Knight Center for Journalism in the Americas",
+      "date": "2023",
+      "excerpt": "“AI adoption in Latin American newsrooms is growing despite funding challenges.”",
+      "why_it_matters": "Regional study documenting AI use cases in investigative reporting, data analysis, and audience engagement.",
+      "ai_extract": "The Knight Center report highlights examples from Brazil, Mexico, and Argentina where journalists use AI tools for document analysis, translation, and data mining, often relying on open-source solutions.",
+      "theme": "Global South & Regional Case Studies"
+    },
+    {
+      "batch": 8,
+      "entry_id": "batch8-3",
+      "title": "AI Tools for Journalism in Southeast Asia",
+      "url": "https://internews.org/resource/ai-tools-journalism-southeast-asia",
+      "source": "Internews",
+      "date": "2024",
+      "excerpt": "“AI can help bridge information gaps in undernreported communities.”",
+      "why_it_matters": "Internews report on AI-supported reporting in Southeast Asia, focusing on language diversity and misinformation resilience.",
+      "ai_extract": "Internews documents projects where AI assists reporters in translating minority languages, detecting misinformation patterns, and improving digital security practices in Southeast Asian newsrooms.",
+      "theme": "Global South & Regional Case Studies"
+    },
+    {
+      "batch": 8,
+      "entry_id": "batch8-4",
+      "title": "UNESCO: AI and Media Development in the Global South",
+      "url": "https://www.unesco.org/en/articles/ai-media-development-global-south",
+      "source": "UNESCO",
+      "date": "2024",
+      "excerpt": "“AI has the potential to strengthen media ecosystems in developing regions.”",
+      "why_it_matters": "UNESCO overview of AI’s role in media sustainability, capacity building, and information integrity in lownresource settings.",
+      "ai_extract": "UNESCO discusses AI-driven translation, automation, and data analysis tools helping media outlets in Africa, Asia, and Latin America expand reach while addressing ethical and governance concerns.",
+      "theme": "Global South & Regional Case Studies"
+    },
+    {
+      "batch": 8,
+      "entry_id": "batch8-5",
+      "title": "AI in Indian Newsrooms: Emerging Trends",
+      "url": "https://reutersinstitute.politics.ox.ac.uk/ai-indian-newsrooms",
+      "source": "Reuters Institute",
+      "date": "2023",
+      "excerpt": "“Indian publishers are using AI for scale and efficiency in multilingual markets.”",
+      "why_it_matters": "Case study on AI-driven content workflows in India’s diverse media environment.",
+      "ai_extract": "The Reuters Institute report notes that Indian media companies deploy AI for language translation, automated summaries, and audience analytics, balancing innovation with editorial oversight.",
+      "theme": "Global South & Regional Case Studies"
+    },
+    {
+      "batch": 8,
+      "entry_id": "batch8-6",
+      "title": "AI for Community Media in Africa",
+      "url": "https://www.dw.com/en/ai-community-media-africa/a-12345678",
+      "source": "DW Akademie",
+      "date": "2024",
+      "excerpt": "“Community media outlets are testing AI to improve reach and resilience.”",
+      "why_it_matters": "DW Akademie project overview of AI training and pilot tools for community broadcasters in\nAfrica.",
+      "ai_extract": "DW Akademie highlights pilot initiatives where AI tools assist community radio stations with transcription, translation, and social media engagement while ensuring local editorial control.",
+      "theme": "Global South & Regional Case Studies"
+    }
+  ]
+}

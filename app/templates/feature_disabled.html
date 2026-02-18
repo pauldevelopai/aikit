@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Feature Not Available - {{ product_name }}{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-0">
+    <div class="max-w-xl mx-auto text-center py-16">
+        <!-- Icon -->
+        <div class="mb-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100">
+                <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 15v2m0 0v2m0-2h2m-2 0H9m3-4V8a3 3 0 00-6 0v4m6 0H9m6 0a3 3 0 006 0v-4a3 3 0 00-6 0"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">
+            Feature Not Available
+        </h1>
+
+        <!-- Message -->
+        <p class="text-gray-600 mb-6">
+            This feature is not available in this version of the app.
+        </p>
+
+        {% if edition_sealed %}
+        <p class="text-sm text-gray-500 mb-6">
+            You are viewing an archived version.
+        </p>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="{{ redirect_url|default('/') }}"
+               class="inline-flex items-center px-4 py-2 rounded-md bg-brand-primary text-white font-medium hover:bg-brand-secondary transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Go Back
+            </a>
+            <a href="/"
+               class="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                Go to Homepage
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
