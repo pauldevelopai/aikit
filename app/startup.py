@@ -91,12 +91,18 @@ def ensure_admin_user() -> None:
         return
 
     from app.models.auth import User
-    from app.services.auth import create_user
+    from app.services.auth import hash_password
 
     with Session(engine) as db:
         existing = db.query(User).filter(User.email == admin_email).first()
         if existing:
-            logger.info(f"Admin user {admin_email} already exists, skipping creation")
+            # Ensure the existing user is an admin
+            if not existing.is_admin:
+                existing.is_admin = True
+                db.commit()
+                logger.info(f"Promoted existing user {admin_email} to admin")
+            else:
+                logger.info(f"Admin user {admin_email} already exists, skipping creation")
             return
 
         try:
@@ -106,10 +112,24 @@ def ensure_admin_user() -> None:
             existing_username = db.query(User).filter(User.username == username).first()
             if existing_username:
                 username = f"{username}_admin"
+                # Check again in case _admin is also taken
+                existing_username2 = db.query(User).filter(User.username == username).first()
+                if existing_username2:
+                    import secrets
+                    username = f"admin_{secrets.token_hex(4)}"
 
-            create_user(db, admin_email, username, admin_password, is_admin=True)
+            user = User(
+                email=admin_email,
+                username=username,
+                hashed_password=hash_password(admin_password),
+                is_admin=True,
+                is_active=True,
+            )
+            db.add(user)
+            db.commit()
             logger.info(f"Auto-created admin user: {admin_email}")
-        except ValueError as e:
+        except Exception as e:
+            db.rollback()
             logger.warning(f"Could not create admin user: {e}")
 
 
