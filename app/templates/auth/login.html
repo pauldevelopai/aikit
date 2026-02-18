@@ -94,11 +94,13 @@
                 </div>
             </div>
 
+            {% if smtp_enabled|default(false) %}
             <div class="flex items-center justify-end">
                 <a href="/forgot-password" class="text-sm font-medium text-blue-600 hover:text-blue-500">
                     Forgot your password?
                 </a>
             </div>
+            {% endif %}
 
             <div>
                 <button
