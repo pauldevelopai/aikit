@@ -76,6 +76,43 @@ def validate_database() -> None:
         raise
 
 
+def ensure_admin_user() -> None:
+    """
+    Create an admin user from ADMIN_EMAIL + ADMIN_PASSWORD env vars if no admin exists.
+
+    This runs at startup to ensure there's always an admin account available.
+    Only creates the user if both env vars are set AND no user with that email exists.
+    """
+    admin_email = settings.ADMIN_EMAIL
+    admin_password = settings.ADMIN_PASSWORD
+
+    if not admin_email or not admin_password:
+        logger.info("ADMIN_EMAIL or ADMIN_PASSWORD not set, skipping auto-admin creation")
+        return
+
+    from app.models.auth import User
+    from app.services.auth import create_user
+
+    with Session(engine) as db:
+        existing = db.query(User).filter(User.email == admin_email).first()
+        if existing:
+            logger.info(f"Admin user {admin_email} already exists, skipping creation")
+            return
+
+        try:
+            # Generate a username from the email
+            username = admin_email.split("@")[0]
+            # Check if username already taken, append _admin if so
+            existing_username = db.query(User).filter(User.username == username).first()
+            if existing_username:
+                username = f"{username}_admin"
+
+            create_user(db, admin_email, username, admin_password, is_admin=True)
+            logger.info(f"Auto-created admin user: {admin_email}")
+        except ValueError as e:
+            logger.warning(f"Could not create admin user: {e}")
+
+
 def run_startup_validation() -> None:
     """
     Run all startup validations.
@@ -96,6 +133,9 @@ def run_startup_validation() -> None:
 
         # Validate database
         validate_database()
+
+        # Auto-create admin user if configured
+        ensure_admin_user()
 
         logger.info("=" * 60)
         logger.info("✓ All startup validations passed")

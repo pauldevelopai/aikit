@@ -148,6 +148,13 @@ async def admin_dashboard(
         SuggestedSource.status == "pending"
     ).scalar() or 0
 
+    # Tool suggestions stats
+    from app.models.tool_suggestion import ToolSuggestion
+    tool_suggestions_count = db.query(func.count(ToolSuggestion.id)).scalar() or 0
+    pending_suggestions_count = db.query(func.count(ToolSuggestion.id)).filter(
+        ToolSuggestion.status == "pending"
+    ).scalar() or 0
+
     stats = {
         "users": user_count,
         "admins": admin_count,
@@ -161,7 +168,9 @@ async def admin_dashboard(
         "flagged_reviews": flagged_reviews_count,
         "discovered_tools": discovered_tools_count,
         "pending_discovery": pending_discovery_count,
-        "pending_sources": pending_sources_count
+        "pending_sources": pending_sources_count,
+        "tool_suggestions": tool_suggestions_count,
+        "pending_suggestions": pending_suggestions_count,
     }
 
     response = templates.TemplateResponse(

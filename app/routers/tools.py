@@ -255,6 +255,72 @@ async def tools_index(
     )
 
 
+@router.get("/suggest", response_class=HTMLResponse)
+async def suggest_tool_form(
+    request: Request,
+    response: Response,
+    success: Optional[str] = None,
+    user: User = Depends(require_auth_page),
+    db: Session = Depends(get_db),
+):
+    """Show the tool suggestion form for logged-in users."""
+    csrf_token = CSRFProtectionMiddleware.generate_token()
+
+    template_response = templates.TemplateResponse(
+        "tools/suggest.html",
+        {
+            "request": request,
+            "user": user,
+            "csrf_token": csrf_token,
+            "success": success,
+        }
+    )
+    CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+    return template_response
+
+
+@router.post("/suggest")
+async def suggest_tool(
+    request: Request,
+    name: str = Form(...),
+    url: str = Form(...),
+    description: str = Form(""),
+    why_valuable: str = Form(""),
+    use_cases: str = Form(""),
+    user: User = Depends(require_auth_page),
+    db: Session = Depends(get_db),
+):
+    """Submit a tool suggestion for admin review."""
+    from app.models.tool_suggestion import ToolSuggestion
+
+    # Validate URL format (basic check)
+    if not url.startswith(('http://', 'https://')):
+        url = 'https://' + url
+
+    suggestion = ToolSuggestion(
+        name=name.strip(),
+        url=url.strip(),
+        description=description.strip() if description else None,
+        why_valuable=why_valuable.strip() if why_valuable else None,
+        use_cases=use_cases.strip() if use_cases else None,
+        submitted_by=user.id,
+    )
+
+    db.add(suggestion)
+    db.commit()
+
+    # Log activity
+    activity = UserActivity(
+        user_id=user.id,
+        activity_type="tool_suggested",
+        details={"tool_name": name, "tool_url": url},
+    )
+    db.add(activity)
+    db.commit()
+
+    return RedirectResponse(url="/tools/suggest?success=1", status_code=303)
+
+
 @router.get("/{slug}", response_class=HTMLResponse)
 async def tool_detail(
     request: Request,
@@ -362,72 +428,6 @@ async def tool_detail(
             "playbook": playbook,
         }
     )
-
-
-@router.get("/suggest", response_class=HTMLResponse)
-async def suggest_tool_form(
-    request: Request,
-    response: Response,
-    success: Optional[str] = None,
-    user: User = Depends(require_auth_page),
-    db: Session = Depends(get_db),
-):
-    """Show the tool suggestion form for logged-in users."""
-    csrf_token = CSRFProtectionMiddleware.generate_token()
-
-    template_response = templates.TemplateResponse(
-        "tools/suggest.html",
-        {
-            "request": request,
-            "user": user,
-            "csrf_token": csrf_token,
-            "success": success,
-        }
-    )
-    CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
-    return template_response
-
-
-@router.post("/suggest")
-async def suggest_tool(
-    request: Request,
-    name: str = Form(...),
-    url: str = Form(...),
-    description: str = Form(""),
-    why_valuable: str = Form(""),
-    use_cases: str = Form(""),
-    user: User = Depends(require_auth_page),
-    db: Session = Depends(get_db),
-):
-    """Submit a tool suggestion for admin review."""
-    from app.models.tool_suggestion import ToolSuggestion
-
-    # Validate URL format (basic check)
-    if not url.startswith(('http://', 'https://')):
-        url = 'https://' + url
-
-    suggestion = ToolSuggestion(
-        name=name.strip(),
-        url=url.strip(),
-        description=description.strip() if description else None,
-        why_valuable=why_valuable.strip() if why_valuable else None,
-        use_cases=use_cases.strip() if use_cases else None,
-        submitted_by=user.id,
-    )
-
-    db.add(suggestion)
-    db.commit()
-
-    # Log activity
-    activity = UserActivity(
-        user_id=user.id,
-        activity_type="tool_suggested",
-        details={"tool_name": name, "tool_url": url},
-    )
-    db.add(activity)
-    db.commit()
-
-    return RedirectResponse(url="/tools/suggest?success=1", status_code=303)
 
 
 # ============================================================================

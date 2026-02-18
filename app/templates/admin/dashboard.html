@@ -11,7 +11,7 @@
     </div>
 
     <!-- Stats Overview -->
-    <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <!-- Users -->
         <div class="bg-white rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
@@ -142,6 +142,25 @@
             </div>
             <a href="/admin/sources" class="block mt-4 text-sm text-blue-600 hover:text-blue-800">
                 Review suggestions &rarr;
+            </a>
+        </div>
+
+        <!-- Tool Suggestions -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Tool Suggestions</p>
+                    <p class="text-3xl font-bold text-gray-900 mt-2">{{ stats.tool_suggestions }}</p>
+                    <p class="text-xs {% if stats.pending_suggestions > 0 %}text-orange-600 font-medium{% else %}text-gray-500{% endif %} mt-1">{{ stats.pending_suggestions }} pending</p>
+                </div>
+                <div class="text-amber-600">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+            </div>
+            <a href="/admin/tool-suggestions" class="block mt-4 text-sm text-blue-600 hover:text-blue-800">
+                Review tool suggestions &rarr;
             </a>
         </div>
     </div>

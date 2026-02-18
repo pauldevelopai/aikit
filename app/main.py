@@ -60,7 +60,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="The AI Editorial Toolkit",
     description="The AI Editorial Toolkit Learning Platform",
-    version="0.1.0",
+    version="4.0",
     lifespan=lifespan
 )
 

@@ -5,7 +5,8 @@ This is the primary product in the system. It defines:
 - AI Toolkit product configuration
 - Toolkit V1 (sealed, historical edition)
 - Toolkit V2 (sealed, historical edition)
-- Toolkit V3 (current, active edition) - AWS Lightsail deployment
+- Toolkit V3 (sealed, historical edition)
+- Toolkit V4 (current, active edition) - AWS Lightsail deployment
 """
 
 from datetime import datetime
@@ -77,6 +78,12 @@ AI_TOOLKIT_PRODUCT = Product(
             route="/foundations",
             icon="book",
             requires_auth=False,
+        ),
+        NavigationItem(
+            label="Suggest",
+            route="/tools/suggest",
+            icon="lightbulb",
+            requires_auth=True,  # Suggest a tool requires login
         ),
         NavigationItem(
             label="Activity",
@@ -255,15 +262,12 @@ TOOLKIT_V2_EDITION = Edition(
 
 
 # -----------------------------------------------------------------------------
-# TOOLKIT V3 - Current Active Edition (AWS Lightsail)
+# TOOLKIT V3 - Sealed Historical Edition
 # -----------------------------------------------------------------------------
-# This is the current working version deployed on AWS Lightsail.
-# It is not sealed and continues to receive updates.
+# V3 was the first Lightsail deployment. Now sealed before V4.
 #
-# Lightsail Instance: GROUNDED
-# Region: eu-west-2 (London, Zone A)
-# Public IPv4: 3.10.224.68
-# Public IPv6: 2a05:d01c:39:4900:1f55:672a:3ac7:c465
+# IMPORTANT: V3 is SEALED. Do not add new features to this edition.
+# Any new features should only be added to V4 or later editions.
 
 TOOLKIT_V3_FEATURES = FeatureFlags(
     # =========================================================================
@@ -318,17 +322,101 @@ TOOLKIT_V3_EDITION = Edition(
     version="v3",
     display_name="Toolkit V3",
     feature_flags=TOOLKIT_V3_FEATURES,
+    is_sealed=True,
+    is_active=False,
+    sealed_at=datetime(2026, 2, 18, 0, 0, 0),
+    sealed_reason="V3 finalized before V4 upgrade with bug fixes and new features",
+    git_reference="bb619ca",
+    created_at=datetime(2026, 2, 3, 0, 0, 0),
+    description=(
+        "First AWS Lightsail deployment of AI Toolkit (London). "
+        "Full feature set with production infrastructure including "
+        "discovery pipeline, strategy builder, playbooks, recommendations, "
+        "and user reviews. Sealed before V4 upgrade."
+    ),
+)
+
+
+# -----------------------------------------------------------------------------
+# TOOLKIT V4 - Current Active Edition (AWS Lightsail)
+# -----------------------------------------------------------------------------
+# This is the current working version deployed on AWS Lightsail.
+# It is not sealed and continues to receive updates.
+#
+# Lightsail Instance: GROUNDED
+# Region: eu-west-2 (London, Zone A)
+# Public IPv4: 52.56.143.231
+#
+# V4 changes from V3:
+# - Fixed "Suggest a Tool" route ordering bug
+# - Added password recovery via email
+# - Auto-create admin from environment variables
+# - Tool suggestions stats on admin dashboard
+# - Suggest a Tool nav item for logged-in users
+
+TOOLKIT_V4_FEATURES = FeatureFlags(
+    # =========================================================================
+    # CORE FEATURES - All enabled
+    # =========================================================================
+    rag_enabled=True,
+    discovery_enabled=True,
+
+    # =========================================================================
+    # TOOL FEATURES - All enabled
+    # =========================================================================
+    clusters_enabled=True,
+    tool_finder_enabled=True,
+    cdi_scores_enabled=True,
+    advanced_search_enabled=True,
+
+    # =========================================================================
+    # LEARNING CONTENT - All enabled
+    # =========================================================================
+    foundations_enabled=True,
+    playbooks_enabled=True,
+
+    # =========================================================================
+    # PERSONALIZATION - All enabled
+    # =========================================================================
+    strategy_enabled=True,
+    recommendations_enabled=True,
+    reviews_enabled=True,
+    review_voting_enabled=True,
+    activity_history_enabled=True,
+
+    # =========================================================================
+    # CONTENT ACCESS - All enabled
+    # =========================================================================
+    browse_enabled=True,
+    sources_enabled=True,
+
+    # =========================================================================
+    # ADMINISTRATION - All enabled
+    # =========================================================================
+    admin_dashboard_enabled=True,
+    admin_ingestion_enabled=True,
+    admin_users_enabled=True,
+    admin_analytics_enabled=True,
+    admin_feedback_enabled=True,
+    admin_playbooks_enabled=True,
+    admin_discovery_enabled=True,
+)
+
+TOOLKIT_V4_EDITION = Edition(
+    product_id="ai_toolkit",
+    version="v4",
+    display_name="Toolkit V4",
+    feature_flags=TOOLKIT_V4_FEATURES,
     is_sealed=False,
     is_active=True,
     sealed_at=None,
     sealed_reason=None,
     git_reference=None,  # Not sealed, no fixed reference
-    created_at=datetime(2026, 2, 3, 0, 0, 0),
+    created_at=datetime(2026, 2, 18, 0, 0, 0),
     description=(
         "Current version of AI Toolkit deployed on AWS Lightsail (London). "
-        "Full feature set with production infrastructure including "
-        "discovery pipeline, strategy builder, playbooks, recommendations, "
-        "and user reviews."
+        "V4 includes bug fixes (suggest tool route), password recovery, "
+        "auto-admin creation, and dashboard improvements."
     ),
 )
 
@@ -346,7 +434,8 @@ def register_toolkit() -> None:
     # Register the product first
     ProductRegistry.register(AI_TOOLKIT_PRODUCT)
 
-    # Register editions (V1, V2 sealed, then V3 active)
+    # Register editions (V1, V2, V3 sealed, then V4 active)
     EditionRegistry.register(TOOLKIT_V1_EDITION)
     EditionRegistry.register(TOOLKIT_V2_EDITION)
     EditionRegistry.register(TOOLKIT_V3_EDITION)
+    EditionRegistry.register(TOOLKIT_V4_EDITION)

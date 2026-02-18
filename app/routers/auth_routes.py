@@ -184,6 +184,164 @@ async def register(
         return template_response
 
 
+@router.get("/forgot-password", response_class=HTMLResponse)
+async def forgot_password_page(
+    request: Request,
+    response: Response,
+    success: Optional[str] = None,
+):
+    """Show the forgot password form."""
+    csrf_token = CSRFProtectionMiddleware.generate_token()
+    template_response = templates.TemplateResponse(
+        "auth/forgot_password.html",
+        {
+            "request": request,
+            "csrf_token": csrf_token,
+            "user": None,
+            "success": success,
+        }
+    )
+    CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+    return template_response
+
+
+@router.post("/forgot-password")
+async def forgot_password(
+    request: Request,
+    email: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    """Process forgot password form - send reset email."""
+    from app.services.email import generate_reset_token, send_reset_email
+
+    # Always show success message to prevent email enumeration
+    user = db.query(User).filter(User.email == email).first()
+
+    if user:
+        token = generate_reset_token(email)
+        # Build reset URL from the request's base URL
+        base_url = str(request.base_url).rstrip("/")
+        reset_url = f"{base_url}/reset-password?token={token}"
+        send_reset_email(email, reset_url)
+
+    # Always redirect with success to prevent email enumeration
+    return RedirectResponse(url="/forgot-password?success=1", status_code=303)
+
+
+@router.get("/reset-password", response_class=HTMLResponse)
+async def reset_password_page(
+    request: Request,
+    response: Response,
+    token: str = "",
+):
+    """Show the reset password form."""
+    from app.services.email import verify_reset_token
+
+    if not token:
+        return RedirectResponse(url="/forgot-password", status_code=302)
+
+    # Verify token is valid before showing form
+    email = verify_reset_token(token)
+    if not email:
+        csrf_token = CSRFProtectionMiddleware.generate_token()
+        template_response = templates.TemplateResponse(
+            "auth/reset_password.html",
+            {
+                "request": request,
+                "csrf_token": csrf_token,
+                "user": None,
+                "token": token,
+                "error": "This reset link has expired or is invalid. Please request a new one.",
+            }
+        )
+        CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+        return template_response
+
+    csrf_token = CSRFProtectionMiddleware.generate_token()
+    template_response = templates.TemplateResponse(
+        "auth/reset_password.html",
+        {
+            "request": request,
+            "csrf_token": csrf_token,
+            "user": None,
+            "token": token,
+        }
+    )
+    CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+    return template_response
+
+
+@router.post("/reset-password")
+async def reset_password(
+    request: Request,
+    token: str = Form(...),
+    password: str = Form(...),
+    password_confirm: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    """Process password reset form."""
+    from app.services.email import verify_reset_token
+    from app.services.auth import hash_password
+
+    # Verify token
+    email = verify_reset_token(token)
+    if not email:
+        csrf_token = CSRFProtectionMiddleware.generate_token()
+        template_response = templates.TemplateResponse(
+            "auth/reset_password.html",
+            {
+                "request": request,
+                "csrf_token": csrf_token,
+                "user": None,
+                "token": token,
+                "error": "This reset link has expired or is invalid. Please request a new one.",
+            }
+        )
+        CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+        return template_response
+
+    # Validate passwords match
+    if password != password_confirm:
+        csrf_token = CSRFProtectionMiddleware.generate_token()
+        template_response = templates.TemplateResponse(
+            "auth/reset_password.html",
+            {
+                "request": request,
+                "csrf_token": csrf_token,
+                "user": None,
+                "token": token,
+                "error": "Passwords do not match.",
+            }
+        )
+        CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+        return template_response
+
+    # Validate password length
+    if len(password) < 8:
+        csrf_token = CSRFProtectionMiddleware.generate_token()
+        template_response = templates.TemplateResponse(
+            "auth/reset_password.html",
+            {
+                "request": request,
+                "csrf_token": csrf_token,
+                "user": None,
+                "token": token,
+                "error": "Password must be at least 8 characters.",
+            }
+        )
+        CSRFProtectionMiddleware.set_csrf_cookie(template_response, csrf_token)
+        return template_response
+
+    # Find user and update password
+    user = db.query(User).filter(User.email == email).first()
+    if user:
+        user.hashed_password = hash_password(password)
+        db.commit()
+
+    # Redirect to login with success message
+    return RedirectResponse(url="/login", status_code=303)
+
+
 @router.post("/auth/logout")
 async def logout(
     request: Request,

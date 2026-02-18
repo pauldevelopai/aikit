@@ -53,8 +53,17 @@ class Settings(BaseSettings):
     RAG_SIMILARITY_THRESHOLD: float = 0.3
     RAG_MAX_CONTEXT_LENGTH: int = 4000
 
-    # Admin (dev/staging only - should use proper admin creation in prod)
+    # Admin
+    ADMIN_EMAIL: Optional[str] = None
     ADMIN_PASSWORD: Optional[str] = None
+
+    # SMTP Email Configuration
+    SMTP_HOST: Optional[str] = None
+    SMTP_PORT: int = 587
+    SMTP_USER: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    SMTP_FROM_EMAIL: Optional[str] = None
+    SMTP_USE_TLS: bool = True
 
     # Discovery Pipeline Configuration
     DISCOVERY_ENABLED: bool = True
@@ -155,12 +164,6 @@ class Settings(BaseSettings):
         if self.ENV == "prod":
             if not self.SECRET_KEY or len(self.SECRET_KEY) < 32:
                 errors.append("SECRET_KEY must be set with min 32 characters in production")
-
-            if self.ADMIN_PASSWORD:
-                errors.append(
-                    "ADMIN_PASSWORD should not be set in production. "
-                    "Create admin users through proper channels."
-                )
 
         # Embedding provider requirements
         if self.EMBEDDING_PROVIDER == "openai" and not self.OPENAI_API_KEY:
