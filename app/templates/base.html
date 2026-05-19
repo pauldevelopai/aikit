@@ -88,21 +88,22 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50 min-h-screen" style="background:#F8FAFC;">
-    <!-- ── Grounded top header (shared with /legal/* — tracker SPA) ────── -->
+    <!-- ── Grounded top header (shared with / — tracker SPA) ──────────── -->
     <!-- Inline styles deliberately mirror tracker's PublicLayout.jsx so   -->
     <!-- the header looks identical on both sides of the app.              -->
     <header style="border-bottom:1px solid #E2E8F0;background:#FFFFFF;position:sticky;top:0;z-index:20;font-family:system-ui,-apple-system,sans-serif;">
         <div style="max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-            <a href="/legal" style="text-decoration:none;color:#1A202C;">
+            <a href="/" style="text-decoration:none;color:#1A202C;">
                 <div style="display:flex;flex-direction:column;line-height:1.2;">
                     <span style="font-size:20px;font-weight:700;letter-spacing:-0.01em;">Grounded:&nbsp;AI&nbsp;Legal</span>
                     <span style="font-size:11px;color:#718096;font-weight:500;">Global AI lawsuits &amp; regulations tracker</span>
                 </div>
             </a>
-            <nav style="display:flex;gap:4px;flex-wrap:wrap;">
+            <nav style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
                 {% set base_nav_style = "padding:8px 12px;border-radius:6px;font-size:14px;font-weight:500;color:#718096;background:transparent;text-decoration:none;" %}
                 {% set base_nav_active = "padding:8px 12px;border-radius:6px;font-size:14px;font-weight:600;color:#1A202C;background:#EEF2FF;text-decoration:none;" %}
-                <a href="/legal"             style="{{ base_nav_style }}">Home</a>
+                {% set base_nav_btn = "padding:8px 12px;border-radius:6px;font-size:14px;font-weight:500;color:#718096;background:transparent;text-decoration:none;border:1px solid #E2E8F0;cursor:pointer;" %}
+                <a href="/"                  style="{{ base_nav_style }}">Home</a>
                 <a href="/legal/lawsuits"    style="{{ base_nav_style }}">Lawsuits</a>
                 <a href="/legal/regulations" style="{{ base_nav_style }}">Regulations</a>
                 <a href="/legal/explore"     style="{{ base_nav_style }}">Connections</a>
@@ -110,6 +111,14 @@
                 <a href="/aikit/"            style="{{ base_nav_active }}">Tools</a>
                 <a href="/legal/sources"     style="{{ base_nav_style }}">Sources</a>
                 <a href="/legal/submit"      style="{{ base_nav_style }}">Submit</a>
+                {% if user %}
+                    <span style="padding:8px 12px;font-size:14px;font-weight:600;color:#1A202C;">Hi, {{ (user.display_name or user.email).split(' ')[0] }}</span>
+                    <form action="/api/auth/logout" method="POST" style="display:inline;margin:0;">
+                        <button type="submit" style="{{ base_nav_btn }}">Sign&nbsp;out</button>
+                    </form>
+                {% else %}
+                    <a href="/login?next=/aikit/" style="{{ base_nav_btn }}">Sign&nbsp;in&nbsp;/&nbsp;Register</a>
+                {% endif %}
             </nav>
         </div>
     </header>
