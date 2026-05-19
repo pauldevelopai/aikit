@@ -132,9 +132,6 @@
                         <a href="/" class="text-lg font-bold text-brand-primary whitespace-nowrap">
                             {{ brand_logo_text|default('Application') }}
                         </a>
-                        {% if edition_label %}
-                        <span class="ml-2 px-1.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-600 rounded">{{ edition_label }}</span>
-                        {% endif %}
                     </div>
                     <!-- Desktop nav -->
                     <div class="hidden lg:ml-4 lg:flex lg:space-x-4">
@@ -201,9 +198,6 @@
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-gray-500">
                 {{ product_name|default('Application') }} &copy; 2025
-                {% if edition_label %}
-                <span class="text-gray-400 ml-1">({{ edition_name|default(edition_label) }})</span>
-                {% endif %}
             </p>
         </div>
     </footer>
