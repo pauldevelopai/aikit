@@ -146,22 +146,17 @@
                     </div>
                 </div>
                 <div class="flex items-center">
-                    <!-- Desktop user menu -->
+                    <!-- Desktop user menu: only Profile/Admin shortcuts when
+                         signed in. Sign in / Sign out is owned by the
+                         Grounded top header to avoid duplicate auth UI. -->
+                    {% if user %}
                     <div class="hidden lg:flex lg:items-center lg:ml-4 flex-shrink-0">
-                        {% if user %}
-                            <span class="text-sm text-gray-700 mr-3 truncate max-w-[150px]" title="{{ user.display_name or user.email }}">{{ user.display_name or user.email }}</span>
-                            <a href="/profile" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Profile</a>
-                            {% if user.is_admin and feature_admin|default(true) %}
-                                <a href="/admin" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Admin</a>
-                            {% endif %}
-                            <form action="/auth/logout" method="POST" style="display: inline;">
-                                <button type="submit" class="text-sm font-medium text-white bg-brand-primary hover:bg-brand-secondary px-3 py-2 rounded-md whitespace-nowrap">Logout</button>
-                            </form>
-                        {% else %}
-                            <a href="/login" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Login</a>
-                            <a href="/register" class="text-sm font-medium text-white bg-brand-primary hover:bg-brand-secondary px-3 py-2 rounded-md whitespace-nowrap">Register</a>
+                        <a href="/profile" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Profile</a>
+                        {% if user.is_admin and feature_admin|default(true) %}
+                            <a href="/admin" class="text-sm font-medium text-gray-900 hover:text-brand-primary mr-3 whitespace-nowrap">Admin</a>
                         {% endif %}
                     </div>
+                    {% endif %}
                     <!-- Mobile hamburger button -->
                     <div class="lg:hidden flex items-center">
                         <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
@@ -181,25 +176,18 @@
                 <a href="{{ nav.route }}" class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50">{{ nav.label }}</a>
                 {% endfor %}
             </div>
+            <!-- Mobile user menu: Profile/Admin shortcuts only when authed.
+                 Sign in / Sign out lives in the Grounded top header. -->
+            {% if user %}
             <div class="pt-3 pb-3 border-t border-gray-200 px-4">
-                {% if user %}
-                    <div class="text-sm text-gray-700 mb-2">{{ user.display_name or user.email }}</div>
-                    <div class="space-y-1">
-                        <a href="/profile" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Profile</a>
-                        {% if user.is_admin and feature_admin|default(true) %}
-                        <a href="/admin" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Admin</a>
-                        {% endif %}
-                        <form action="/auth/logout" method="POST">
-                            <button type="submit" class="block py-1 text-sm font-medium text-brand-primary hover:text-brand-secondary">Logout</button>
-                        </form>
-                    </div>
-                {% else %}
-                    <div class="flex space-x-3">
-                        <a href="/login" class="text-sm font-medium text-gray-900 hover:text-brand-primary">Login</a>
-                        <a href="/register" class="text-sm font-medium text-brand-primary hover:text-brand-secondary">Register</a>
-                    </div>
-                {% endif %}
+                <div class="space-y-1">
+                    <a href="/profile" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Profile</a>
+                    {% if user.is_admin and feature_admin|default(true) %}
+                    <a href="/admin" class="block py-1 text-sm font-medium text-gray-700 hover:text-brand-primary">Admin</a>
+                    {% endif %}
+                </div>
             </div>
+            {% endif %}
         </div>
     </nav>
 
