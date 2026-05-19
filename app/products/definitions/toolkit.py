@@ -32,9 +32,9 @@ AI_TOOLKIT_PRODUCT = Product(
     branding=Branding(
         logo_text="Tool Tracker",
         logo_path=None,  # Uses text-based logo
-        primary_color="#3B82F6",    # Blue
-        secondary_color="#1E40AF",  # Dark blue
-        accent_color="#10B981",     # Green
+        primary_color="#059669",    # Emerald 600 (green)
+        secondary_color="#047857",  # Emerald 700 (darker green for hover)
+        accent_color="#10B981",     # Emerald 500 (accent)
     ),
     navigation=[
         NavigationItem(
