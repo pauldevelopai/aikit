@@ -596,7 +596,7 @@ Recent Chat Queries (up to 50):
                 },
                 {
                     "role": "user",
-                    "content": f"""Analyze this user's engagement with the AI Editorial Toolkit platform and provide insights:
+                    "content": f"""Analyze this user's engagement with the Tool Tracker platform and provide insights:
 
 {context}
 

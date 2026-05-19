@@ -75,13 +75,13 @@ def send_reset_email(to_email: str, reset_url: str) -> bool:
         return False
 
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = "Password Reset - AI Toolkit"
+    msg["Subject"] = "Password Reset - Tool Tracker"
     msg["From"] = settings.SMTP_FROM_EMAIL
     msg["To"] = to_email
 
     text_body = f"""Password Reset Request
 
-You requested a password reset for your AI Toolkit account.
+You requested a password reset for your Tool Tracker account.
 
 Click the link below to reset your password (valid for 1 hour):
 {reset_url}
@@ -95,7 +95,7 @@ If you did not request this, please ignore this email.
     <div style="background-color: #f8fafc; border-radius: 8px; padding: 32px; text-align: center;">
         <h2 style="color: #1e40af; margin-bottom: 16px;">Password Reset</h2>
         <p style="color: #4b5563; margin-bottom: 24px;">
-            You requested a password reset for your AI Toolkit account.
+            You requested a password reset for your Tool Tracker account.
         </p>
         <a href="{reset_url}"
            style="display: inline-block; background-color: #3b82f6; color: white; padding: 12px 32px; border-radius: 6px; text-decoration: none; font-weight: 600;">

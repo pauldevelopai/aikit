@@ -1,6 +1,6 @@
 # ToolkitRAG
 
-AI Toolkit Learning Platform - A production-ready web application built with FastAPI and PostgreSQL.
+Tool Tracker Learning Platform - A production-ready web application built with FastAPI and PostgreSQL.
 
 ## Local Run
 

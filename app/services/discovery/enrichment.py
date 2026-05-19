@@ -8,16 +8,13 @@ import re
 from typing import Optional
 import httpx
 from bs4 import BeautifulSoup
-from openai import OpenAI
 from sqlalchemy.orm import Session
 
 from app.models.discovery import DiscoveredTool
 from app.config import settings
+from app.services.llm import chat_complete
 
 logger = logging.getLogger(__name__)
-
-# Initialize OpenAI client
-client = OpenAI(api_key=settings.OPENAI_API_KEY) if settings.OPENAI_API_KEY else None
 
 
 def fetch_url_content(url: str, timeout: float = 10.0) -> Optional[str]:
@@ -96,14 +93,6 @@ def generate_tool_content(
 
     Returns dict with 'description', 'purpose', and 'ai_summary'.
     """
-    if not client:
-        logger.warning("OpenAI client not available - skipping content generation")
-        return {
-            "description": raw_description,
-            "purpose": None,
-            "ai_summary": None
-        }
-
     # Build context from available sources
     context_parts = []
 
@@ -146,17 +135,15 @@ Important:
 - Do not include marketing fluff or exaggeration"""
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
+        content = chat_complete(
             messages=[
                 {"role": "system", "content": "You are a technical documentation writer. Always respond with valid JSON."},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": prompt},
             ],
             temperature=0.3,
             max_tokens=1500,
-        )
-
-        content = response.choices[0].message.content.strip()
+            response_format={"type": "json_object"},
+        ).strip()
 
         # Parse JSON response
         import json

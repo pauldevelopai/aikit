@@ -2,7 +2,7 @@
 Products, Editions, and Version Sealing Architecture.
 
 This module provides the foundational architecture for managing:
-- Products: Distinct apps sharing infrastructure (AI Toolkit, AI Audio, Letter+)
+- Products: Distinct apps sharing infrastructure (Tool Tracker, AI Audio, Letter+)
 - Editions: Different versions of the same product (Toolkit V1, V2, etc.)
 - Sealing: Mechanism to freeze versions so new versions don't affect sealed ones
 

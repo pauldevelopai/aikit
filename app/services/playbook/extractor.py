@@ -9,7 +9,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any
 
-from openai import OpenAI
+from app.services.llm import chat_complete
 
 from app.settings import settings
 
@@ -90,10 +90,9 @@ class PlaybookExtractor:
             temperature: Lower temperature for more factual extraction
             max_tokens: Maximum tokens in response
         """
-        self.model = model or settings.OPENAI_CHAT_MODEL
+        self.model = model  # None → llm.chat_complete falls back to ANTHROPIC_CHAT_MODEL
         self.temperature = temperature
         self.max_tokens = max_tokens
-        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     def _format_sources(self, sources: list[dict]) -> str:
         """Format scraped sources for the prompt.
@@ -206,19 +205,16 @@ Content:
         )
 
         try:
-            # Call OpenAI
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                temperature=self.temperature,
-                max_tokens=self.max_tokens,
-                response_format={"type": "json_object"},
+            response_text = chat_complete(
                 messages=[
                     {"role": "system", "content": EXTRACTION_SYSTEM_PROMPT},
-                    {"role": "user", "content": user_prompt}
-                ]
+                    {"role": "user", "content": user_prompt},
+                ],
+                model=self.model,
+                max_tokens=self.max_tokens,
+                temperature=self.temperature,
+                response_format={"type": "json_object"},
             )
-
-            response_text = completion.choices[0].message.content
             parsed = self._parse_response(response_text)
 
             return ExtractedPlaybook(
@@ -246,9 +242,8 @@ class PlaybookEnricher:
         model: str | None = None,
         temperature: float = 0.1,
     ):
-        self.model = model or settings.OPENAI_CHAT_MODEL
+        self.model = model
         self.temperature = temperature
-        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     def enrich_section(
         self,
@@ -295,17 +290,15 @@ RULES:
 Respond with just the updated section text (or null)."""
 
         try:
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                temperature=self.temperature,
-                max_tokens=1500,
+            result = chat_complete(
                 messages=[
                     {"role": "system", "content": "You enrich playbook sections with information from new sources. Be factual and source-grounded."},
-                    {"role": "user", "content": prompt}
-                ]
-            )
-
-            result = completion.choices[0].message.content.strip()
+                    {"role": "user", "content": prompt},
+                ],
+                model=self.model,
+                max_tokens=1500,
+                temperature=self.temperature,
+            ).strip()
             if result.lower() == "null" or result.lower() == "none":
                 return existing_content
             return result

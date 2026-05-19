@@ -397,7 +397,7 @@ class TestEditionRegistry:
 
 
 class TestToolkitProducts:
-    """Integration tests for AI Toolkit products."""
+    """Integration tests for Tool Tracker products."""
 
     def test_toolkit_registration(self):
         """Test that toolkit products register correctly."""
@@ -405,10 +405,10 @@ class TestToolkitProducts:
 
         register_all_products()
 
-        # Check AI Toolkit product
+        # Check Tool Tracker product
         toolkit = ProductRegistry.get("ai_toolkit")
         assert toolkit is not None
-        assert toolkit.name == "AI Toolkit"
+        assert toolkit.name == "Tool Tracker"
         assert toolkit.is_active is True
 
         # Check AI Audio placeholder

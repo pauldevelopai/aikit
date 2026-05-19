@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-ToolkitRAG is a production-ready web application that transforms an AI Toolkit document into an interactive learning and decision-support platform with multi-user support, RAG-powered Q&A, and strategy planning capabilities.
+ToolkitRAG is a production-ready web application that transforms an Tool Tracker document into an interactive learning and decision-support platform with multi-user support, RAG-powered Q&A, and strategy planning capabilities.
 
 ## Core Requirements
 

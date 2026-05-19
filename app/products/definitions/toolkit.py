@@ -1,8 +1,8 @@
 """
-AI Toolkit Product Definition.
+Tool Tracker Product Definition.
 
 This is the primary product in the system. It defines:
-- AI Toolkit product configuration
+- Tool Tracker product configuration
 - Toolkit V1 (sealed, historical edition)
 - Toolkit V2 (sealed, historical edition)
 - Toolkit V3 (sealed, historical edition)
@@ -27,10 +27,10 @@ from app.products.registry import ProductRegistry, EditionRegistry
 
 AI_TOOLKIT_PRODUCT = Product(
     id="ai_toolkit",
-    name="AI Toolkit",
-    description="The AI Editorial Toolkit for discovering and mastering AI tools",
+    name="Tool Tracker",
+    description="The Tool Tracker for discovering and mastering AI tools",
     branding=Branding(
-        logo_text="AI Toolkit",
+        logo_text="Tool Tracker",
         logo_path=None,  # Uses text-based logo
         primary_color="#3B82F6",    # Blue
         secondary_color="#1E40AF",  # Dark blue
@@ -177,7 +177,7 @@ TOOLKIT_V1_EDITION = Edition(
     git_reference="a794966e77bcf1ef16ee3d93ed2a3fc5779b74a6",
     created_at=datetime(2024, 12, 1, 0, 0, 0),  # Approximate creation date
     description=(
-        "Initial version of AI Toolkit with core RAG functionality, "
+        "Initial version of Tool Tracker with core RAG functionality, "
         "cluster organization, foundations, and document browsing. "
         "This version predates the discovery pipeline, strategy builder, "
         "personalized recommendations, and user reviews."
@@ -254,7 +254,7 @@ TOOLKIT_V2_EDITION = Edition(
     git_reference="9cdb9e8261a9061e07e927db6a745a8967f7edf4",
     created_at=datetime(2025, 1, 1, 0, 0, 0),
     description=(
-        "Full feature set version of AI Toolkit including "
+        "Full feature set version of Tool Tracker including "
         "discovery pipeline, strategy builder, playbooks, recommendations, "
         "and user reviews. Sealed before AWS Lightsail migration."
     ),
@@ -329,7 +329,7 @@ TOOLKIT_V3_EDITION = Edition(
     git_reference="bb619ca",
     created_at=datetime(2026, 2, 3, 0, 0, 0),
     description=(
-        "First AWS Lightsail deployment of AI Toolkit (London). "
+        "First AWS Lightsail deployment of Tool Tracker (London). "
         "Full feature set with production infrastructure including "
         "discovery pipeline, strategy builder, playbooks, recommendations, "
         "and user reviews. Sealed before V4 upgrade."
@@ -414,7 +414,7 @@ TOOLKIT_V4_EDITION = Edition(
     git_reference=None,  # Not sealed, no fixed reference
     created_at=datetime(2026, 2, 18, 0, 0, 0),
     description=(
-        "Current version of AI Toolkit deployed on AWS Lightsail (London). "
+        "Current version of Tool Tracker deployed on AWS Lightsail (London). "
         "V4 includes bug fixes (suggest tool route), password recovery, "
         "auto-admin creation, and dashboard improvements."
     ),
@@ -427,7 +427,7 @@ TOOLKIT_V4_EDITION = Edition(
 
 def register_toolkit() -> None:
     """
-    Register the AI Toolkit product and its editions.
+    Register the Tool Tracker product and its editions.
 
     This function should be called during application startup.
     """

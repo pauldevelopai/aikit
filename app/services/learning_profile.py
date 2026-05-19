@@ -194,7 +194,7 @@ async def generate_profile_summary(db: Session, user: User, profile: UserLearnin
 
     This summary is used as context when generating personalized strategies.
     """
-    from openai import OpenAI
+    from app.services.llm import chat_complete
 
     # Build context from profile data
     top_clusters = []
@@ -249,22 +249,18 @@ of their needs, preferences, and what they're looking for in AI tools.
 Write in third person (e.g., "This user..."). Be specific about their likely needs.
 If there's limited activity data, focus on their profile fields."""
 
-    client = OpenAI(api_key=settings.OPENAI_API_KEY)
-
     try:
-        response = client.chat.completions.create(
-            model=settings.OPENAI_CHAT_MODEL,
-            temperature=0.3,
-            max_tokens=200,
+        summary = chat_complete(
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that creates concise user profile summaries for an AI editorial toolkit. Focus on journalistic needs and practical requirements."
+                    "content": "You are a helpful assistant that creates concise user profile summaries for an AI editorial toolkit. Focus on journalistic needs and practical requirements.",
                 },
-                {"role": "user", "content": prompt}
-            ]
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=200,
+            temperature=0.3,
         )
-        summary = response.choices[0].message.content
         return summary.strip()
 
     except Exception as e:

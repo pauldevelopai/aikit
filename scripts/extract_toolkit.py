@@ -520,7 +520,7 @@ def main():
     # 6. Generate manifest
     print("\n--- Generating manifest ---")
     manifest = {
-        "title": "The CEE Journalism Lecturer's Advanced AI Toolkit (2026 Edition)",
+        "title": "The CEE Journalism Lecturer's Advanced Tool Tracker (2026 Edition)",
         "source": "toolkit.pdf",
         "tool_count": len(all_tools),
         "cluster_count": len(clusters),

@@ -7,7 +7,7 @@ def test_homepage_loads(client):
     response = client.get("/")
     assert response.status_code == 200
     assert b"ToolkitRAG" in response.content
-    assert b"AI Toolkit Learning Platform" in response.content
+    assert b"Tool Tracker Learning Platform" in response.content
 
 
 def test_homepage_has_health_links(client):
